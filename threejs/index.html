@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script src="ref/js/Three.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+
+    var camera, scene, renderer, line;
+
+    init();
+    animate();
+
+    function init() {
+
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+        camera.position.z = 1000;
+        scene.add( camera );
+      
+      	var geometry = new THREE.Geometry();
+      	geometry.vertices.push(        	
+  			// U
+  			v(  0,  0,  0), v(  0,200,  0),
+  			v(  0,200,  0), v(100,200,  0),
+  			v(100,200,  0), v(100,  0,  0),
+  			// U-N
+  			v(100,  0,  0), v(200,200,  0),
+  			// N
+  			v(200,200,  0), v(200,  0,  0),
+  			v(200,  0,  0), v(300,  0,  0),
+  			v(300,  0,  0), v(300,200,  0),
+  			// N-I
+  			v(300,200,  0), v(400,  0,  0),
+  			// I
+  			v(400,  0,  0), v(400,200,  0),
+  			// I-B
+  			v(400,200,  0), v(500,  0,  0),
+  			// B
+  			v(500,  0,  0), v(500,300,  0),
+  			v(500,300,  0), v(600,200,  0),
+  			v(600,200,  0), v(600,100,  0),
+  			v(600,100,  0), v(500,100,  0),
+  			// B-A
+  			v(500,100,  0), v(700,  0,  0),
+  			// A
+  			v(700,  0,  0), v(800,  0,  0),
+  			v(800,  0,  0), v(800,200,  0),
+  			v(800,200,  0), v(700,200,  0),
+  			v(700,200,  0), v(700,100,  0),
+  			v(700,100,  0), v(800,100,  0)
+      	);
+
+      	var material = new THREE.LineBasicMaterial({
+        color: 0x000000, lineWidth: 1});
+
+      	line = new THREE.Line(geometry, material);
+      	line.type = THREE.Lines;
+      	scene.add( line );
+        
+        line.position.x = -400
+        line.position.y = -100;
+        
+        renderer = new THREE.CanvasRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+        document.body.appendChild( renderer.domElement );
+
+    }
+    
+    function v(x,y,z){
+    
+        return new THREE.Vertex(new THREE.Vector3(x,y,z));
+        
+   	}
+      
+
+    function animate() {
+
+        // note: three.js includes requestAnimationFrame shim
+        requestAnimationFrame( animate );
+        render();
+
+    }
+
+    function render() {
+
+        line.rotation.x += 0.01;
+        line.rotation.y += 0.02;
+
+        renderer.render( scene, camera );
+
+    }
+
+</script>
+</body>
+</html>
