@@ -7,19 +7,28 @@
 <body>
 <script type="text/javascript">
 
-    var camera, scene, renderer, line;
+    var camera, scene, renderer, line, face, pointLight;
 
     init();
     animate();
 
-    function init() {
-
+    function init()
+    {
         scene = new THREE.Scene();
 
         camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
         camera.position.z = 1000;
         scene.add( camera );
-      
+       	
+       	//scene.add( new THREE.AmbientLight( 0x999999 ) );
+       	
+		pointLight = new THREE.PointLight( 0xffffff );
+		//pointLight.position = camera.position.clone();
+		pointLight.position.x = 2000;
+		pointLight.position.y = 2000;
+		pointLight.position.z = 1000;
+		scene.add( pointLight );
+		      
       	var geometry = new THREE.Geometry();
       	geometry.vertices.push(        	
   			// U
@@ -53,45 +62,131 @@
   			v(700,100,  0), v(800,100,  0)
       	);
 
-      	var material = new THREE.LineBasicMaterial({
-        color: 0x000000, lineWidth: 1});
+      	var material = new THREE.LineBasicMaterial( {
+        	color: 0x555555,
+        	lineWidth: 0.5
+        } );
 
       	line = new THREE.Line(geometry, material);
       	line.type = THREE.Lines;
       	scene.add( line );
         
-        line.position.x = -400
-        line.position.y = -100;
+        //
         
+        var geometry2 = new THREE.Geometry();
+        geometry2.vertices.push(
+			// U
+  			v(  0,  0,  0), v(  0,200,  0),
+  			v(  0, 80,-80), v(  0,280,-80),
+  			v(  0,200,  0), v(100,200,  0),
+  			v(  0,280,-80), v(100,280,-80),
+  			v(100,200,  0), v(100,  0,  0),
+  			v(100,280,-80), v(100, 80,-80),
+  			// N
+  			v(200,200,  0), v(200,  0,  0),
+  			v(200,280,-80), v(200, 80,-80),
+  			v(200,  0,  0), v(300,  0,  0),
+  			v(200, 80,-80), v(300, 80,-80),
+  			v(300,  0,  0), v(300,200,  0),
+  			v(300, 80,-80), v(300,280,-80),
+  			// I
+  			v(400,  0,  0), v(400,200,  0),
+  			v(400, 80,-80), v(400,280,-80),
+  			// B
+  			v(500,  0,  0), v(500,300,  0),
+  			v(500, 80,-80), v(500,380,-80),
+  			v(500,300,  0), v(600,200,  0),
+  			v(500,380,-80), v(600,280,-80),
+  			v(600,200,  0), v(600,100,  0),
+  			v(600,280,-80), v(600,180,-80),
+  			v(600,100,  0), v(500,100,  0),
+  			v(600,180,-80), v(500,180,-80),
+  			// A
+  			v(700,  0,  0), v(800,  0,  0),
+  			v(700, 80,-80), v(800, 80,-80),
+  			v(800,  0,  0), v(800,200,  0),
+  			v(800, 80,-80), v(800,280,-80),
+  			v(800,200,  0), v(700,200,  0),
+  			v(800,280,-80), v(700,280,-80),
+  			v(700,200,  0), v(700,100,  0),
+  			v(700,280,-80), v(700,180,-80),
+  			v(700,100,  0), v(800,100,  0),
+  			v(700,180,-80), v(800,180,-80)
+      	);
+      	geometry2.faces.push(
+      		// U
+      		f4( 0, 2, 3, 1),
+      		f4( 4, 6, 7, 5),
+      		f4( 8,10,11, 9),
+      		// N
+      		f4(12,14,15,13),
+      		f4(16,18,19,17),
+      		f4(20,22,23,21),
+      		// I
+      		f4(24,26,27,25),
+      		// B
+      		f4(28,30,31,29),
+      		f4(32,34,35,33),
+      		f4(36,38,39,37),
+      		f4(40,42,43,41),
+      		// A
+      		f4(44,46,47,45),
+      		f4(48,50,51,49),
+      		f4(52,54,55,53),
+      		f4(56,58,59,57),
+      		f4(60,62,63,61)
+      	);
+      	//geometry2.computeVertexNormals();
+      	//geometry2.computeFaceNormals();
+      	
+      	var material2 = new THREE.MeshLambertMaterial( { 
+      		color: 0xffffff,
+      		transparent: true,
+      		opacity: 0.3
+      	} );
+
+        face = new THREE.Mesh(geometry2, material2);
+        face.doubleSided = true;
+        //face.lights = true;
+        //face.geometry.dynamic = true;
+        scene.add( face );
+        
+        //scene.add(
+		//	new THREE.Mesh( new THREE.SphereGeometry(300, 10, 10), material2 )
+		//);
+		
+		line.rotation.x = Math.PI;
+		face.rotation.x = Math.PI;
+
         renderer = new THREE.CanvasRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
 
         document.body.appendChild( renderer.domElement );
-
     }
     
-    function v(x,y,z){
-    
-        return new THREE.Vertex(new THREE.Vector3(x,y,z));
-        
+    function v(x,y,z)
+    {
+        return new THREE.Vertex(new THREE.Vector3(x-400,y-100,z));   
    	}
       
-
-    function animate() {
-
+    function f4(a,b,c,d)
+    {
+        return new THREE.Face4(a,b,c,d);   
+   	}
+   	
+    function animate()
+    {
         // note: three.js includes requestAnimationFrame shim
         requestAnimationFrame( animate );
         render();
-
     }
 
-    function render() {
-
-        line.rotation.x += 0.01;
+    function render()
+    {
         line.rotation.y += 0.02;
-
+		face.rotation.y += 0.02;
+		
         renderer.render( scene, camera );
-
     }
 
 </script>
