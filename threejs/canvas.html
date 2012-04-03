@@ -151,13 +151,13 @@
       	}
       	      	
       	//
-      	geometry2.computeCentroids();
-      	geometry2.computeVertexNormals();
-      	geometry2.computeFaceNormals();
+      	//geometry2.computeCentroids();
+      	//geometry2.computeVertexNormals();
+      	//geometry2.computeFaceNormals();
       	
       	var texture = THREE.ImageUtils.loadTexture("ref/img/fig_works_yeahlight.jpg");
       	
-      	var material2 = new THREE.MeshLambertMaterial( { 
+      	var material2 = new THREE.MeshBasicMaterial( { 
       		//color: 0xCC0000,
       		overdraw: true,
       		map: texture //,

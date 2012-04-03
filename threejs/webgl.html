@@ -9,7 +9,7 @@
 
     var camera, scene, renderer, line, face, pointLight;
     var cube;
-
+    
 	init();
     animate();
 
@@ -150,20 +150,16 @@
       		geometry2.faceVertexUvs[0].push(faceuv);
       	}
       	      	
-      	//
-      	geometry2.computeCentroids();
-      	geometry2.computeVertexNormals();
-      	geometry2.computeFaceNormals();
+      	//geometry2.computeCentroids();
+      	//geometry2.computeVertexNormals();
+      	//geometry2.computeFaceNormals();
       	
       	var texture = THREE.ImageUtils.loadTexture("ref/img/fig_works_yeahlight.jpg");
       	
       	var material2 = new THREE.MeshLambertMaterial( { 
       		//color: 0xCC0000,
       		overdraw: true,
-      		map: texture //,
-      		//transparent: true,
-      		//lights: true,
-      		//opacity: 1.0
+      		map: texture
       	} );
 
         face = new THREE.Mesh(geometry2, material2);
@@ -171,14 +167,16 @@
         //face.lights = true;
         //face.geometry.dynamic = true;
         scene.add( face );
-		
+
 		cube = new THREE.Mesh(new THREE.CubeGeometry(200,200,200), material2);
 		scene.add( cube );
-		
+        
 		line.rotation.x = Math.PI;
 		face.rotation.x = Math.PI;
 
-        renderer = new THREE.CanvasRenderer();
+        renderer = new THREE.WebGLRenderer( {
+        	//antialias: true
+        } );
         renderer.setSize( window.innerWidth, window.innerHeight );
 
         document.body.appendChild( renderer.domElement );
