@@ -24,7 +24,6 @@
        	scene.add( new THREE.AmbientLight( 0x444444 ) );
        	
 		pointLight = new THREE.PointLight( 0xffffff );
-		//pointLight.position = camera.position.clone();
 		pointLight.position.x = 1000;
 		pointLight.position.y = 1000;
 		pointLight.position.z = 1000;
@@ -137,6 +136,8 @@
       		f4(56,58,59,57),
       		f4(60,62,63,61)
       	);
+      	geometry2.computeCentroids();
+		geometry2.computeFaceNormals();
       	geometry2.faceUvs = [[]];
       	geometry2.faceVertexUvs = [[]];
       	for (var i in geometry2.faces) {
@@ -146,30 +147,23 @@
       			new THREE.UV( 1, 0),
       			new THREE.UV( 0, 0)
       		]
-      		//geometry2.faceUvs[0].push(new THREE.UV(0, 1));
       		geometry2.faceVertexUvs[0].push(faceuv);
       	}
-      	      	
-      	//geometry2.computeCentroids();
-      	//geometry2.computeVertexNormals();
-      	//geometry2.computeFaceNormals();
       	
-      	var texture = THREE.ImageUtils.loadTexture("ref/img/fig_works_yeahlight.jpg");
+      	var texture = THREE.ImageUtils.loadTexture("ref/img/heart.jpg");
       	
       	var material2 = new THREE.MeshLambertMaterial( { 
-      		//color: 0xCC0000,
-      		overdraw: true,
-      		map: texture
+      		color: 0x999999,
+      		overdraw: true//,
+      		//map: texture
       	} );
 
         face = new THREE.Mesh(geometry2, material2);
         face.doubleSided = true;
-        //face.lights = true;
-        //face.geometry.dynamic = true;
         scene.add( face );
 
 		cube = new THREE.Mesh(new THREE.CubeGeometry(200,200,200), material2);
-		scene.add( cube );
+		//scene.add( cube );
         
 		line.rotation.x = Math.PI;
 		face.rotation.x = Math.PI;
