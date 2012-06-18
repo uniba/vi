@@ -1,23 +1,65 @@
-/////////////////To DO
-/*
- 1.Depth TestとCamereの両立
- 2.Lineのアニメーション
- 3.クラス無いカウンター
- 4.アニメーション
- 5.カメラアニメーション
-*/
-
+#include "UnibaLogoAppDefinition.h"
 #include "ofUnibaLogoA.h"
-#include "ofxMesh2TriMesh.h"
-#include "ofxPolyline2Mesh.h"
 
 #define MAX_NODE_NUM 1000
-#define MAX_WORLD_CLIP 20000
+#define MAX_WORLD_CLIP 8000
 double workRad;
-int countNum = 0;
 int lengthOfArray = 0;
 bool debugMode = false;
 bool isFullscreen = false;
+float typeFacelLength;
+bool isBamboo;
+
+ofColor colorPristArray[][4] = {
+    {
+        ofColor( 217, 217, 217 ),
+        ofColor( 199, 95, 91 ),
+        ofColor( 242, 156, 159 ),
+        ofColor( 255, 246, 26 )
+    },
+    {
+        ofColor( 77, 77, 77 ),
+        ofColor( 0, 158, 150 ),
+        ofColor( 207, 159, 93 ),
+        ofColor( 206, 100, 95 )
+    }, 
+    {
+        ofColor( 247, 247, 0 ),
+        ofColor( 179, 179, 179 ),
+        ofColor( 255, 0, 0 ),
+        ofColor( 218, 100, 95 )
+    },
+    {
+        ofColor( 0, 0, 0 ),
+        ofColor( 204, 204, 204 ),
+        ofColor( 0, 104, 183 ),
+        ofColor( 245, 151, 0 )
+    },
+    {
+        ofColor( 164, 0, 0 ),
+        ofColor( 228, 246, 254 ),
+        ofColor( 76, 137, 164 ),
+        ofColor( 3, 0, 76 )
+    },
+    {
+        ofColor( 137, 201, 151 ),
+        ofColor( 253, 251, 222 ),
+        ofColor( 131, 106, 74 ),
+        ofColor( 209, 163, 87 )
+    },
+    {
+        ofColor( 255, 234, 240 ),
+        ofColor( 0, 187, 236 ),
+        ofColor( 44, 110, 213 ),
+        ofColor( 255, 252, 190 )
+    },
+    {
+        ofColor( 30, 50, 0 ),
+        ofColor( 193, 231, 50 ),
+        ofColor( 14, 3, 107 ),
+        ofColor( 255, 151, 168 )
+    }
+};
 
 static float logoVertexArray[][3] =
 {     //2D LOGO
@@ -45,20 +87,43 @@ static float logoVertexArray[][3] =
 
 //--------------------------------------------------------------
 void ofUnibaLogoA::setup(){
-    ofBackground(255,255,255);
-    ofSetVerticalSync(true);
-    ofSetFullscreen(false);
-    ofSetFrameRate(60);
+    globalCounter = 0;
+    typeFacelLength = 0;
+    ofBackground( 255, 255, 255 );
+//    ofBackgroundGradient(ofColor::white,ofColor(255255200), OF_GRADIENT_CIRCULAR)
+    ofSetVerticalSync( true );
+    ofSetFullscreen( false );
+    ofSetFrameRate( 60 );
     
-    camera.setFov(65.0);
-	camera.setFarClip(24.0f);
-    camera.setNearClip(0.1f);
+    camera.setFov( 45.0 );
+	camera.setFarClip( 24.0f );
+    camera.setNearClip( 0.1f );
+    
     //light setting
-    ofEnableLighting();
+//    ofEnableLighting();
 //    light.setPointLight();
     ///////////////
+    int lengthOfCollorArray = sizeof( colorPristArray ) / sizeof( ofColor[4] );
+    currentColorIndex = floor( ofRandom(lengthOfCollorArray) -1 );
+    
+#ifndef LOGO_MODE_PROJECTION
+    //caliculate background divider
+    for (int i = 0; i<4; i++){
+        float angle = ofRandom( 90 ) + ( 90 * i );
+        float radius = ofGetWidth()/sqrt(2.0);
+        ofVec2f calVect = ofVec2f( radius / sqrt(2.0), radius / sqrt(2.0) );
+        calVect.rotate(angle);
+        calVect += ofVec2f ( ofGetWidth() / 2, ofGetHeight() / 2 );
+        dividePoint[i] = calVect;
+        int colorMatter = floor( ofRandom( 4 ) - 1 );
+        divideRectColors[i] = colorPristArray[ currentColorIndex ][ colorMatter ];
+    }
+    isBamboo = CalcIntersectionPoint(dividePoint[0],dividePoint[2],dividePoint[1],dividePoint[3],divideCrossPoint);
+#endif
     
     lengthOfArray = sizeof( logoVertexArray ) / sizeof( float [3] );
+    
+    int colorPatternIndexNum = floor(ofRandom(7) - 1);
     
     for (int j=0;j < lengthOfArray; j++ ){
         ofNode aNode;
@@ -76,6 +141,7 @@ void ofUnibaLogoA::setup(){
         if( 1 <= j ){
             ParticleNode2 nodeObject;
             nodeObject.mID = j - 1;
+            nodeObject.colorPatternIndex = currentColorIndex;
             endVec.x = logoVertexArray[j][0] / 100;
             endVec.y = logoVertexArray[j][1] / 100;
             endVec.z = logoVertexArray[j][2] / 100;
@@ -84,12 +150,12 @@ void ofUnibaLogoA::setup(){
             startVec.z = logoVertexArray[j - 1][2] / 100;
             nodeObject.startPoint = startVec;
             nodeObject.endPoint = endVec;
-            logoBillbordNode.push_back(nodeObject);
+            logoBillbordNode.push_back( nodeObject );
             logoBillbordNode[j-1].setup();
         }
         
         aNode.setPosition( startVec );     
-        logoNode.push_back(aNode);
+        logoNode.push_back( aNode );
     }
     
     camera.setPosition( 0 ,0 ,10.0f );
@@ -98,6 +164,9 @@ void ofUnibaLogoA::setup(){
     curCamPos.x,curCamPos.y,curCamPos.z = 0;
     friction = 0.03;
     spring =0.05;
+    
+    //backgroundImage
+    mask.loadImage("bg_mask.png");
     
     //Syphone Server
     mainOutputSyphonServer.setName("Screen Output");
@@ -129,43 +198,124 @@ void ofUnibaLogoA::update(){
     curCamPos.z += speed.z;
     
     camera.setGlobalPosition(curCamPos.x,curCamPos.y,curCamPos.z);
-    camera.lookAt( ofVec3f( 0,0,0 ) );
+    camera.lookAt( ofVec3f( 0, 0, 0 ) );
+    
+    if( 0 == globalCounter % 50 ){
+        if( 0 == floor( ofRandom( 4 ) ) ){
+            if( 0 == floor( ofRandom( 3 ) ) ){
+                nextCamPos.x = ( ofRandom( 2 ) - 1 ) * 5 + 5;
+                nextCamPos.y = ( ofRandom( 1 ) - 0.5 ) * 5 + 5;
+                nextCamPos.z = ( ofRandom( 2 ) - 1 ) * 5 + 5;
+                friction = ofRandom( 0.3 ) + 0.14;
+                spring = 0.85 + ofRandom(0.24);
+                for(int i = 0; i < floor( ofRandom( 40 ) ); i++ ){
+                    int matterREctNum = floor(ofRandom(lengthOfArray));
+                    if(typeFacelLength >=20) logoBillbordNode[matterREctNum].startSpring = true;
+                }
+            }
+        } else {
+            nextCamPos.x = ( ofRandom( 2 ) - 1 ) * 5 + 5;
+            nextCamPos.y = ( ofRandom( 1 ) - 0.5 ) * 5 + 5;
+            nextCamPos.z = ( ofRandom( 2 ) - 1 ) * 5 + 5;
+            friction = ofRandom( 0.125 );
+            spring = 0.75 + ofRandom( 0.0125 );
+            for(int i = 0; i < floor( ofRandom( 40 ) ); i++ ){
+                int matterREctNum = floor( ofRandom( lengthOfArray ) );
+                if(typeFacelLength >=20) logoBillbordNode[matterREctNum].startSpring = true;
+            }
+        }
+    }
+    
+    
+    globalCounter++;
+    typeFacelLength += 0.3;
+    if( typeFacelLength > 20){
+        typeFacelLength = 20;
+    }
+    if( globalCounter > 1000 ){
+        globalCounter = 0;
+    }
 }
 
 //--------------------------------------------------------------
 void ofUnibaLogoA::draw(){
     glEnable(GL_DEPTH_TEST);
+//#ifdef LOGO_MODE_PROJECTION
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+//#endif
     
     ofEnableSmoothing();
-    
     if( true == debugMode ){
         ofSetColor( 0, 0, 0 ,255 );
         string fpsStr = "frame rate: " + ofToString( ofGetFrameRate() );
+        string counterStr = "Global Counter: " + ofToString( globalCounter );
         ofDrawBitmapString( fpsStr, 10, 10 );
+        ofDrawBitmapString( counterStr, 10, 30 );
     }
+    
+#ifndef LOGO_MODE_PROJECTION
+    //draw divided background
+    glDisable(GL_DEPTH_TEST);
+    for(int i = 0; i < 4; i++ ){
+        ofColor colCarrent = divideRectColors[i];
+        colCarrent = ofColor( colCarrent.r, colCarrent.g, colCarrent.b, 220 );
+        ofSetColor( colCarrent );
+        ofBeginShape();
+        if( 3 == i ){
+            ofVertex( dividePoint[i].x, dividePoint[i].y );
+            ofVertex( divideCrossPoint.x, divideCrossPoint.y );
+            ofVertex( dividePoint[0].x, dividePoint[0].y );
+        } else {
+            ofVertex( dividePoint[i].x, dividePoint[i].y );
+            ofVertex( divideCrossPoint.x, divideCrossPoint.y );
+            ofVertex( dividePoint[i + 1].x, dividePoint[i + 1].y );
+        }
+        switch (i){
+            case 0:
+                ofVertex( 0, ofGetHeight() );
+                break;
+            case 1:
+                ofVertex( 0, 0 );
+                break;
+            case 2:
+                ofVertex( ofGetWidth(), 0);
+                break;
+            case 3:
+                ofVertex( ofGetWidth(), ofGetHeight() );
+                break;
+        }
+        ofEndShape();
+    }
+    glEnable(GL_DEPTH_TEST);
+#endif
+    ofSetColor( 255, 255, 255, 255 );
     camera.begin();
     camera.lookAt(ofVec3f(0,0,0));
     ofRotate(ofGetElapsedTimef() * 20, 0, 1, 0);
     ofPushMatrix();
         ofTranslate( -4.0f, 2.0f, 0.0f);
-        ofPushMatrix();
-            light.setPosition(0, MAX_WORLD_CLIP, 0);
-            ofRotateX(180);
-            light.lookAt(ofVec3f(400,200,0));        
-            light.setAmbientColor(ofColor(125, 125, 225));
-            light.setSpecularColor(ofColor(255, 255, 255));
-            light.enable();
-        ofPopMatrix();
+//        ofPushMatrix();
+//            light.setPosition(0, MAX_WORLD_CLIP, 0);
+//            ofRotateX(180);
+//            light.lookAt(ofVec3f(400,200,0));        
+//            light.setAmbientColor(ofColor(225, 225, 255));
+//            light.setSpecularColor(ofColor(255, 255, 255));
+//            light.enable();
+//        ofPopMatrix();
         
-        ofSetColor(0, 0, 0,255);
-        ofSetLineWidth(1.25);
+    ofSetColor(0, 0, 0,255);
+        ofSetLineWidth( 4.0f );
         
-        ofPushMatrix();
-        ofRotateX(180);
+    ofPushMatrix();
+    ofRotateX(180);
+    ofSetColor(255, 0, 0);
             for (int i = 1; i < lengthOfArray; i++ ){
                 ofPushMatrix();
+                float nextPosX =  logoNode[i - 1].getPosition().x - (logoNode[i - 1].getPosition().x- logoNode[i].getPosition().x)*(typeFacelLength * 0.05);
+                float nextPosY =  logoNode[i - 1].getPosition().y - (logoNode[i - 1].getPosition().y- logoNode[i].getPosition().y)*(typeFacelLength * 0.05);
                 ofLine( logoNode[i-1].getPosition().x, logoNode[i-1].getPosition().y, logoNode[i-1].getPosition().z,
-                       logoNode[i].getPosition().x, logoNode[i].getPosition().y , logoNode[i].getPosition().z );
+                       nextPosX, nextPosY , logoNode[i].getPosition().z );
                 ofPopMatrix();
             }
         ofPopMatrix();
@@ -182,6 +332,9 @@ void ofUnibaLogoA::draw(){
         ofPopMatrix();
     ofPopMatrix();
     camera.end();
+//#ifdef LOGO_MODE_PROJECTION
+    mask.draw(0,0,ofGetWidth(),ofGetHeight());
+//#endif
     mainOutputSyphonServer.publishScreen();
 }
 
@@ -219,6 +372,33 @@ void ofUnibaLogoA::keyPressed  (int key){
         friction = ofRandom(0.0125);
         spring = 0.75+ ofRandom(0.0125);
     }
+    
+    if(key == 'x'){
+        currentColorIndex = floor(ofRandom(6)) ;
+
+        for (int i = 0; i<4; i++){
+            float angle = ofRandom(90) + ( 90 * i );
+            float radius = ofGetWidth() / sqrt(2.0);
+            ofVec2f calVect = ofVec2f( radius / sqrt(2.0), radius / sqrt(2.0) );
+            calVect.rotate(angle);
+            calVect += ofVec2f (ofGetWidth()/2, ofGetHeight()/2);
+            dividePoint[i] = calVect;
+        }
+        isBamboo = CalcIntersectionPoint(dividePoint[0],dividePoint[2],dividePoint[1],dividePoint[3],divideCrossPoint);
+        
+        for (int i = 0; i< lengthOfArray; i++){
+            logoBillbordNode[i].startSpring  = false;
+            logoBillbordNode[i].count = 0;
+            logoBillbordNode[i].rectWidth = 0;
+            typeFacelLength = 0;
+            logoBillbordNode[i].resetColors(currentColorIndex);
+            int colorMatter = floor( ofRandom( 4 ) - 1 );
+            divideRectColors[i] = colorPristArray[ currentColorIndex ][ colorMatter ];
+        }
+        
+
+    }
+
 }
 
 //--------------------------------------------------------------
@@ -251,4 +431,15 @@ void ofUnibaLogoA::windowResized(int w, int h){
 //--------------------------------------------------------------
 void ofUnibaLogoA::dragEvent(ofDragInfo dragInfo){
     
+}
+
+bool ofUnibaLogoA::CalcIntersectionPoint(	const ofVec2f& pointA, const ofVec2f& pointB, const ofVec2f& pointC, const ofVec2f& pointD, ofVec2f& pointIntersection ) {
+    double dR, dS;
+	double dBunbo	= ( pointB.x - pointA.x ) * ( pointD.y - pointC.y ) - ( pointB.y - pointA.y ) * ( pointD.x - pointC.x );
+	if( 0 == dBunbo ) return false;	// 平行
+	ofVec2f vectorAC = pointC - pointA;
+	dR = ( ( pointD.y - pointC.y ) * vectorAC.x - ( pointD.x - pointC.x ) * vectorAC.y ) / dBunbo;
+	dS = ( ( pointB.y - pointA.y ) * vectorAC.x - ( pointB.x - pointA.x ) * vectorAC.y ) / dBunbo;
+	pointIntersection = pointA + dR * ( pointB - pointA );
+	return true;
 }

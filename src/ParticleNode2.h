@@ -3,27 +3,43 @@
 //  Codern
 //
 //  Created by mori koichiro on 12/05/31.
-//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012年 __Uniba.Inc__. All rights reserved.
 //
 #include "ofMain.h"
+#include "UnibaLogoAppDefinition.h"
 
 class ParticleNode2 : public ofNode {
     
 private:    
     float scale;
-    float count;
     float forceControl;
     ofMesh rectFace;
-    float rectWidth;
+    
     ofVec3f endBoldNessPoint;
+    
+    float spring;
+    float speed;
+    float friction;
+    int countNumOfSpring;
+    
+    vector<ofColor> colors;
+    
+    int colierRnadomMatter() {
+        return floor( ofRandom( 4 ) ) -1;
+    };
     
 public:
     int mID;
+    float count;
+    bool startSpring;
+    float rectWidth;
+    ofVec3f lineStartPos;
     ofVec3f startPoint;
     ofVec3f endPoint;
     float powX,powY,powZ;
     float vel;
     float alpha;
+    int colorPatternIndex;
     
     ofVec3f getNormal(ofVec3f vec0, ofVec3f vec1, ofVec3f vec2){
         ofVec3f firstVec = vec1 - vec0;
@@ -33,6 +49,11 @@ public:
     };
     
     ParticleNode2(){
+        startSpring = false;
+        countNumOfSpring = floor( ofRandom( 100 ) ) + 300;
+        spring = 0.85f;
+        speed = 0.4f;
+        friction = 0.55f;
         scale = 1.0f;
         alpha = 255;
         rectWidth = 0.0f;
@@ -47,25 +68,39 @@ public:
     };
     
     void setup() {
+        for(int i = 0; i < 4; i++){
+            colors.push_back( colorPristArray[ colorPatternIndex ][ i ] );
+        }
         ofVec3f normalForPoint = getNormal(startPoint,endPoint,endBoldNessPoint);
         rectFace.setupIndicesAuto();
         rectFace.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+        int colorMatter = colierRnadomMatter();
+        
+        ofColor defuseCol = colors[ colorMatter ];
+        if( defuseCol.getBrightness() < 127 ){
+            defuseCol.setBrightness( defuseCol.getBrightness() + 25);
+        } else {
+            defuseCol.setBrightness( defuseCol.getBrightness() - 25);
+        }
         
         rectFace.addVertex(startPoint);
         rectFace.addNormal(-normalForPoint);
-        rectFace.addColor( ofColor( 8 * (mID+1) , 0, 256 - 8 * mID ) );
+        rectFace.addColor( colors[ colorMatter ] );
         
         rectFace.addVertex(endPoint);
         rectFace.addNormal(-normalForPoint);
-        rectFace.addColor( ofColor(  8 * (mID+1) , 0, 256 - 8 * mID ) );
+        
+        
+        rectFace.addColor( defuseCol );
         
         rectFace.addVertex(startPoint);
         rectFace.addNormal(-normalForPoint);
-        rectFace.addColor( ofColor(  8 * (mID+1) , 0, 256 - 8 * mID ) );
+        rectFace.addColor( colors[ colorMatter ] );
+
         
         rectFace.addVertex(endBoldNessPoint);
         rectFace.addNormal(-normalForPoint);
-        rectFace.addColor( ofColor(  8 * (mID+1) , 0, 256 - 8 * mID ) );
+        rectFace.addColor( defuseCol );
     }
     
     void update(){
@@ -77,11 +112,16 @@ public:
             rectFace.setVertex(3,endBoldNessPoint);
         }
         
-        count++;
-        rectWidth = count/100;
-        if( rectWidth > 0.8){
-            rectWidth = 0.8;
+        //if ( count > countNumOfSpring )startSpring = true;
+        float ax;
+        if( startSpring ){
+            ax = (0.8 - rectWidth) * spring;
+            speed += ax;
+            speed *= friction;
+            rectWidth += speed;
         }
+        
+        count++;
     }
     
     void addForce( float x, float y, float z ) {
@@ -97,4 +137,27 @@ public:
             rectFace.drawFaces();
         }
 	}
+    
+    void resetColors(int colorIndex) {
+        ofDisableBlendMode();
+        int colorMatter = colierRnadomMatter();
+        //rectFace.clearColors();
+        ofColor newColor;
+        for( int i = 0; i < 4; i++ ){
+            if( i%2 == 0 ){
+                newColor = colorPristArray[ colorIndex ][ colorMatter ];
+            } else {
+                ofColor defuseCol = (colorPristArray[ colorIndex ][ colorMatter ]);
+                if( defuseCol.getBrightness() < 127 ){
+                    defuseCol.setBrightness( defuseCol.getBrightness() + 25);
+                } else {
+                    defuseCol.setBrightness( defuseCol.getBrightness() - 25);
+                }
+                newColor = defuseCol;
+                
+            }
+            rectFace.setColor( i, newColor );
+        }
+        
+    }
 };

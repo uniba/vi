@@ -1,18 +1,22 @@
+
 #include "ofMain.h"
-//#include "testApp.h"
 #include "ofUnibaLogoA.h"
 #include "ofAppGlutWindow.h"
+#include "UnibaLogoAppDefinition.h"
 
 //========================================================================
 int main( ){
 
     ofAppGlutWindow window;
-	ofSetupOpenGL(&window, 1280,800, OF_WINDOW);			// <-------- setup the GL context
-
-	// this kicks off the running of my app
-	// can be OF_WINDOW or OF_FULLSCREEN
-	// pass in width and height too:
-//    ofRunApp( new testApp());
+    int width,height;
+#ifdef LOGO_MODE_PROJECTION
+    width = 1280;
+    height = 800;
+#else
+    width = 900;
+    height = 900;
+#endif
+    ofSetupOpenGL(&window, width,height, OF_WINDOW);
 	ofRunApp( new ofUnibaLogoA());
 
 }
