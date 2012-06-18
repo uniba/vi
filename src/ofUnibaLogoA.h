@@ -5,7 +5,6 @@
 //  Created by mori koichiro on 12/05/31.
 //  Copyright (c) 2012年 __Uniba Inc.__. All rights reserved.
 //
-#pragma once
 
 #include "ofMain.h"
 #include "ParticleNode2.h"

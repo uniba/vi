@@ -1,5 +1,5 @@
 //
-//  Node.h
+//  ParticleNode.h
 //  UnibaMotionLogo
 //
 //  Created by mori koichiro on 12/05/09.
