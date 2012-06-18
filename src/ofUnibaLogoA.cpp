@@ -108,8 +108,8 @@ void ofUnibaLogoA::setup(){
     camera.setNearClip( 0.1f );
     
     //light setting
-//    ofEnableLighting();
-//    light.setPointLight();
+    ofEnableLighting();
+    light.setPointLight();
     ///////////////
     int lengthOfCollorArray = sizeof( colorPristArray ) / sizeof( ofColor[4] );
     currentColorIndex = floor( ofRandom(lengthOfCollorArray) -1 );
@@ -218,7 +218,7 @@ void ofUnibaLogoA::update(){
                 spring = 0.85 + ofRandom(0.24);
                 for(int i = 0; i < floor( ofRandom( 40 ) ); i++ ){
                     int matterREctNum = floor(ofRandom(lengthOfArray));
-                    if(typeFacelLength >=20) logoBillbordNode[matterREctNum].startSpring = true;
+                    if( typeFacelLength >=20 ) logoBillbordNode[matterREctNum].startSpring = true;
                 }
             }
         } else {
@@ -229,7 +229,7 @@ void ofUnibaLogoA::update(){
             spring = 0.75 + ofRandom( 0.0125 );
             for(int i = 0; i < floor( ofRandom( 40 ) ); i++ ){
                 int matterREctNum = floor( ofRandom( lengthOfArray ) );
-                if(typeFacelLength >=20) logoBillbordNode[matterREctNum].startSpring = true;
+                if( typeFacelLength >= 20 ) logoBillbordNode[matterREctNum].startSpring = true;
             }
         }
     }
@@ -303,14 +303,14 @@ void ofUnibaLogoA::draw(){
     ofRotate(ofGetElapsedTimef() * 20, 0, 1, 0);
     ofPushMatrix();
         ofTranslate( -4.0f, 2.0f, 0.0f);
-//        ofPushMatrix();
-//            light.setPosition(0, MAX_WORLD_CLIP, 0);
-//            ofRotateX(180);
-//            light.lookAt(ofVec3f(400,200,0));        
-//            light.setAmbientColor(ofColor(225, 225, 255));
-//            light.setSpecularColor(ofColor(255, 255, 255));
-//            light.enable();
-//        ofPopMatrix();
+        ofPushMatrix();
+            light.setPosition(0, MAX_WORLD_CLIP, 0);
+            ofRotateX(180);
+            light.lookAt(ofVec3f(400,200,0));        
+            light.setAmbientColor(ofColor(225, 225, 255));
+            light.setSpecularColor(ofColor(255, 255, 255));
+            light.enable();
+        ofPopMatrix();
         
     ofSetColor(0, 0, 0,255);
     ofSetLineWidth( 1.25f );
@@ -330,8 +330,8 @@ void ofUnibaLogoA::draw(){
       
         
         ofPushMatrix();
-            ofRotateX(180);
-            for (int i=0; i < lengthOfArray - 1; i++ ){
+            ofRotateX( 180 );
+            for (int i = 0; i < lengthOfArray - 1; i++ ){
                 ofPushMatrix();
                 ofFill();
                 logoBillbordNode[i].draw();
@@ -341,7 +341,7 @@ void ofUnibaLogoA::draw(){
     ofPopMatrix();
     camera.end();
 //#ifdef LOGO_MODE_PROJECTION
-    mask.draw(0,0,ofGetWidth(),ofGetHeight());
+    mask.draw( 0, 0, ofGetWidth(), ofGetHeight() );
 //#endif
     mainOutputSyphonServer.publishScreen();
 }
@@ -367,32 +367,32 @@ void ofUnibaLogoA::keyPressed  (int key){
     }
     
     if(key == 'g'){
-        nextCamPos.x = (ofRandom(2)-1)*7;
-        nextCamPos.y = (ofRandom(1))*7;
-        nextCamPos.z = (ofRandom(2)-1)*7;
-        friction = ofRandom(0.3)+0.4;
-        spring = 0.85+ ofRandom(0.24);
+        nextCamPos.x = ( ofRandom( 2 ) - 1 ) * 7;
+        nextCamPos.y = ( ofRandom( 1 ) ) * 7;
+        nextCamPos.z = ( ofRandom( 2 ) - 1 ) * 7;
+        friction = ofRandom( 0.3 ) + 0.4;
+        spring = 0.85 + ofRandom( 0.24 );
     }
     if(key == 't'){
-        nextCamPos.x = (ofRandom(2)-1)*7;
-        nextCamPos.y = (ofRandom(1))*7;
-        nextCamPos.z = (ofRandom(2)-1)*7;
-        friction = ofRandom(0.0125);
-        spring = 0.75+ ofRandom(0.0125);
+        nextCamPos.x = ( ofRandom( 2 ) - 1 ) * 7;
+        nextCamPos.y = ( ofRandom( 1 ) ) * 7;
+        nextCamPos.z = ( ofRandom( 2 ) - 1 ) * 7;
+        friction = ofRandom( 0.0125 );
+        spring = 0.75+ ofRandom( 0.0125 );
     }
     
     if(key == 'x'){
-        currentColorIndex = floor(ofRandom(6)) ;
+        currentColorIndex = floor(ofRandom( 6 )) ;
 
         for (int i = 0; i<4; i++){
-            float angle = ofRandom(90) + ( 90 * i );
+            float angle = ofRandom( 90 ) + ( 90 * i );
             float radius = ofGetWidth() / sqrt(2.0);
             ofVec2f calVect = ofVec2f( radius / sqrt(2.0), radius / sqrt(2.0) );
             calVect.rotate(angle);
-            calVect += ofVec2f (ofGetWidth()/2, ofGetHeight()/2);
+            calVect += ofVec2f ( ofGetWidth() / 2, ofGetHeight() / 2 );
             dividePoint[i] = calVect;
         }
-        isBamboo = CalcIntersectionPoint(dividePoint[0],dividePoint[2],dividePoint[1],dividePoint[3],divideCrossPoint);
+        isBamboo = CalcIntersectionPoint( dividePoint[0], dividePoint[2], dividePoint[1], dividePoint[3], divideCrossPoint );
         
         for (int i = 0; i< lengthOfArray; i++){
             logoBillbordNode[i].startSpring  = false;

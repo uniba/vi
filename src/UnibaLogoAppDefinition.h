@@ -8,7 +8,8 @@
 
 #include "ofMain.h"
 
-//#define LOGO_MODE_PROJECTION //commentout
+//use this define window size will 1280x800 commentout size will 900x900　square.
+//#define LOGO_MODE_PROJECTION 
 
 #ifndef _TEST_
 extern ofColor colorPristArray[][4];

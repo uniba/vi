@@ -26,7 +26,7 @@ private:
     vector<ofColor> colors;
     
     int colierRnadomMatter() {
-        return floor( ofRandom( 4 ) ) -1;
+        return floor( ofRandom( 4 ) ) - 1;
     };
     
 public:
