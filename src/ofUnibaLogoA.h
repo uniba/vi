@@ -1,9 +1,9 @@
 //
 //  ofUnibaLogoA.h
-//  Codern
+//  UnibaMotionLogo
 //
 //  Created by mori koichiro on 12/05/31.
-//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012年 __Uniba Inc.__. All rights reserved.
 //
 #pragma once
 

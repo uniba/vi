@@ -141,15 +141,7 @@
 		B23A8C74158AF6730055BDA8 /* ofxSyphonServer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxSyphonServer.mm; sourceTree = "<group>"; };
 		B23A8C79158AFA0C0055BDA8 /* UnibaLogoAppDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnibaLogoAppDefinition.h; sourceTree = "<group>"; };
 		B2665B56155A53F9003BCD20 /* ParticleNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticleNode.h; sourceTree = "<group>"; };
-		B28D2600158EB53900396C80 /* UnibaMotionLogo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnibaMotionLogo-Info.plist"; sourceTree = "<group>"; };
-		B28D2602158EB53900396C80 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		B28D2604158EB53900396C80 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		B28D2606158EB53900396C80 /* UnibaMotionLogo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UnibaMotionLogo-Prefix.pch"; sourceTree = "<group>"; };
-		B28D2608158EB53900396C80 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		B28D260A158EB53900396C80 /* Document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
-		B28D260B158EB53900396C80 /* Document.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
-		B28D260E158EB53900396C80 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Document.xib; sourceTree = "<group>"; };
-		B28D2611158EB53A00396C80 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		B28D2617158EBD6400396C80 /* UnibaMotionLogo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnibaMotionLogo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2B492BD157780C4003BE022 /* ofUnibaLogoA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofUnibaLogoA.cpp; sourceTree = "<group>"; };
 		B2B492BF1577820B003BE022 /* ofUnibaLogoA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofUnibaLogoA.h; sourceTree = "<group>"; };
 		B2B492C01577853D003BE022 /* ParticleNode2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticleNode2.h; sourceTree = "<group>"; };
@@ -319,7 +311,6 @@
 		E45BE9770E8CC7DD009D7055 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		E45BE9790E8CC7DD009D7055 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		E45BE97A0E8CC7DD009D7055 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
-		E4B69B5B0A3A1756003C02F2 /* Codern.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Codern.app; path = /appCode/openFrameworks_o/apps/MyApps/UnibaMotionLogo/bin/Codern.app; sourceTree = "<absolute>"; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
 		E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "openFrameworks-Info.plist"; sourceTree = "<group>"; };
 		E4C2421610CC549C004149E2 /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -594,30 +585,6 @@
 				B23A8C74158AF6730055BDA8 /* ofxSyphonServer.mm */,
 			);
 			path = src;
-			sourceTree = "<group>";
-		};
-		B28D25FE158EB53900396C80 /* UnibaMotionLogo */ = {
-			isa = PBXGroup;
-			children = (
-				B28D260A158EB53900396C80 /* Document.h */,
-				B28D260B158EB53900396C80 /* Document.m */,
-				B28D260D158EB53900396C80 /* Document.xib */,
-				B28D2610158EB53A00396C80 /* MainMenu.xib */,
-				B28D25FF158EB53900396C80 /* Supporting Files */,
-			);
-			path = UnibaMotionLogo;
-			sourceTree = "<group>";
-		};
-		B28D25FF158EB53900396C80 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				B28D2600158EB53900396C80 /* UnibaMotionLogo-Info.plist */,
-				B28D2601158EB53900396C80 /* InfoPlist.strings */,
-				B28D2604158EB53900396C80 /* main.m */,
-				B28D2606158EB53900396C80 /* UnibaMotionLogo-Prefix.pch */,
-				B28D2607158EB53900396C80 /* Credits.rtf */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		B2D6FE8715527CA6008EB9F1 /* glew */ = {
@@ -1516,8 +1483,8 @@
 				BB4B018C10F6955C006C3DED /* addons */,
 				E4C2422310CC54B6004149E2 /* openFrameworks */,
 				E45BE0360E8CC5DE009D7055 /* libs */,
-				B28D25FE158EB53900396C80 /* UnibaMotionLogo */,
 				B2FDEB60155281CE00CB5608 /* Frameworks */,
+				B28D2617158EBD6400396C80 /* UnibaMotionLogo.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1637,7 +1604,7 @@
 			);
 			name = UnibaMotionLogo;
 			productName = myOFApp;
-			productReference = E4B69B5B0A3A1756003C02F2 /* Codern.app */;
+			productReference = B28D2617158EBD6400396C80 /* UnibaMotionLogo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1725,41 +1692,6 @@
 			targetProxy = E4C2422710CC54DA004149E2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		B28D2601158EB53900396C80 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B28D2602158EB53900396C80 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		B28D2607158EB53900396C80 /* Credits.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B28D2608158EB53900396C80 /* en */,
-			);
-			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		B28D260D158EB53900396C80 /* Document.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B28D260E158EB53900396C80 /* en */,
-			);
-			name = Document.xib;
-			sourceTree = "<group>";
-		};
-		B28D2610158EB53A00396C80 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B28D2611158EB53A00396C80 /* en */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		E4B27CA010CBF8A600536013 /* ReleaseUniversal */ = {
@@ -1916,7 +1848,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_9 = "\"$(SRCROOT)/../../../libs/assimp/lib/osx\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PREBINDING = NO;
-				PRODUCT_NAME = Codern;
+				PRODUCT_NAME = UnibaMotionLogo;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};
@@ -2112,7 +2044,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_9 = "\"$(SRCROOT)/../../../libs/assimp/lib/osx\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PREBINDING = NO;
-				PRODUCT_NAME = Codern;
+				PRODUCT_NAME = UnibaMotionLogo;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};
@@ -2230,7 +2162,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_9 = "\"$(SRCROOT)/../../../libs/assimp/lib/osx\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PREBINDING = NO;
-				PRODUCT_NAME = Codern;
+				PRODUCT_NAME = UnibaMotionLogo;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};

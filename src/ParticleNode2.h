@@ -1,9 +1,9 @@
 //
 //  ParticleNode2.h
-//  Codern
+//  UnibaMotionLogo
 //
 //  Created by mori koichiro on 12/05/31.
-//  Copyright (c) 2012年 __Uniba.Inc__. All rights reserved.
+//  Copyright (c) 2012年 __Uniba Inc.__. All rights reserved.
 //
 #include "ofMain.h"
 #include "UnibaLogoAppDefinition.h"

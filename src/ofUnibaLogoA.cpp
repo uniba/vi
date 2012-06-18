@@ -305,11 +305,11 @@ void ofUnibaLogoA::draw(){
 //        ofPopMatrix();
         
     ofSetColor(0, 0, 0,255);
-        ofSetLineWidth( 4.0f );
+    ofSetLineWidth( 1.25f );
         
     ofPushMatrix();
     ofRotateX(180);
-    ofSetColor(255, 0, 0);
+    ofSetColor(0, 0, 0);
             for (int i = 1; i < lengthOfArray; i++ ){
                 ofPushMatrix();
                 float nextPosX =  logoNode[i - 1].getPosition().x - (logoNode[i - 1].getPosition().x- logoNode[i].getPosition().x)*(typeFacelLength * 0.05);
