@@ -26,7 +26,7 @@ private:
     vector<ofColor> colors;
     
     int colierRnadomMatter() {
-        return floor( ofRandom( 4 ) ) - 1;
+        return ofRandom( 4 );
     };
     
 public:
@@ -91,7 +91,6 @@ public:
         rectFace.addVertex(endPoint);
         rectFace.addNormal(-normalForPoint);
         
-        
         rectFace.addColor( defuseCol );
         
         rectFace.addVertex(startPoint);
@@ -140,25 +139,23 @@ public:
 	}
     
     void resetColors(int colorIndex) {
-        ofDisableBlendMode();
+        //ofDisableBlendMode();
         int colorMatter = colierRnadomMatter();
-        //rectFace.clearColors();
         ofColor newColor;
         for( int i = 0; i < 4; i++ ){
             if( i%2 == 0 ){
                 newColor = colorPristArray[ colorIndex ][ colorMatter ];
             } else {
                 ofColor defuseCol = (colorPristArray[ colorIndex ][ colorMatter ]);
-                if( defuseCol.getBrightness() < 127 ){
-                    defuseCol.setBrightness( defuseCol.getBrightness() + 25);
-                } else {
-                    defuseCol.setBrightness( defuseCol.getBrightness() - 25);
-                }
+                cout << defuseCol.r << endl;
+//                if( defuseCol.getBrightness() < 127 ){
+//                    defuseCol.setBrightness( defuseCol.getBrightness() + 25);
+//                } else {
+//                    defuseCol.setBrightness( defuseCol.getBrightness() - 25);
+//                }
                 newColor = defuseCol;
-                
             }
-            rectFace.setColor( i, newColor );
+//            rectFace.setColor(i, newColor);
         }
-        
     }
 };
