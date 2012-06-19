@@ -178,8 +178,7 @@ void ofUnibaLogoA::setup(){
     gradientMask.allocate(ofGetWindowWidth(), ofGetWindowHeight(), OF_IMAGE_COLOR_ALPHA);
     gradientMask.loadImage("bg_mask.png");
 
-    
-    
+
 //------------ Syphone Server ---------------
     mainOutputSyphonServer.setName("Screen Output");
 }
@@ -349,7 +348,7 @@ void ofUnibaLogoA::draw(){
         ofPopMatrix();
     camera.end();
     
-    gradientMask.draw( 0, 0, ofGetWindowWidth(), ofGetWindowHeight() );
+//    gradientMask.draw( 0, 0, ofGetWindowWidth(), ofGetWindowHeight() );
 
 //-------- distribute to Syphone server ------
     mainOutputSyphonServer.publishScreen();
@@ -402,6 +401,9 @@ void ofUnibaLogoA::keyPressed  (int key){
             calVect.rotate(angle);
             calVect += ofVec2f ( width / 2, height / 2 );
             dividePoint[i] = calVect;
+            
+            int colorMatterFordivider = ofRandom( 4 ) ;
+            divideRectColors[i] = colorPristArray[ currentColorIndex ][ colorMatterFordivider ];
         }
         isParallel = calcIntersectionPoint( dividePoint[0], dividePoint[2], dividePoint[1], dividePoint[3], divideCrossPoint );
         
@@ -410,9 +412,9 @@ void ofUnibaLogoA::keyPressed  (int key){
             logoBillbordNode[i].count = 0;
             logoBillbordNode[i].rectWidth = 0;
             typeFacelLength = 0;
-            logoBillbordNode[i].resetColors(currentColorIndex);
-            int colorMatter = ofRandom( 4 ) ;
-            divideRectColors[i] = colorPristArray[ currentColorIndex ][ colorMatter ];
+            logoBillbordNode[i].colorPatternIndex = currentColorIndex;
+            logoBillbordNode[i].isChangeColors = true;
+            
         }
     }
 

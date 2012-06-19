@@ -28,6 +28,7 @@ public:
     int mID;
     float count;
     bool startSpring;
+    bool isChangeColors;
     float rectWidth;
     ofVec3f lineStartPos;
     ofVec3f startPoint;
@@ -46,6 +47,7 @@ public:
     
     ParticleNode2(){
         startSpring = false;
+        isChangeColors = false;
         spring = 0.85f;
         speed = 0.4f;
         friction = 0.55f;
@@ -114,6 +116,11 @@ public:
             rectWidth += speed;
         }
         
+        if( isChangeColors ){
+            resetColors( colorPatternIndex );
+            isChangeColors = false;
+        }
+        
         count++;
     }
     
@@ -132,7 +139,6 @@ public:
 	}
     
     void resetColors(int colorIndex) {
-        //ofDisableBlendMode();
         int colorMatter = colierRnadomMatter();
         ofColor newColor;
         for( int i = 0; i < 4; i++ ){
@@ -140,14 +146,14 @@ public:
                 newColor = colorPristArray[ colorIndex ][ colorMatter ];
             } else {
                 ofColor defuseCol = (colorPristArray[ colorIndex ][ colorMatter ]);
-//                if( defuseCol.getBrightness() < 127 ){
-//                    defuseCol.setBrightness( defuseCol.getBrightness() + 25);
-//                } else {
-//                    defuseCol.setBrightness( defuseCol.getBrightness() - 25);
-//                }
+                if( defuseCol.getBrightness() < 127 ){
+                    defuseCol.setBrightness( defuseCol.getBrightness() + 25);
+                } else {
+                    defuseCol.setBrightness( defuseCol.getBrightness() - 25);
+                }
                 newColor = defuseCol;
             }
-//            rectFace.setColor(i, newColor);
+            rectFace.setColor(i, newColor);
         }
     }
 };
