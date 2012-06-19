@@ -140,7 +140,6 @@
 		B23A8C73158AF6730055BDA8 /* ofxSyphonServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSyphonServer.h; sourceTree = "<group>"; };
 		B23A8C74158AF6730055BDA8 /* ofxSyphonServer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxSyphonServer.mm; sourceTree = "<group>"; };
 		B23A8C79158AFA0C0055BDA8 /* UnibaLogoAppDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnibaLogoAppDefinition.h; sourceTree = "<group>"; };
-		B2665B56155A53F9003BCD20 /* ParticleNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticleNode.h; sourceTree = "<group>"; };
 		B28D2617158EBD6400396C80 /* UnibaMotionLogo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnibaMotionLogo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2B492BD157780C4003BE022 /* ofUnibaLogoA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofUnibaLogoA.cpp; sourceTree = "<group>"; };
 		B2B492BF1577820B003BE022 /* ofUnibaLogoA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofUnibaLogoA.h; sourceTree = "<group>"; };
@@ -1492,7 +1491,6 @@
 			isa = PBXGroup;
 			children = (
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
-				B2665B56155A53F9003BCD20 /* ParticleNode.h */,
 				B2B492BF1577820B003BE022 /* ofUnibaLogoA.h */,
 				B2B492BD157780C4003BE022 /* ofUnibaLogoA.cpp */,
 				B2B492C01577853D003BE022 /* ParticleNode2.h */,

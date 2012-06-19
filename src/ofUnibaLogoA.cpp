@@ -9,14 +9,12 @@
 #include "UnibaLogoAppDefinition.h"
 #include "ofUnibaLogoA.h"
 
-#define MAX_NODE_NUM 1000
-#define MAX_WORLD_CLIP 8000
-double workRad;
+#define MAX_WORLD_CLIP 7
 int lengthOfArray = 0;
 bool debugMode = false;
 bool isFullscreen = false;
 float typeFacelLength;
-bool isParallel;
+bool isParallel = false;
 
 static float logoVertexArray[][3] =
 {     //2D UNIBA LOGO TYPO
@@ -98,7 +96,6 @@ void ofUnibaLogoA::setup(){
     globalCounter = 0;
     typeFacelLength = 0;
     ofBackground( 255, 255, 255 );
-//    ofBackgroundGradient(ofColor::white,ofColor(255255200), OF_GRADIENT_CIRCULAR)
     ofSetVerticalSync( true );
     ofSetFullscreen( false );
     ofSetFrameRate( 60 );
@@ -117,19 +114,19 @@ void ofUnibaLogoA::setup(){
     int lengthOfCollorArray = sizeof( colorPristArray ) / sizeof( ofColor[4] );
     currentColorIndex = floor( ofRandom(lengthOfCollorArray) -1 );
     
-#ifndef LOGO_MODE_PROJECTION
+#ifdef LOGO_MODE_DIVIDED_BACKGROUND
     //caliculate background divider
     for ( int i = 0; i<4; i++ ){
         float angle = ofRandom( 90 ) + ( 90 * i );
-        float radius = ofGetWidth()/sqrt(2.0);
+        float radius = ofGetWindowWidth()/sqrt(2.0);
         ofVec2f calVect = ofVec2f( radius / sqrt(2.0), radius / sqrt(2.0) );
         calVect.rotate(angle);
-        calVect += ofVec2f ( ofGetWidth() / 2, ofGetHeight() / 2 );
+        calVect += ofVec2f ( ofGetWindowWidth() / 2, ofGetWindowHeight() / 2 );
         dividePoint[i] = calVect;
         int colorMatter = ofRandom( 4 );
         divideRectColors[i] = colorPristArray[ currentColorIndex ][ colorMatter ];
     }
-    isParallel = CalcIntersectionPoint(dividePoint[0],dividePoint[2],dividePoint[1],dividePoint[3],divideCrossPoint);
+    isParallel = calcIntersectionPoint(dividePoint[0],dividePoint[2],dividePoint[1],dividePoint[3],divideCrossPoint);
 #endif
     
     lengthOfArray = sizeof( logoVertexArray ) / sizeof( float [3] );
@@ -167,7 +164,7 @@ void ofUnibaLogoA::setup(){
         }
         
         aNode.setPosition( startVec );     
-        logoNode.push_back( aNode );
+        logoLineNode.push_back( aNode );
     }
 //------------ camera setting --------------
     camera.setPosition( 0 ,0 ,10.0f );
@@ -178,7 +175,10 @@ void ofUnibaLogoA::setup(){
     spring =0.05;
     
 //------------ backgroundImage --------------
-    mask.loadImage("bg_mask.png");
+    gradientMask.allocate(ofGetWindowWidth(), ofGetWindowHeight(), OF_IMAGE_COLOR_ALPHA);
+    gradientMask.loadImage("bg_mask.png");
+
+    
     
 //------------ Syphone Server ---------------
     mainOutputSyphonServer.setName("Screen Output");
@@ -215,9 +215,9 @@ void ofUnibaLogoA::update(){
     if( 0 == globalCounter % 50 ){
         if( 0 == floor( ofRandom( 4 ) ) ){
             if( 0 == floor( ofRandom( 3 ) ) ){
-                nextCamPos.x = ( ofRandom( 2 ) - 1 ) * 5 + 5;
-                nextCamPos.y = ( ofRandom( 1 ) - 0.5 ) * 5 + 5;
-                nextCamPos.z = ( ofRandom( 2 ) - 1 ) * 5 + 5;
+                nextCamPos.x = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
+                nextCamPos.y = ( ofRandom( 1 ) - 0.5 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
+                nextCamPos.z = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
                 friction = ofRandom( 0.3 ) + 0.14;
                 spring = 0.85 + ofRandom(0.24);
                 for( int i = 0; i < floor( ofRandom( 40 ) ); i++ ){
@@ -226,9 +226,9 @@ void ofUnibaLogoA::update(){
                 }
             }
         } else {
-            nextCamPos.x = ( ofRandom( 2 ) - 1 ) * 5 + 5;
-            nextCamPos.y = ( ofRandom( 1 ) - 0.5 ) * 5 + 5;
-            nextCamPos.z = ( ofRandom( 2 ) - 1 ) * 5 + 5;
+            nextCamPos.x = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
+            nextCamPos.y = ( ofRandom( 1 ) - 0.5 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
+            nextCamPos.z = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
             friction = ofRandom( 0.125 );
             spring = 0.75 + ofRandom( 0.0125 );
             for ( int i = 0; i < floor( ofRandom( 40 ) ); i++ ){
@@ -238,25 +238,26 @@ void ofUnibaLogoA::update(){
         }
     }
     
-    
+    isParallel = calcIntersectionPoint( dividePoint[0], dividePoint[2], dividePoint[1], dividePoint[3], divideCrossPoint );
+
     globalCounter++;
-    typeFacelLength += 0.3;
+    typeFacelLength += 0.15;
     if( typeFacelLength > 20){
         typeFacelLength = 20;
     }
     if( globalCounter > 1000 ){
         globalCounter = 0;
     }
+
 }
 
 //--------------------------------------------------------------
 void ofUnibaLogoA::draw(){
+
     glEnable(GL_DEPTH_TEST);
-//#ifdef LOGO_MODE_PROJECTION
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
-//#endif
-    
+
     ofEnableSmoothing();
     if( true == debugMode ){
         ofSetColor( 0, 0, 0 ,255 );
@@ -265,9 +266,9 @@ void ofUnibaLogoA::draw(){
         ofDrawBitmapString( fpsStr, 10, 10 );
         ofDrawBitmapString( counterStr, 10, 30 );
     }
-    
+
 //-------- draw divided background ---------
-#ifndef LOGO_MODE_PROJECTION
+#ifdef LOGO_MODE_DIVIDED_BACKGROUND
     glDisable(GL_DEPTH_TEST);
     for ( int i = 0; i < 4; i++ ){
         ofColor colCarrent = divideRectColors[i];
@@ -291,10 +292,10 @@ void ofUnibaLogoA::draw(){
                 ofVertex( 0, 0 );
                 break;
             case 2:
-                ofVertex( ofGetWidth(), 0);
+                ofVertex( ofGetWindowWidth(), 0);
                 break;
             case 3:
-                ofVertex( ofGetWidth(), ofGetHeight() );
+                ofVertex( ofGetWindowWidth(), ofGetWindowHeight() );
                 break;
         }
         ofEndShape();
@@ -320,21 +321,21 @@ void ofUnibaLogoA::draw(){
             
             ofSetColor( 0, 0, 0,255 );
             ofSetLineWidth( 1.25f );
-            
+
 //------------ draw logo type lines ----------
             ofPushMatrix();
                 ofRotateX( 180 );
                 ofSetColor( 0, 0, 0 );
                 for ( int i = 1; i < lengthOfArray; i++ ){
                     ofPushMatrix();
-                        float nextPosX =  logoNode[i - 1].getPosition().x - (logoNode[i - 1].getPosition().x- logoNode[i].getPosition().x) * (typeFacelLength * 0.05);
-                        float nextPosY =  logoNode[i - 1].getPosition().y - (logoNode[i - 1].getPosition().y- logoNode[i].getPosition().y) * (typeFacelLength * 0.05);
-                        ofLine( logoNode[i-1].getPosition().x, logoNode[i-1].getPosition().y, logoNode[i-1].getPosition().z,
-                               nextPosX, nextPosY , logoNode[i].getPosition().z );
+                        float nextPosX =  logoLineNode[i - 1].getPosition().x - (logoLineNode[i - 1].getPosition().x- logoLineNode[i].getPosition().x) * (typeFacelLength * 0.05);
+                        float nextPosY =  logoLineNode[i - 1].getPosition().y - (logoLineNode[i - 1].getPosition().y- logoLineNode[i].getPosition().y) * (typeFacelLength * 0.05);
+                        ofLine( logoLineNode[i-1].getPosition().x, logoLineNode[i-1].getPosition().y, logoLineNode[i-1].getPosition().z,
+                               nextPosX, nextPosY , logoLineNode[i].getPosition().z );
                     ofPopMatrix();
                 }
             ofPopMatrix();
-          
+        
 //------ draw logo lines width rectangle -----
             ofPushMatrix();
                 ofRotateX( 180 );
@@ -347,10 +348,9 @@ void ofUnibaLogoA::draw(){
             ofPopMatrix();
         ofPopMatrix();
     camera.end();
-//#ifdef LOGO_MODE_PROJECTION
-    mask.draw( 0, 0, ofGetWidth(), ofGetHeight() );
-//#endif
     
+    gradientMask.draw( 0, 0, ofGetWindowWidth(), ofGetWindowHeight() );
+
 //-------- distribute to Syphone server ------
     mainOutputSyphonServer.publishScreen();
 }
@@ -365,7 +365,7 @@ void ofUnibaLogoA::keyPressed  (int key){
             debugMode = false;
         }
     }
-    if( 'f' == key ){
+    if( 'f' == key ){ //full screen
         if( !isFullscreen ){
             ofSetFullscreen(true);
             isFullscreen = true;
@@ -376,32 +376,34 @@ void ofUnibaLogoA::keyPressed  (int key){
     }
     
     if(key == 'g'){
-        nextCamPos.x = ( ofRandom( 2 ) - 1 ) * 7;
-        nextCamPos.y = ( ofRandom( 1 ) ) * 7;
-        nextCamPos.z = ( ofRandom( 2 ) - 1 ) * 7;
+        nextCamPos.x = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP;
+        nextCamPos.y = ( ofRandom( 1 ) ) * MAX_WORLD_CLIP;
+        nextCamPos.z = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP;
         friction = ofRandom( 0.3 ) + 0.4;
         spring = 0.85 + ofRandom( 0.24 );
     }
     if(key == 't'){
-        nextCamPos.x = ( ofRandom( 2 ) - 1 ) * 7;
-        nextCamPos.y = ( ofRandom( 1 ) ) * 7;
-        nextCamPos.z = ( ofRandom( 2 ) - 1 ) * 7;
+        nextCamPos.x = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP;
+        nextCamPos.y = ( ofRandom( 1 ) ) * MAX_WORLD_CLIP;
+        nextCamPos.z = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP;
         friction = ofRandom( 0.0125 );
         spring = 0.75+ ofRandom( 0.0125 );
     }
     
     if(key == 'x'){
+        int width = ofGetWindowWidth();
+        int height = ofGetWindowHeight();
         currentColorIndex = floor(ofRandom( 6 )) ;
 
         for ( int i = 0; i < 4; i++ ){
             float angle = ofRandom( 90 ) + ( 90 * i );
-            float radius = ofGetWidth() / sqrt(2.0);
+            float radius = ofGetWindowWidth() / sqrt(2.0);
             ofVec2f calVect = ofVec2f( radius / sqrt(2.0), radius / sqrt(2.0) );
             calVect.rotate(angle);
-            calVect += ofVec2f ( ofGetWidth() / 2, ofGetHeight() / 2 );
+            calVect += ofVec2f ( width / 2, height / 2 );
             dividePoint[i] = calVect;
         }
-        isParallel = CalcIntersectionPoint( dividePoint[0], dividePoint[2], dividePoint[1], dividePoint[3], divideCrossPoint );
+        isParallel = calcIntersectionPoint( dividePoint[0], dividePoint[2], dividePoint[1], dividePoint[3], divideCrossPoint );
         
         for ( int i = 0; i< lengthOfArray; i++ ){
             logoBillbordNode[i].startSpring  = false;
@@ -412,8 +414,6 @@ void ofUnibaLogoA::keyPressed  (int key){
             int colorMatter = ofRandom( 4 ) ;
             divideRectColors[i] = colorPristArray[ currentColorIndex ][ colorMatter ];
         }
-        
-
     }
 
 }
@@ -450,7 +450,7 @@ void ofUnibaLogoA::dragEvent(ofDragInfo dragInfo){
     
 }
 
-bool ofUnibaLogoA::CalcIntersectionPoint(	const ofVec2f& pointA, const ofVec2f& pointB, const ofVec2f& pointC, const ofVec2f& pointD, ofVec2f& pointIntersection ) {
+bool ofUnibaLogoA::calcIntersectionPoint(	const ofVec2f& pointA, const ofVec2f& pointB, const ofVec2f& pointC, const ofVec2f& pointD, ofVec2f& pointIntersection ) {
     double dR, dS;
 	double dBunbo	= ( pointB.x - pointA.x ) * ( pointD.y - pointC.y ) - ( pointB.y - pointA.y ) * ( pointD.x - pointC.x );
 	if( 0 == dBunbo ) return false;	// 平行

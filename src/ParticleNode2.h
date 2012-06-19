@@ -15,16 +15,11 @@ private:
     float scale;
     float forceControl;
     ofMesh rectFace;
-    
     ofVec3f endBoldNessPoint;
-    
     float spring;
     float speed;
     float friction;
-    int countNumOfSpring;
-    
     vector<ofColor> colors;
-    
     int colierRnadomMatter() {
         return ofRandom( 4 );
     };
@@ -51,7 +46,6 @@ public:
     
     ParticleNode2(){
         startSpring = false;
-        countNumOfSpring = floor( ofRandom( 100 ) ) + 300;
         spring = 0.85f;
         speed = 0.4f;
         friction = 0.55f;
@@ -112,7 +106,6 @@ public:
             rectFace.setVertex(3,endBoldNessPoint);
         }
         
-        //if ( count > countNumOfSpring )startSpring = true;
         float ax;
         if( startSpring ){
             ax = (0.8 - rectWidth) * spring;
@@ -147,7 +140,6 @@ public:
                 newColor = colorPristArray[ colorIndex ][ colorMatter ];
             } else {
                 ofColor defuseCol = (colorPristArray[ colorIndex ][ colorMatter ]);
-                cout << defuseCol.r << endl;
 //                if( defuseCol.getBrightness() < 127 ){
 //                    defuseCol.setBrightness( defuseCol.getBrightness() + 25);
 //                } else {
