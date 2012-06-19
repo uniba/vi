@@ -118,7 +118,7 @@ void ofUnibaLogoA::setup(){
     //caliculate background divider
     for ( int i = 0; i<4; i++ ){
         float angle = ofRandom( 90 ) + ( 90 * i );
-        float radius = ofGetWindowWidth()/sqrt(2.0);
+        float radius = ofGetWindowWidth() / sqrt(2.0) * 3;
         ofVec2f calVect = ofVec2f( radius / sqrt(2.0), radius / sqrt(2.0) );
         calVect.rotate(angle);
         calVect += ofVec2f ( ofGetWindowWidth() / 2, ofGetWindowHeight() / 2 );
@@ -211,6 +211,11 @@ void ofUnibaLogoA::update(){
     camera.setGlobalPosition(curCamPos.x,curCamPos.y,curCamPos.z);
     camera.lookAt( ofVec3f( 0, 0, 0 ) );
     
+    for( int i = 0; i< 4; i++ ){
+        dividePoint[i].x += speed.x * 30;
+        dividePoint[i].y += speed.y * 30;
+    }
+    
     if( 0 == globalCounter % 50 ){
         if( 0 == floor( ofRandom( 4 ) ) ){
             if( 0 == floor( ofRandom( 3 ) ) ){
@@ -259,11 +264,13 @@ void ofUnibaLogoA::draw(){
 
     ofEnableSmoothing();
     if( true == debugMode ){
-        ofSetColor( 0, 0, 0 ,255 );
+        ofSetColor( 255, 255, 255 ,255 );
         string fpsStr = "frame rate: " + ofToString( ofGetFrameRate() );
         string counterStr = "Global Counter: " + ofToString( globalCounter );
-        ofDrawBitmapString( fpsStr, 10, 10 );
-        ofDrawBitmapString( counterStr, 10, 30 );
+        ofDrawBitmapString( fpsStr, 10, 20 );
+        ofDrawBitmapString( counterStr, 10, 40 );
+        ofDrawBitmapString( "Press \'x\' to change colors", 10, 60 );
+        ofDrawBitmapString( "Press \'f\' to fullscreen mode", 10, 80 );
     }
 
 //-------- draw divided background ---------
@@ -348,7 +355,7 @@ void ofUnibaLogoA::draw(){
         ofPopMatrix();
     camera.end();
     
-//    gradientMask.draw( 0, 0, ofGetWindowWidth(), ofGetWindowHeight() );
+    gradientMask.draw( 0, 0, ofGetWindowWidth(), ofGetWindowHeight() );
 
 //-------- distribute to Syphone server ------
     mainOutputSyphonServer.publishScreen();
