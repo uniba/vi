@@ -104,46 +104,41 @@ void ofUnibaLogoA::setup(){
     camera.setFov( 45.0 );
 	camera.setFarClip( 24.0f );
     camera.setNearClip( 0.1f );
-    
-    //light setting
-//    ofEnableLighting();
-//    light.setPointLight();
-    ///////////////
 
 //--------- set color array ------------------
-    int lengthOfCollorArray = sizeof( colorPristArray ) / sizeof( ofColor[4] );
-    currentColorIndex = floor( ofRandom(lengthOfCollorArray) -1 );
+    int lengthOfCollorArray = sizeof( colorPristArray ) / sizeof( ofColor[ 4 ] );
+    currentColorIndex = floor( ofRandom(lengthOfCollorArray) - 1 );
     
 #ifdef LOGO_MODE_DIVIDED_BACKGROUND
     //caliculate background divider
-    for ( int i = 0; i<4; i++ ){
+    for ( int i = 0; i < 4; i++ ){
         float angle = ofRandom( 90 ) + ( 90 * i );
-        float radius = ofGetWindowWidth() / sqrt(2.0) * 3;
-        ofVec2f calVect = ofVec2f( radius / sqrt(2.0), radius / sqrt(2.0) );
+        float radius = ofGetWindowWidth() / sqrt( 2.0 ) * 3;
+        ofVec2f calVect = ofVec2f( radius / sqrt( 2.0 ), radius / sqrt( 2.0 ) );
         calVect.rotate(angle);
         calVect += ofVec2f ( ofGetWindowWidth() / 2, ofGetWindowHeight() / 2 );
         dividePoint[i] = calVect;
         int colorMatter = ofRandom( 4 );
         divideRectColors[i] = colorPristArray[ currentColorIndex ][ colorMatter ];
     }
-    isParallel = calcIntersectionPoint(dividePoint[0],dividePoint[2],dividePoint[1],dividePoint[3],divideCrossPoint);
+    isParallel = calcIntersectionPoint( dividePoint[ 0 ], dividePoint[ 2 ], dividePoint[ 1 ], dividePoint[ 3 ], divideCrossPoint );
 #endif
     
-    lengthOfArray = sizeof( logoVertexArray ) / sizeof( float [3] );
+    lengthOfArray = sizeof( logoVertexArray ) / sizeof( float[ 3 ] );
     
-    int colorPatternIndexNum = floor(ofRandom(7) - 1);
+    int colorPatternIndexNum = floor( ofRandom( 7 ) - 1 );
     
 //--------- object vertex setting ------------
-    for ( int j=0;j < lengthOfArray; j++ ){
+    for ( int j = 0; j < lengthOfArray; j++ ){
         ofNode aNode;
         
         ofVec3f vec;
         ofVec3f startVec;
         ofVec3f endVec;
         
-        vec.x = logoVertexArray[j][0] / 100;
-        vec.y = logoVertexArray[j][1] / 100;
-        vec.z = logoVertexArray[j][2] / 100;
+        vec.x = logoVertexArray[ j ][ 0 ] / 100;
+        vec.y = logoVertexArray[ j ][ 1 ] / 100;
+        vec.z = logoVertexArray[ j ][ 2 ] / 100;
         
         ofVec3f orientation;
        
@@ -151,12 +146,12 @@ void ofUnibaLogoA::setup(){
             ParticleNode2 nodeObject;
             nodeObject.mID = j - 1;
             nodeObject.colorPatternIndex = currentColorIndex;
-            endVec.x = logoVertexArray[j][0] / 100;
-            endVec.y = logoVertexArray[j][1] / 100;
-            endVec.z = logoVertexArray[j][2] / 100;
-            startVec.x = logoVertexArray[j - 1][0] / 100;
-            startVec.y = logoVertexArray[j - 1][1] / 100;
-            startVec.z = logoVertexArray[j - 1][2] / 100;
+            endVec.x = logoVertexArray[ j ][ 0 ] / 100;
+            endVec.y = logoVertexArray[ j ][ 1 ] / 100;
+            endVec.z = logoVertexArray[ j ][ 2 ] / 100;
+            startVec.x = logoVertexArray[ j - 1 ][ 0 ] / 100;
+            startVec.y = logoVertexArray[ j - 1 ][ 1 ] / 100;
+            startVec.z = logoVertexArray[ j - 1 ][ 2 ] / 100;
             nodeObject.startPoint = startVec;
             nodeObject.endPoint = endVec;
             logoBillbordNode.push_back( nodeObject );
@@ -167,43 +162,43 @@ void ofUnibaLogoA::setup(){
         logoLineNode.push_back( aNode );
     }
 //------------ camera setting --------------
-    camera.setPosition( 0 ,0 ,10.0f );
+    camera.setPosition( 0, 0, 10.0f );
     
     nextCamPos.x,nextCamPos.y,nextCamPos.z = 0;
     curCamPos.x,curCamPos.y,curCamPos.z = 0;
     friction = 0.03;
-    spring =0.05;
+    spring = 0.05;
     
 //------------ backgroundImage --------------
-    gradientMask.allocate(ofGetWindowWidth(), ofGetWindowHeight(), OF_IMAGE_COLOR_ALPHA);
-    gradientMask.loadImage("bg_mask.png");
+    gradientMask.allocate( ofGetWindowWidth(), ofGetWindowHeight(), OF_IMAGE_COLOR_ALPHA );
+    gradientMask.loadImage( "bg_mask.png" );
 
 
 //------------ Syphone Server ---------------
-    mainOutputSyphonServer.setName("Screen Output");
+    mainOutputSyphonServer.setName( "Screen Output" );
 
     
 //------------ UI Settings--- ---------------
     vector<string> names; 
-	names.push_back("RAD1");
-	names.push_back("RAD2");
-	names.push_back("RAD3");
+	names.push_back( "RAD1" );
+	names.push_back( "RAD2" );
+	names.push_back( "RAD3" );
     gui = new ofxUICanvas( 0, 0 , 380, 800 );
-    gui->addWidgetDown(new ofxUILabel("UNIBA MOTION LOGO v0.0.1", OFX_UI_FONT_LARGE)); 
+    gui->addWidgetDown( new ofxUILabel("UNIBA MOTION LOGO v0.0.1", OFX_UI_FONT_LARGE) ); 
     
-    gui->addWidgetDown(new ofxUISlider(304,16,0.0,255.0,100.0,"BACKGROUND VALUE")); 
-    gui->addWidgetDown(new ofxUISlider(304,16,0.0,255.0,100.0,"BACKGROUND VALUE")); 
-    gui->addWidgetDown(new ofxUISlider(304,16,0.0,255.0,100.0,"BACKGROUND VALUE")); 
+    gui->addWidgetDown( new ofxUISlider(304,16,0.0,255.0,100.0,"BACKGROUND VALUE") ); 
+    gui->addWidgetDown( new ofxUISlider(304,16,0.0,255.0,100.0,"BACKGROUND VALUE") ); 
+    gui->addWidgetDown( new ofxUISlider(304,16,0.0,255.0,100.0,"BACKGROUND VALUE") ); 
     
-    gui->addWidgetDown(new ofxUIRadio( 16, 16, "RADIO HORIZONTAL", names, OFX_UI_ORIENTATION_HORIZONTAL));
-    gui->addWidgetDown(new ofxUIToggle( 16, 16, false, "D_GRID")); 
-    ofAddListener(gui->newGUIEvent, this, &ofUnibaLogoA::guiEvent); 
-    gui->loadSettings("GUI/guiSettings.xml"); 
+    gui->addWidgetDown( new ofxUIRadio( 16, 16, "RADIO HORIZONTAL", names, OFX_UI_ORIENTATION_HORIZONTAL) );
+    gui->addWidgetDown( new ofxUIToggle( 16, 16, false, "D_GRID") ); 
+    ofAddListener( gui -> newGUIEvent, this, &ofUnibaLogoA::guiEvent ); 
+    gui->loadSettings( "GUI/guiSettings.xml" ); 
 }
 
 //--------------------------------------------------------------
 void ofUnibaLogoA::update(){
-    for ( int i=0; i < lengthOfArray - 1; i++ ){
+    for ( int i = 0; i < lengthOfArray - 1; i++ ){
         logoBillbordNode[i].update();
     }
     
@@ -241,10 +236,10 @@ void ofUnibaLogoA::update(){
                 nextCamPos.y = ( ofRandom( 1 ) - 0.5 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
                 nextCamPos.z = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
                 friction = ofRandom( 0.3 ) + 0.14;
-                spring = 0.85 + ofRandom(0.24);
+                spring = 0.85 + ofRandom( 0.24 );
                 for( int i = 0; i < floor( ofRandom( 40 ) ); i++ ){
-                    int matterREctNum = floor(ofRandom(lengthOfArray));
-                    if( typeFacelLength >=20 ) logoBillbordNode[matterREctNum].startSpring = true;
+                    int matterREctNum = floor( ofRandom( lengthOfArray ) );
+                    if( typeFacelLength >= 20 ) logoBillbordNode[ matterREctNum ].startSpring = true;
                 }
             }
         } else {
@@ -255,7 +250,7 @@ void ofUnibaLogoA::update(){
             spring = 0.75 + ofRandom( 0.0125 );
             for ( int i = 0; i < floor( ofRandom( 40 ) ); i++ ){
                 int matterREctNum = floor( ofRandom( lengthOfArray ) );
-                if( typeFacelLength >= 20 ) logoBillbordNode[matterREctNum].startSpring = true;
+                if( typeFacelLength >= 20 ) logoBillbordNode[ matterREctNum ].startSpring = true;
             }
         }
     }
@@ -334,15 +329,6 @@ void ofUnibaLogoA::draw(){
         ofRotate(ofGetElapsedTimef() * 20, 0, 1, 0 );
         ofPushMatrix();
             ofTranslate( -4.0f, 2.0f, 0.0f ); // translate objects to center
-    //        ofPushMatrix();
-    //            light.setPosition(0, MAX_WORLD_CLIP, 0);
-    //            ofRotateX( 180 );
-    //            light.lookAt( ofVec3f( 400, 200, 0 ) );        
-    //            light.setAmbientColor( ofColor( 225, 225, 255 ) );
-    //            light.setSpecularColor( ofColor( 255, 255, 255 ) );
-    //            light.enable();
-    //        ofPopMatrix();
-            
             ofSetColor( 0, 0, 0,255 );
             ofSetLineWidth( 1.25f );
 
@@ -352,9 +338,9 @@ void ofUnibaLogoA::draw(){
                 ofSetColor( 0, 0, 0 );
                 for ( int i = 1; i < lengthOfArray; i++ ){
                     ofPushMatrix();
-                        float nextPosX =  logoLineNode[i - 1].getPosition().x - (logoLineNode[i - 1].getPosition().x- logoLineNode[i].getPosition().x) * (typeFacelLength * 0.05);
-                        float nextPosY =  logoLineNode[i - 1].getPosition().y - (logoLineNode[i - 1].getPosition().y- logoLineNode[i].getPosition().y) * (typeFacelLength * 0.05);
-                        ofLine( logoLineNode[i-1].getPosition().x, logoLineNode[i-1].getPosition().y, logoLineNode[i-1].getPosition().z,
+                        float nextPosX =  logoLineNode[ i - 1 ].getPosition().x - (logoLineNode[ i - 1 ].getPosition().x- logoLineNode[i].getPosition().x) * (typeFacelLength * 0.05);
+                        float nextPosY =  logoLineNode[ i - 1 ].getPosition().y - (logoLineNode[ i - 1 ].getPosition().y- logoLineNode[i].getPosition().y) * (typeFacelLength * 0.05);
+                        ofLine( logoLineNode[ i - 1 ].getPosition().x, logoLineNode[ i - 1 ].getPosition().y, logoLineNode[ i - 1 ].getPosition().z,
                                nextPosX, nextPosY , logoLineNode[i].getPosition().z );
                     ofPopMatrix();
                 }
@@ -426,7 +412,7 @@ void ofUnibaLogoA::keyPressed  (int key){
             float angle = ofRandom( 90 ) + ( 90 * i );
             float radius = ofGetWindowWidth() / sqrt(2.0);
             ofVec2f calVect = ofVec2f( radius / sqrt(2.0), radius / sqrt(2.0) );
-            calVect.rotate(angle);
+            calVect.rotate( angle );
             calVect += ofVec2f ( width / 2, height / 2 );
             dividePoint[i] = calVect;
             
@@ -500,9 +486,8 @@ void ofUnibaLogoA::exit() {
 
 //--------------------------------------------------------------
 void ofUnibaLogoA::guiEvent(ofxUIEventArgs &e) {
-    if(e.widget->getName() == "BACKGROUND VALUE")	
-    {
+    if( e.widget -> getName() == "BACKGROUND VALUE" ) {
         ofxUISlider *slider = (ofxUISlider *) e.widget;    
-        ofBackground(slider->getScaledValue());
+        ofBackground( slider -> getScaledValue() );
     } 
 }
