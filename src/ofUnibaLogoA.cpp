@@ -181,6 +181,24 @@ void ofUnibaLogoA::setup(){
 
 //------------ Syphone Server ---------------
     mainOutputSyphonServer.setName("Screen Output");
+
+    
+//------------ UI Settings--- ---------------
+    vector<string> names; 
+	names.push_back("RAD1");
+	names.push_back("RAD2");
+	names.push_back("RAD3");
+    gui = new ofxUICanvas( 0, 0 , 380, 800 );
+    gui->addWidgetDown(new ofxUILabel("UNIBA MOTION LOGO v0.0.1", OFX_UI_FONT_LARGE)); 
+    
+    gui->addWidgetDown(new ofxUISlider(304,16,0.0,255.0,100.0,"BACKGROUND VALUE")); 
+    gui->addWidgetDown(new ofxUISlider(304,16,0.0,255.0,100.0,"BACKGROUND VALUE")); 
+    gui->addWidgetDown(new ofxUISlider(304,16,0.0,255.0,100.0,"BACKGROUND VALUE")); 
+    
+    gui->addWidgetDown(new ofxUIRadio( 16, 16, "RADIO HORIZONTAL", names, OFX_UI_ORIENTATION_HORIZONTAL));
+    gui->addWidgetDown(new ofxUIToggle( 16, 16, false, "D_GRID")); 
+    ofAddListener(gui->newGUIEvent, this, &ofUnibaLogoA::guiEvent); 
+    gui->loadSettings("GUI/guiSettings.xml"); 
 }
 
 //--------------------------------------------------------------
@@ -364,6 +382,9 @@ void ofUnibaLogoA::draw(){
 //--------------------------------------------------------------
 void ofUnibaLogoA::keyPressed  (int key){
 
+    if( 'o' == key ){
+        gui -> toggleVisible();
+    }
     if( 'd' == key ){
         if( false == debugMode ){
             debugMode = true;
@@ -459,6 +480,7 @@ void ofUnibaLogoA::dragEvent(ofDragInfo dragInfo){
     
 }
 
+//--------------------------------------------------------------
 bool ofUnibaLogoA::calcIntersectionPoint(	const ofVec2f& pointA, const ofVec2f& pointB, const ofVec2f& pointC, const ofVec2f& pointD, ofVec2f& pointIntersection ) {
     double dR, dS;
 	double dBunbo	= ( pointB.x - pointA.x ) * ( pointD.y - pointC.y ) - ( pointB.y - pointA.y ) * ( pointD.x - pointC.x );
@@ -468,4 +490,19 @@ bool ofUnibaLogoA::calcIntersectionPoint(	const ofVec2f& pointA, const ofVec2f& 
 	dS = ( ( pointB.y - pointA.y ) * vectorAC.x - ( pointB.x - pointA.x ) * vectorAC.y ) / dBunbo;
 	pointIntersection = pointA + dR * ( pointB - pointA );
 	return true;
+}
+
+//--------------------------------------------------------------
+void ofUnibaLogoA::exit() {
+	gui -> saveSettings("GUI/guiSettings.xml");
+    delete gui;
+}
+
+//--------------------------------------------------------------
+void ofUnibaLogoA::guiEvent(ofxUIEventArgs &e) {
+    if(e.widget->getName() == "BACKGROUND VALUE")	
+    {
+        ofxUISlider *slider = (ofxUISlider *) e.widget;    
+        ofBackground(slider->getScaledValue());
+    } 
 }

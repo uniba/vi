@@ -10,6 +10,7 @@
 #include "ParticleNode2.h"
 #include "ofxSyphon.h"
 #include "UnibaLogoAppDefinition.h"
+#include "ofxUI.h"
 
 class ofUnibaLogoA : public ofSimpleApp{
     
@@ -28,6 +29,8 @@ public:
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     bool calcIntersectionPoint( const ofVec2f& pointA, const ofVec2f& pointB, const ofVec2f& pointC, const ofVec2f& pointD, ofVec2f& pointIntersection );
+    void exit(); 
+    void guiEvent(ofxUIEventArgs &e);
     
 private:
     int globalCounter;
@@ -51,6 +54,8 @@ private:
     ofVec3f nextCamPos;
     
     ofImage gradientMask; //backgroundImage
+
+    ofxUICanvas *gui; //UI object
     
     ofxSyphonServer mainOutputSyphonServer; //Syphone Server
 };
