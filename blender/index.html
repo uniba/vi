@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script src="js/Three.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+
+    var camera, scene, renderer, mesh, pointLight;
+    var cube;
+    
+	init();
+
+    function init() {
+	    var loader = new THREE.JSONLoader();
+	    loader.load("obj/unibalogo/unibalogo.js", createScene);
+    
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+        camera.position.z = 1000;
+        scene.add( camera );
+       	
+       	scene.add( new THREE.AmbientLight( 0x444444 ) );
+       	
+		pointLight = new THREE.PointLight( 0xffffff );
+		pointLight.position.x = 1000;
+		pointLight.position.y = 1000;
+		pointLight.position.z = 1000;
+		scene.add( pointLight );
+    
+        renderer = new THREE.WebGLRenderer( {
+        	//antialias: true
+        } );
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+        document.body.appendChild( renderer.domElement );
+    }
+       	
+    function animate() {
+        // note: three.js includes requestAnimationFrame shim
+        requestAnimationFrame( animate );
+        render();
+    }
+
+    function render() {
+        mesh.rotation.x += 0.01;
+        mesh.rotation.y += 0.02;
+		
+        renderer.render( scene, camera );
+    }
+    
+    function createScene(geometry) {
+	    
+		for (var i=0; i < geometry.materials.length; i++) {
+			geometry.materials[i].shading = THREE.SmoothShading;
+			geometry.materials[i].morphTargets = true;
+		};
+		
+		//mesh　マテリアルの生成
+		var material = new THREE.MeshFaceMaterial();
+		
+		//meshの生成
+		mesh = new THREE.Mesh(geometry, material);
+		mesh.position.x = 0;
+		mesh.position.y = 0;
+		mesh.scale.x = mesh.scale.y = mesh.scale.z = 250;
+		
+		//meshをシーンに追加
+		scene.add(mesh);
+		console.log('material',material);
+		console.log('mesh',mesh);
+	    	    
+	    animate();
+	}
+	
+</script>
+</body>
+</html>
