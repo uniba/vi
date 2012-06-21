@@ -29,6 +29,7 @@ public:
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     bool calcIntersectionPoint( const ofVec2f& pointA, const ofVec2f& pointB, const ofVec2f& pointC, const ofVec2f& pointD, ofVec2f& pointIntersection );
+    void changeColorVariation();
     void exit(); 
     void guiEvent(ofxUIEventArgs &e);
     

@@ -10,11 +10,15 @@
 #include "ofUnibaLogoA.h"
 
 #define MAX_WORLD_CLIP 7
+string gradientBackgoundImage = "bg_mask.png";
+string syphoneServerName = "Uniba Motion Logo Screen Output";
+string uiSettingFilePath = "GUI/guiSettings.xml";
+
 int lengthOfArray = 0;
 bool debugMode = false;
-bool isFullscreen = false;
 float typeFacelLength;
 bool isParallel = false;
+bool isAnimationAuto = true;
 
 static float logoVertexArray[][3] =
 {     //2D UNIBA LOGO TYPO
@@ -171,29 +175,23 @@ void ofUnibaLogoA::setup(){
     
 //------------ backgroundImage --------------
     gradientMask.allocate( ofGetWindowWidth(), ofGetWindowHeight(), OF_IMAGE_COLOR_ALPHA );
-    gradientMask.loadImage( "bg_mask.png" );
+    gradientMask.loadImage( gradientBackgoundImage );
 
 
 //------------ Syphone Server ---------------
-    mainOutputSyphonServer.setName( "Screen Output" );
+    mainOutputSyphonServer.setName( syphoneServerName );
 
     
 //------------ UI Settings--- ---------------
-    vector<string> names; 
-	names.push_back( "RAD1" );
-	names.push_back( "RAD2" );
-	names.push_back( "RAD3" );
     gui = new ofxUICanvas( 0, 0 , 380, 800 );
     gui->addWidgetDown( new ofxUILabel("UNIBA MOTION LOGO v0.0.1", OFX_UI_FONT_LARGE) ); 
     
-    gui->addWidgetDown( new ofxUISlider(304,16,0.0,255.0,100.0,"BACKGROUND VALUE") ); 
-    gui->addWidgetDown( new ofxUISlider(304,16,0.0,255.0,100.0,"BACKGROUND VALUE") ); 
-    gui->addWidgetDown( new ofxUISlider(304,16,0.0,255.0,100.0,"BACKGROUND VALUE") ); 
-    
-    gui->addWidgetDown( new ofxUIRadio( 16, 16, "RADIO HORIZONTAL", names, OFX_UI_ORIENTATION_HORIZONTAL) );
-    gui->addWidgetDown( new ofxUIToggle( 16, 16, false, "D_GRID") ); 
+    gui->addWidgetDown( new ofxUISlider(304,16,0.0,255.0,100.0,"HUE") ); 
+    gui->addWidgetDown( new ofxUIButton( 20, 20, false, "CHANEGE COLOR VARIATION") );
+    gui->addWidgetDown( new ofxUIToggle( 20, 20, false, "ANIMATION AUTO") );
+    gui->addWidgetDown( new ofxUIToggle( 20, 20, false, "FULL SCREEN") );
     ofAddListener( gui -> newGUIEvent, this, &ofUnibaLogoA::guiEvent ); 
-    gui->loadSettings( "GUI/guiSettings.xml" ); 
+    gui->loadSettings( uiSettingFilePath ); 
 }
 
 //--------------------------------------------------------------
@@ -256,8 +254,9 @@ void ofUnibaLogoA::update(){
     }
     
     isParallel = calcIntersectionPoint( dividePoint[0], dividePoint[2], dividePoint[1], dividePoint[3], divideCrossPoint );
-
-    globalCounter++;
+    if ( isAnimationAuto ){
+        globalCounter++;
+    }
     typeFacelLength += 0.15;
     if( typeFacelLength > 20){
         typeFacelLength = 20;
@@ -326,7 +325,9 @@ void ofUnibaLogoA::draw(){
     ofSetColor( 255, 255, 255, 255 );
     camera.begin();
         camera.lookAt( ofVec3f( 0, 0, 0 ) );
-        ofRotate(ofGetElapsedTimef() * 20, 0, 1, 0 );
+        if ( isAnimationAuto ){
+            ofRotate(ofGetElapsedTimef() * 20, 0, 1, 0 );
+        }
         ofPushMatrix();
             ofTranslate( -4.0f, 2.0f, 0.0f ); // translate objects to center
             ofSetColor( 0, 0, 0,255 );
@@ -378,16 +379,6 @@ void ofUnibaLogoA::keyPressed  (int key){
             debugMode = false;
         }
     }
-    if( 'f' == key ){ //full screen
-        if( !isFullscreen ){
-            ofSetFullscreen(true);
-            isFullscreen = true;
-        } else {
-            ofSetFullscreen(false);
-            isFullscreen = false;
-        }
-    }
-    
     if(key == 'g'){
         nextCamPos.x = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP;
         nextCamPos.y = ( ofRandom( 1 ) ) * MAX_WORLD_CLIP;
@@ -401,35 +392,6 @@ void ofUnibaLogoA::keyPressed  (int key){
         nextCamPos.z = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP;
         friction = ofRandom( 0.0125 );
         spring = 0.75+ ofRandom( 0.0125 );
-    }
-    
-    if(key == 'x'){
-        int width = ofGetWindowWidth();
-        int height = ofGetWindowHeight();
-        currentColorIndex = floor(ofRandom( 6 )) ;
-
-        for ( int i = 0; i < 4; i++ ){
-            float angle = ofRandom( 90 ) + ( 90 * i );
-            float radius = ofGetWindowWidth() / sqrt(2.0);
-            ofVec2f calVect = ofVec2f( radius / sqrt(2.0), radius / sqrt(2.0) );
-            calVect.rotate( angle );
-            calVect += ofVec2f ( width / 2, height / 2 );
-            dividePoint[i] = calVect;
-            
-            int colorMatterFordivider = ofRandom( 4 ) ;
-            divideRectColors[i] = colorPristArray[ currentColorIndex ][ colorMatterFordivider ];
-        }
-        isParallel = calcIntersectionPoint( dividePoint[0], dividePoint[2], dividePoint[1], dividePoint[3], divideCrossPoint );
-        
-        for ( int i = 0; i< lengthOfArray; i++ ){
-            logoBillbordNode[i].startSpring  = false;
-            logoBillbordNode[i].count = 0;
-            logoBillbordNode[i].rectWidth = 0;
-            typeFacelLength = 0;
-            logoBillbordNode[i].colorPatternIndex = currentColorIndex;
-            logoBillbordNode[i].isChangeColors = true;
-            
-        }
     }
 
 }
@@ -478,9 +440,42 @@ bool ofUnibaLogoA::calcIntersectionPoint(	const ofVec2f& pointA, const ofVec2f& 
 	return true;
 }
 
+void ofUnibaLogoA::changeColorVariation () {
+    int width = ofGetWindowWidth();
+    int height = ofGetWindowHeight();
+    currentColorIndex = floor(ofRandom( 6 )) ;
+    
+    for ( int i = 0; i < 4; i++ ){
+        float angle = ofRandom( 90 ) + ( 90 * i );
+        float radius = ofGetWindowWidth() / sqrt(2.0);
+        ofVec2f calVect = ofVec2f( radius / sqrt(2.0), radius / sqrt(2.0) );
+        calVect.rotate( angle );
+        calVect += ofVec2f ( width / 2, height / 2 );
+        dividePoint[i] = calVect;
+        
+        int colorMatterFordivider = ofRandom( 4 ) ;
+        divideRectColors[i] = colorPristArray[ currentColorIndex ][ colorMatterFordivider ];
+    }
+    isParallel = calcIntersectionPoint( dividePoint[0], dividePoint[2], dividePoint[1], dividePoint[3], divideCrossPoint );
+    
+    for ( int i = 0; i< lengthOfArray; i++ ){
+        logoBillbordNode[i].startSpring  = false;
+        logoBillbordNode[i].count = 0;
+        logoBillbordNode[i].rectWidth = 0;
+        typeFacelLength = 0;
+        logoBillbordNode[i].colorPatternIndex = currentColorIndex;
+        logoBillbordNode[i].isChangeColors = true;
+        
+    }
+}
+
 //--------------------------------------------------------------
 void ofUnibaLogoA::exit() {
-	gui -> saveSettings("GUI/guiSettings.xml");
+    ofxUIToggle *toggleAnimation =  (ofxUIToggle *)( gui -> getWidget( "ANIMATION AUTO" ) );
+    toggleAnimation -> setValue( true );
+    ofxUIToggle *toggleFullscreen =  (ofxUIToggle *)( gui -> getWidget( "FULL SCREEN" ) );
+    toggleFullscreen -> setValue( false );
+	gui -> saveSettings( uiSettingFilePath );
     delete gui;
 }
 
@@ -489,5 +484,16 @@ void ofUnibaLogoA::guiEvent(ofxUIEventArgs &e) {
     if( e.widget -> getName() == "BACKGROUND VALUE" ) {
         ofxUISlider *slider = (ofxUISlider *) e.widget;    
         ofBackground( slider -> getScaledValue() );
-    } 
+    } else if ( e.widget -> getName() == "CHANEGE COLOR VARIATION" ) {
+        ofxUIButton *button = (ofxUIButton *) e.widget;
+        if( button -> getValue() ){
+            changeColorVariation();
+        }
+    } else if ( e.widget -> getName() == "ANIMATION AUTO" ) {
+        ofxUIToggle *toggle = (ofxUIToggle *) e.widget;    
+        isAnimationAuto =  toggle -> getValue();
+    } else if ( e.widget -> getName() == "FULL SCREEN" ) {
+        ofxUIToggle *toggle = (ofxUIToggle *) e.widget;    
+        ofSetFullscreen( toggle -> getValue() );
+    }
 }
