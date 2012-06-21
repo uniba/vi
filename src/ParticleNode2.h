@@ -24,11 +24,19 @@ private:
         return ofRandom( 4 );
     };
     
+    bool isBlack( ofColor color ){
+        if( color.r == 0 && color.g == 0 && color.g == 0){
+            return true;
+        }
+        return false;
+    }
+    
 public:
     int mID;
     float count;
     bool startSpring;
     bool isChangeColors;
+    bool isChangeHue;
     float rectWidth;
     ofVec3f lineStartPos;
     ofVec3f startPoint;
@@ -36,6 +44,7 @@ public:
     float powX,powY,powZ;
     float vel;
     float alpha;
+    float hue;
     int colorPatternIndex;
     
     ofVec3f getNormal(ofVec3f vec0, ofVec3f vec1, ofVec3f vec2){
@@ -48,6 +57,7 @@ public:
     ParticleNode2(){
         startSpring = false;
         isChangeColors = false;
+        hue = 0;
         spring = 0.85f;
         speed = 0.4f;
         friction = 0.55f;
@@ -121,6 +131,11 @@ public:
             isChangeColors = false;
         }
         
+        if( isChangeHue ){
+            changeHue( hue );
+            isChangeHue = false;
+        }
+        
         count++;
     }
     
@@ -145,7 +160,7 @@ public:
             if( i%2 == 0 ){
                 newColor = colorPristArray[ colorIndex ][ colorMatter ];
             } else {
-                ofColor defuseCol = (colorPristArray[ colorIndex ][ colorMatter ]);
+                ofColor defuseCol = ( colorPristArray[ colorIndex ][ colorMatter ] );
                 if( defuseCol.getBrightness() < 127 ){
                     defuseCol.setBrightness( defuseCol.getBrightness() + 25);
                 } else {
@@ -154,6 +169,24 @@ public:
                 newColor = defuseCol;
             }
             rectFace.setColor(i, newColor);
+            colors[i] = newColor;
+        }
+    }
+    
+    void changeHue( float hueVal ) {
+        for( int i = 0; i < 4; i++ ){
+            ofColor currentColor = colors[i];
+            if( isBlack(currentColor) ){
+                currentColor = currentColor;
+            } else {
+                float currentHue = currentColor.getHue();
+                float newHue =  currentHue + hueVal ;
+                if( 255 < newHue )newHue = newHue - 256;
+                currentColor.setHue( newHue );
+            }
+            //if( 60 < currentColor.getBrightness() ){
+                rectFace.setColor(i, currentColor);
+            //}
         }
     }
 };

@@ -124,6 +124,7 @@ void ofUnibaLogoA::setup(){
         dividePoint[i] = calVect;
         int colorMatter = ofRandom( 4 );
         divideRectColors[i] = colorPristArray[ currentColorIndex ][ colorMatter ];
+        divideRectColorHues[i] = colorPristArray[ currentColorIndex ][ colorMatter ].getHue();
     }
     isParallel = calcIntersectionPoint( dividePoint[ 0 ], dividePoint[ 2 ], dividePoint[ 1 ], dividePoint[ 3 ], divideCrossPoint );
 #endif
@@ -162,7 +163,7 @@ void ofUnibaLogoA::setup(){
             logoBillbordNode[j-1].setup();
         }
         
-        aNode.setPosition( startVec );     
+        aNode.setPosition( vec );     
         logoLineNode.push_back( aNode );
     }
 //------------ camera setting --------------
@@ -183,15 +184,17 @@ void ofUnibaLogoA::setup(){
 
     
 //------------ UI Settings--- ---------------
-    gui = new ofxUICanvas( 0, 0 , 380, 800 );
+    gui = new ofxUICanvas( 0, 0 , 300, 800 );
     gui->addWidgetDown( new ofxUILabel("UNIBA MOTION LOGO v0.0.1", OFX_UI_FONT_LARGE) ); 
-    
-    gui->addWidgetDown( new ofxUISlider(304,16,0.0,255.0,100.0,"HUE") ); 
     gui->addWidgetDown( new ofxUIButton( 20, 20, false, "CHANEGE COLOR VARIATION") );
     gui->addWidgetDown( new ofxUIToggle( 20, 20, false, "ANIMATION AUTO") );
     gui->addWidgetDown( new ofxUIToggle( 20, 20, false, "FULL SCREEN") );
+    gui->addWidgetDown( new ofxUIRotarySlider( 100, 0, 255, 0, "HUE" ) ); 
     ofAddListener( gui -> newGUIEvent, this, &ofUnibaLogoA::guiEvent ); 
     gui->loadSettings( uiSettingFilePath ); 
+
+    //conce set color variation.
+    changeColorVariation();
 }
 
 //--------------------------------------------------------------
@@ -359,7 +362,6 @@ void ofUnibaLogoA::draw(){
             ofPopMatrix();
         ofPopMatrix();
     camera.end();
-    
     gradientMask.draw( 0, 0, ofGetWindowWidth(), ofGetWindowHeight() );
 
 //-------- distribute to Syphone server ------
@@ -455,6 +457,7 @@ void ofUnibaLogoA::changeColorVariation () {
         
         int colorMatterFordivider = ofRandom( 4 ) ;
         divideRectColors[i] = colorPristArray[ currentColorIndex ][ colorMatterFordivider ];
+        divideRectColorHues[i] = colorPristArray[ currentColorIndex ][ colorMatterFordivider ].getHue();
     }
     isParallel = calcIntersectionPoint( dividePoint[0], dividePoint[2], dividePoint[1], dividePoint[3], divideCrossPoint );
     
@@ -471,6 +474,8 @@ void ofUnibaLogoA::changeColorVariation () {
 
 //--------------------------------------------------------------
 void ofUnibaLogoA::exit() {
+    ofxUIRotarySlider *hueSlider =  (ofxUIRotarySlider *)( gui -> getWidget( "HUE" ) );
+    hueSlider -> setValue( 0 );
     ofxUIToggle *toggleAnimation =  (ofxUIToggle *)( gui -> getWidget( "ANIMATION AUTO" ) );
     toggleAnimation -> setValue( true );
     ofxUIToggle *toggleFullscreen =  (ofxUIToggle *)( gui -> getWidget( "FULL SCREEN" ) );
@@ -480,10 +485,23 @@ void ofUnibaLogoA::exit() {
 }
 
 //--------------------------------------------------------------
-void ofUnibaLogoA::guiEvent(ofxUIEventArgs &e) {
-    if( e.widget -> getName() == "BACKGROUND VALUE" ) {
-        ofxUISlider *slider = (ofxUISlider *) e.widget;    
-        ofBackground( slider -> getScaledValue() );
+void ofUnibaLogoA::guiEvent( ofxUIEventArgs &e ) {
+    if( e.widget -> getName() == "HUE" ) {
+        ofxUIRotarySlider *slider = (ofxUIRotarySlider *) e.widget;    
+        hue =  slider -> getScaledValue();
+        for( int i = 0; i < lengthOfArray; i++ ){
+            logoBillbordNode[i].hue = hue;
+            logoBillbordNode[i].isChangeHue = true;
+        }
+        for( int i = 0; i < 4; i++ ){
+            float currentHue = divideRectColorHues[i];
+            currentHue = currentHue + hue;
+            if( 255 < currentHue )currentHue = currentHue - 256;
+            if( 60 < divideRectColors[i].getBrightness() ){
+                divideRectColors[i].setHue( currentHue );
+            }
+        }
+        
     } else if ( e.widget -> getName() == "CHANEGE COLOR VARIATION" ) {
         ofxUIButton *button = (ofxUIButton *) e.widget;
         if( button -> getValue() ){

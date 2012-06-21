@@ -41,11 +41,13 @@ private:
     ofPolyline logoPolyArray;
     ofLight light;
     int currentColorIndex;
+    float hue;
     
 #ifdef LOGO_MODE_DIVIDED_BACKGROUND
     ofVec2f dividePoint[4];  //background divide vertexes
     ofVec2f divideCrossPoint;
     ofColor divideRectColors[4];
+    float divideRectColorHues[4];
 #endif
     
     float friction; //camera transtion
