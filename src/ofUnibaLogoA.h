@@ -8,7 +8,6 @@
 
 #include "ofMain.h"
 #include "ofxSyphon.h"
-#include "UnibaLogoAppDefinition.h"
 #include "ofxUI.h"
 #include "ofxUnibaLogo.h"
 
@@ -33,7 +32,7 @@ public:
     void guiEvent(ofxUIEventArgs &e);
     
 private:
-    ofxUnibaLogo unibaLogo;
+    ofxUnibaLogo unibaLogo; //ofxUnibaLogo object
     ofImage gradientMask; //backgroundImage
     ofxUICanvas *gui; //UI object
     ofxSyphonServer mainOutputSyphonServer; //Syphone Server

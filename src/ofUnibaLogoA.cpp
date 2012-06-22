@@ -6,16 +6,13 @@
 //  Copyright (c) 2012年 __Uniba Inc.__. All rights reserved.
 //
 
-#include "UnibaLogoAppDefinition.h"
 #include "ofUnibaLogoA.h"
-#include "ofxUnibaLogo.h"
 
 string gradientBackgoundImage = "bg_mask.png";
 string syphoneServerName = "Uniba Motion Logo Screen Output";
 string uiSettingFilePath = "GUI/guiSettings.xml";
 
 bool debugMode = false;
-bool isParallel = false;
 
 //--------------------------------------------------------------
 void ofUnibaLogoA::setup(){
@@ -25,7 +22,7 @@ void ofUnibaLogoA::setup(){
     ofSetFullscreen( false );
     ofSetFrameRate( 60 );
     
-//----------ofxUniba logo object-------------
+//----------ofxUnibaLogo object--------------
     unibaLogo.setup();
     
 //------------ backgroundImage --------------
@@ -50,7 +47,8 @@ void ofUnibaLogoA::setup(){
 }
 
 //--------------------------------------------------------------
-void ofUnibaLogoA::update(){    
+void ofUnibaLogoA::update(){
+//----------ofxUnibaLogo object--------------
     unibaLogo.update();
 }
 
@@ -71,8 +69,10 @@ void ofUnibaLogoA::draw(){
         ofDrawBitmapString( "Press \'f\' to fullscreen mode", 10, 80 );
     }
     
+//----------ofxUnibaLogo object-------------
     unibaLogo.draw();
-    
+
+//------------ backgroundImage --------------
     gradientMask.draw( 0, 0, ofGetWidth(), ofGetHeight() );
 
 //-------- distribute to Syphone server ------
@@ -92,21 +92,6 @@ void ofUnibaLogoA::keyPressed  (int key){
             debugMode = false;
         }
     }
-//    if(key == 'g'){
-//        unibaLogo.nextCamPos.x = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP;
-//        unibaLogo.nextCamPos.y = ( ofRandom( 1 ) ) * MAX_WORLD_CLIP;
-//        unibaLogo.nextCamPos.z = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP;
-//        unibaLogo.friction = ofRandom( 0.3 ) + 0.4;
-//        unibaLogo.spring = 0.85 + ofRandom( 0.24 );
-//    }
-//    if(key == 't'){
-//        unibaLogo.nextCamPos.x = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP;
-//        unibaLogo.nextCamPos.y = ( ofRandom( 1 ) ) * MAX_WORLD_CLIP;
-//        unibaLogo.nextCamPos.z = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP;
-//        unibaLogo.friction = ofRandom( 0.0125 );
-//        unibaLogo.spring = 0.75+ ofRandom( 0.0125 );
-//    }
-
 }
 
 //--------------------------------------------------------------
@@ -147,6 +132,7 @@ void ofUnibaLogoA::changeColorVariation () {
 
 //--------------------------------------------------------------
 void ofUnibaLogoA::exit() {
+//---------- UI events when colled application exit------
     ofxUIRotarySlider *hueSlider =  (ofxUIRotarySlider *)( gui -> getWidget( "HUE" ) );
     hueSlider -> setValue( 0 );
     ofxUIToggle *toggleAnimation =  (ofxUIToggle *)( gui -> getWidget( "ANIMATION AUTO" ) );
@@ -159,22 +145,11 @@ void ofUnibaLogoA::exit() {
 
 //--------------------------------------------------------------
 void ofUnibaLogoA::guiEvent( ofxUIEventArgs &e ) {
+//------------ UI Events-------------------
     if( e.widget -> getName() == "HUE" ) {
         ofxUIRotarySlider *slider = (ofxUIRotarySlider *) e.widget;    
-        unibaLogo.hue =  slider -> getScaledValue();
-//        for( int i = 0; i < unibaLogo.lengthOfArray; i++ ){
-//            unibaLogo.logoBillbordNode[i].hue = unibaLogo.hue;
-//            unibaLogo.logoBillbordNode[i].isChangeHue = true;
-//        }
-//        for( int i = 0; i < 4; i++ ){
-//            float currentHue = unibaLogo.divideRectColorHues[i];
-//            currentHue = currentHue + unibaLogo.hue;
-//            if( 255 < currentHue )currentHue = currentHue - 256;
-//            if( 60 < unibaLogo.divideRectColors[i].getBrightness() ){
-//                unibaLogo.divideRectColors[i].setHue( currentHue );
-//            }
-//        }
-        
+        float hue =  slider -> getScaledValue();
+        unibaLogo.setHue( hue );
     } else if ( e.widget -> getName() == "CHANEGE COLOR VARIATION" ) {
         ofxUIButton *button = (ofxUIButton *) e.widget;
         if( button -> getValue() ){

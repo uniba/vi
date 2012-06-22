@@ -136,6 +136,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B204821C1594853A0093E873 /* ofxUnibaLogoCamera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoCamera.h; sourceTree = "<group>"; };
 		B22A13481590820E006B25A3 /* Syphon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Syphon.framework; path = ofxSyphon/libs/Syphon/lib/osx/Syphon.framework; sourceTree = "<group>"; };
 		B23A8C67158AF6730055BDA8 /* install.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = install.xml; sourceTree = "<group>"; };
 		B23A8C6C158AF6730055BDA8 /* Syphon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Syphon.framework; sourceTree = "<group>"; };
@@ -191,14 +192,18 @@
 		B258D85C159166A20040E10F /* ofxUIWaveform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIWaveform.h; sourceTree = "<group>"; };
 		B258D85D159166A20040E10F /* ofxUIWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIWidget.h; sourceTree = "<group>"; };
 		B258D85E159166A20040E10F /* ofxUIWidgetWithLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIWidgetWithLabel.h; sourceTree = "<group>"; };
-		B27D6F3A1594181C00D86A21 /* ofxUnibaLogoAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxUnibaLogoAnimation.h; path = UnibaLogoCore/Animation/ofxUnibaLogoAnimation.h; sourceTree = "<group>"; };
-		B27D6F3B1594182C00D86A21 /* ofxUnibaLogoColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxUnibaLogoColor.h; path = UnibaLogoCore/Color/ofxUnibaLogoColor.h; sourceTree = "<group>"; };
-		B27D6F3C1594183C00D86A21 /* ofxUnibaLogoGeom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxUnibaLogoGeom.h; path = UnibaLogoCore/Geom/ofxUnibaLogoGeom.h; sourceTree = "<group>"; };
+		B27D6F3A1594181C00D86A21 /* ofxUnibaLogoAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoAnimation.h; sourceTree = "<group>"; };
+		B27D6F3B1594182C00D86A21 /* ofxUnibaLogoColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoColor.h; sourceTree = "<group>"; };
+		B27D6F3C1594183C00D86A21 /* ofxUnibaLogoGeom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoGeom.h; sourceTree = "<group>"; };
 		B27D6F3D1594198200D86A21 /* ofxUnibaLogo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogo.h; sourceTree = "<group>"; };
 		B28D2617158EBD6400396C80 /* UnibaMotionLogo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnibaMotionLogo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2B492BD157780C4003BE022 /* ofUnibaLogoA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofUnibaLogoA.cpp; sourceTree = "<group>"; };
 		B2B492BF1577820B003BE022 /* ofUnibaLogoA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofUnibaLogoA.h; sourceTree = "<group>"; };
-		B2B492C01577853D003BE022 /* ofxUnibaLogoTypo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxUnibaLogoTypo.h; path = UnibaLogoCore/Typo/ofxUnibaLogoTypo.h; sourceTree = "<group>"; };
+		B2B492C01577853D003BE022 /* ofxUnibaLogoTypo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoTypo.h; sourceTree = "<group>"; };
+		B2D5D5D2159464FD002084C1 /* ofxUnibaLogoTypoLine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoTypoLine.h; sourceTree = "<group>"; };
+		B2D5D5D3159465B4002084C1 /* ofxUnibaLogoTypoDepthRect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoTypoDepthRect.h; sourceTree = "<group>"; };
+		B2D5D5D515946828002084C1 /* ofxUnibaLogoBackgroundDivision.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoBackgroundDivision.h; sourceTree = "<group>"; };
+		B2D5D5D6159476A8002084C1 /* ofxUnibaLogoTypoDepthRectFaceElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoTypoDepthRectFaceElement.h; sourceTree = "<group>"; };
 		B2D6FE8A15527CA6008EB9F1 /* glew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glew.h; sourceTree = "<group>"; };
 		B2D6FE8B15527CA6008EB9F1 /* glxew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glxew.h; sourceTree = "<group>"; };
 		B2D6FE8C15527CA6008EB9F1 /* wglew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wglew.h; sourceTree = "<group>"; };
@@ -457,6 +462,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B204821B1594852A0093E873 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				B204821C1594853A0093E873 /* ofxUnibaLogoCamera.h */,
+			);
+			name = Camera;
+			sourceTree = "<group>";
+		};
 		B23A8C56158AF6730055BDA8 /* ofxSyphon */ = {
 			isa = PBXGroup;
 			children = (
@@ -726,16 +739,12 @@
 			path = src;
 			sourceTree = "<group>";
 		};
-		B27D6F35159415C600D86A21 /* Uniba Core Logo */ = {
+		B27D6F35159415C600D86A21 /* ofxUnibaLogo */ = {
 			isa = PBXGroup;
 			children = (
-				B27D6F3D1594198200D86A21 /* ofxUnibaLogo.h */,
-				B27D6F391594163A00D86A21 /* Typo */,
-				B27D6F381594160400D86A21 /* Animation */,
-				B27D6F37159415F600D86A21 /* Color */,
-				B27D6F36159415D800D86A21 /* Geom */,
+				B2D5D5D11594610B002084C1 /* src */,
 			);
-			name = "Uniba Core Logo";
+			path = ofxUnibaLogo;
 			sourceTree = "<group>";
 		};
 		B27D6F36159415D800D86A21 /* Geom */ = {
@@ -743,7 +752,7 @@
 			children = (
 				B27D6F3C1594183C00D86A21 /* ofxUnibaLogoGeom.h */,
 			);
-			name = Geom;
+			path = Geom;
 			sourceTree = "<group>";
 		};
 		B27D6F37159415F600D86A21 /* Color */ = {
@@ -751,7 +760,7 @@
 			children = (
 				B27D6F3B1594182C00D86A21 /* ofxUnibaLogoColor.h */,
 			);
-			name = Color;
+			path = Color;
 			sourceTree = "<group>";
 		};
 		B27D6F381594160400D86A21 /* Animation */ = {
@@ -759,15 +768,40 @@
 			children = (
 				B27D6F3A1594181C00D86A21 /* ofxUnibaLogoAnimation.h */,
 			);
-			name = Animation;
+			path = Animation;
 			sourceTree = "<group>";
 		};
 		B27D6F391594163A00D86A21 /* Typo */ = {
 			isa = PBXGroup;
 			children = (
 				B2B492C01577853D003BE022 /* ofxUnibaLogoTypo.h */,
+				B2D5D5D2159464FD002084C1 /* ofxUnibaLogoTypoLine.h */,
+				B2D5D5D3159465B4002084C1 /* ofxUnibaLogoTypoDepthRect.h */,
+				B2D5D5D6159476A8002084C1 /* ofxUnibaLogoTypoDepthRectFaceElement.h */,
 			);
-			name = Typo;
+			path = Typo;
+			sourceTree = "<group>";
+		};
+		B2D5D5D11594610B002084C1 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				B27D6F3D1594198200D86A21 /* ofxUnibaLogo.h */,
+				B204821B1594852A0093E873 /* Camera */,
+				B2D5D5D415946816002084C1 /* Background Division */,
+				B27D6F391594163A00D86A21 /* Typo */,
+				B27D6F381594160400D86A21 /* Animation */,
+				B27D6F37159415F600D86A21 /* Color */,
+				B27D6F36159415D800D86A21 /* Geom */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		B2D5D5D415946816002084C1 /* Background Division */ = {
+			isa = PBXGroup;
+			children = (
+				B2D5D5D515946828002084C1 /* ofxUnibaLogoBackgroundDivision.h */,
+			);
+			path = "Background Division";
 			sourceTree = "<group>";
 		};
 		B2D6FE8715527CA6008EB9F1 /* glew */ = {
@@ -1496,6 +1530,7 @@
 		BB4B018C10F6955C006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				B27D6F35159415C600D86A21 /* ofxUnibaLogo */,
 				B258D836159166A20040E10F /* ofxUI */,
 				B258D829159166980040E10F /* ofxXmlSettings */,
 				B23A8C56158AF6730055BDA8 /* ofxSyphon */,
@@ -1677,7 +1712,6 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				B27D6F35159415C600D86A21 /* Uniba Core Logo */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				B2B492BF1577820B003BE022 /* ofUnibaLogoA.h */,
 				B2B492BD157780C4003BE022 /* ofUnibaLogoA.cpp */,
