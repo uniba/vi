@@ -36,7 +36,7 @@ public:
             divideRectColors[i] = logoColor.colorPristArray[ currentColorIndex ][ colorMatter ];
             divideRectColorHues[i] = logoColor.colorPristArray[ currentColorIndex ][ colorMatter ].getHue();
         }
-        ofxUnibaLogoGeom::calcIntersectionPoint( dividePoint[ 0 ], dividePoint[ 2 ], dividePoint[ 1 ], dividePoint[ 3 ], divideCrossPoint );
+        calcIntersectionPoint();
     };
     
     void update( ofVec3f speed ) {
@@ -44,7 +44,7 @@ public:
             dividePoint[i].x += speed.x * 30;
             dividePoint[i].y += speed.y * 30;
         }
-        ofxUnibaLogoGeom::calcIntersectionPoint( dividePoint[0], dividePoint[2], dividePoint[1], dividePoint[3], divideCrossPoint );  
+        calcIntersectionPoint(); 
     };
     
     void draw() {
@@ -83,6 +83,10 @@ public:
         glEnable(GL_DEPTH_TEST);
     };
     
+    void calcIntersectionPoint(){
+        ofxUnibaLogoGeom::calcIntersectionPoint( dividePoint[0], dividePoint[2], dividePoint[1], dividePoint[3], divideCrossPoint ); 
+    }
+    
     void setHue( float hue ){
         for( int i = 0; i < 4; i++ ){
             float currentHue = divideRectColorHues[i];
@@ -111,7 +115,7 @@ public:
             divideRectColorHues[i] = logoColor.colorPristArray[ colorIndex ][ colorMatterFordivider ].getHue();
             
         }
-        ofxUnibaLogoGeom::calcIntersectionPoint( dividePoint[0], dividePoint[2], dividePoint[1], dividePoint[3], divideCrossPoint );
+        calcIntersectionPoint();
     };
 };
 

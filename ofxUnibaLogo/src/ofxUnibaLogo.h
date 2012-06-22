@@ -51,7 +51,6 @@ public:
         isAnimationAuto = true;
         
         camera.setup();
-        
         //--------- set color array ------------------
         currentColorIndex = floor( ofRandom(logoColor.length) - 1 );
         
@@ -63,17 +62,8 @@ public:
         //---------setup logo depth rect --------------
         logoTypoDepthRecct.setup( currentColorIndex );
         
-        //--------- object vertex setting ------------
-        for ( int j = 0; j < logoGeom.length; j++ ){
-            ofNode aNode;
-            ofVec3f vec;
-            vec.x = logoGeom.logoVertexArray[ j ][ 0 ] / 100;
-            vec.y = logoGeom.logoVertexArray[ j ][ 1 ] / 100;
-            vec.z = logoGeom.logoVertexArray[ j ][ 2 ] / 100;
-            aNode.setPosition( vec );
-            logoTypeLine.addNode( aNode );
-        }
-            
+        //---------setup logo TYPE--------------------
+        logoTypeLine.setup();
     };
     
     void update(){
@@ -138,6 +128,7 @@ public:
         logoTypoDepthRecct.changeColorVariation( currentColorIndex );
         
         typeFacelLength = 0;
+        logoTypoDepthRecct.typeFacelLength = 0;
     };
 };
 

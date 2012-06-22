@@ -16,6 +16,19 @@ private:
     ofxUnibaLogoGeom logoGeom;
     vector<ofNode> logoLineNode;
 public:
+    void setup() {
+        //--------- object vertex setting ------------
+        for ( int i = 0; i < logoGeom.length; i++ ){
+            ofNode aNode;
+            ofVec3f vec;
+            vec.x = logoGeom.logoVertexArray[ i ][ 0 ] / 100;
+            vec.y = logoGeom.logoVertexArray[ i ][ 1 ] / 100;
+            vec.z = logoGeom.logoVertexArray[ i ][ 2 ] / 100;
+            aNode.setPosition( vec );
+            logoLineNode.push_back( aNode );
+        };
+    };
+    
     void draw( float typeFacelLength ) {
         ofPushMatrix();
         ofRotateX( 180 );
@@ -31,9 +44,6 @@ public:
         ofPopMatrix();
     };
     
-    void addNode( ofNode aNode ){
-        logoLineNode.push_back( aNode );
-    }
 
 };
 

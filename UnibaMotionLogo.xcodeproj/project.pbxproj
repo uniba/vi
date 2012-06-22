@@ -136,7 +136,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		B204821C1594853A0093E873 /* ofxUnibaLogoCamera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoCamera.h; sourceTree = "<group>"; };
+		B204821C1594853A0093E873 /* ofxUnibaLogoCamera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxUnibaLogoCamera.h; path = Camera/ofxUnibaLogoCamera.h; sourceTree = "<group>"; };
 		B22A13481590820E006B25A3 /* Syphon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Syphon.framework; path = ofxSyphon/libs/Syphon/lib/osx/Syphon.framework; sourceTree = "<group>"; };
 		B23A8C67158AF6730055BDA8 /* install.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = install.xml; sourceTree = "<group>"; };
 		B23A8C6C158AF6730055BDA8 /* Syphon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Syphon.framework; sourceTree = "<group>"; };
