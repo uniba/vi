@@ -146,7 +146,6 @@
 		B23A8C72158AF6730055BDA8 /* ofxSyphonClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxSyphonClient.mm; sourceTree = "<group>"; };
 		B23A8C73158AF6730055BDA8 /* ofxSyphonServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSyphonServer.h; sourceTree = "<group>"; };
 		B23A8C74158AF6730055BDA8 /* ofxSyphonServer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxSyphonServer.mm; sourceTree = "<group>"; };
-		B23A8C79158AFA0C0055BDA8 /* UnibaLogoAppDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnibaLogoAppDefinition.h; sourceTree = "<group>"; };
 		B258D82B159166980040E10F /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml.cpp; sourceTree = "<group>"; };
 		B258D82C159166980040E10F /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
 		B258D82D159166980040E10F /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlerror.cpp; sourceTree = "<group>"; };
@@ -192,10 +191,14 @@
 		B258D85C159166A20040E10F /* ofxUIWaveform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIWaveform.h; sourceTree = "<group>"; };
 		B258D85D159166A20040E10F /* ofxUIWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIWidget.h; sourceTree = "<group>"; };
 		B258D85E159166A20040E10F /* ofxUIWidgetWithLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUIWidgetWithLabel.h; sourceTree = "<group>"; };
+		B27D6F3A1594181C00D86A21 /* ofxUnibaLogoAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxUnibaLogoAnimation.h; path = UnibaLogoCore/Animation/ofxUnibaLogoAnimation.h; sourceTree = "<group>"; };
+		B27D6F3B1594182C00D86A21 /* ofxUnibaLogoColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxUnibaLogoColor.h; path = UnibaLogoCore/Color/ofxUnibaLogoColor.h; sourceTree = "<group>"; };
+		B27D6F3C1594183C00D86A21 /* ofxUnibaLogoGeom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxUnibaLogoGeom.h; path = UnibaLogoCore/Geom/ofxUnibaLogoGeom.h; sourceTree = "<group>"; };
+		B27D6F3D1594198200D86A21 /* ofxUnibaLogo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogo.h; sourceTree = "<group>"; };
 		B28D2617158EBD6400396C80 /* UnibaMotionLogo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnibaMotionLogo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2B492BD157780C4003BE022 /* ofUnibaLogoA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofUnibaLogoA.cpp; sourceTree = "<group>"; };
 		B2B492BF1577820B003BE022 /* ofUnibaLogoA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofUnibaLogoA.h; sourceTree = "<group>"; };
-		B2B492C01577853D003BE022 /* ParticleNode2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticleNode2.h; sourceTree = "<group>"; };
+		B2B492C01577853D003BE022 /* ofxUnibaLogoTypo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxUnibaLogoTypo.h; path = UnibaLogoCore/Typo/ofxUnibaLogoTypo.h; sourceTree = "<group>"; };
 		B2D6FE8A15527CA6008EB9F1 /* glew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glew.h; sourceTree = "<group>"; };
 		B2D6FE8B15527CA6008EB9F1 /* glxew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glxew.h; sourceTree = "<group>"; };
 		B2D6FE8C15527CA6008EB9F1 /* wglew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wglew.h; sourceTree = "<group>"; };
@@ -721,6 +724,50 @@
 				B258D85E159166A20040E10F /* ofxUIWidgetWithLabel.h */,
 			);
 			path = src;
+			sourceTree = "<group>";
+		};
+		B27D6F35159415C600D86A21 /* Uniba Core Logo */ = {
+			isa = PBXGroup;
+			children = (
+				B27D6F3D1594198200D86A21 /* ofxUnibaLogo.h */,
+				B27D6F391594163A00D86A21 /* Typo */,
+				B27D6F381594160400D86A21 /* Animation */,
+				B27D6F37159415F600D86A21 /* Color */,
+				B27D6F36159415D800D86A21 /* Geom */,
+			);
+			name = "Uniba Core Logo";
+			sourceTree = "<group>";
+		};
+		B27D6F36159415D800D86A21 /* Geom */ = {
+			isa = PBXGroup;
+			children = (
+				B27D6F3C1594183C00D86A21 /* ofxUnibaLogoGeom.h */,
+			);
+			name = Geom;
+			sourceTree = "<group>";
+		};
+		B27D6F37159415F600D86A21 /* Color */ = {
+			isa = PBXGroup;
+			children = (
+				B27D6F3B1594182C00D86A21 /* ofxUnibaLogoColor.h */,
+			);
+			name = Color;
+			sourceTree = "<group>";
+		};
+		B27D6F381594160400D86A21 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				B27D6F3A1594181C00D86A21 /* ofxUnibaLogoAnimation.h */,
+			);
+			name = Animation;
+			sourceTree = "<group>";
+		};
+		B27D6F391594163A00D86A21 /* Typo */ = {
+			isa = PBXGroup;
+			children = (
+				B2B492C01577853D003BE022 /* ofxUnibaLogoTypo.h */,
+			);
+			name = Typo;
 			sourceTree = "<group>";
 		};
 		B2D6FE8715527CA6008EB9F1 /* glew */ = {
@@ -1630,11 +1677,10 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				B27D6F35159415C600D86A21 /* Uniba Core Logo */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				B2B492BF1577820B003BE022 /* ofUnibaLogoA.h */,
 				B2B492BD157780C4003BE022 /* ofUnibaLogoA.cpp */,
-				B2B492C01577853D003BE022 /* ParticleNode2.h */,
-				B23A8C79158AFA0C0055BDA8 /* UnibaLogoAppDefinition.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
