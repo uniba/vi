@@ -32,7 +32,11 @@ private:
     ofxUnibaLogoCamera camera;
     ofxUnibaLogoColor logoColor;
     ofxUnibaLogoBackgroundDivision lagoBackgroundDvision;
+<<<<<<< HEAD
     ofxUnibaLogoTypoLine logoTypoLine;
+=======
+    ofxUnibaLogoTypoLine logoTypeLine;
+>>>>>>> colorなどのリファクタリング
     ofxUnibaLogoTypoDepthRect logoTypoDepthRecct;
     
 public:
@@ -70,7 +74,17 @@ public:
     };
     
     void update(){
+<<<<<<< HEAD
         logoTypoLine.animationCounter = globalCounter;
+=======
+        
+<<<<<<< HEAD
+        logoTypoLine.typeFacelLength = typeFacelLength;
+=======
+        logoTypeLine.typeFacelLength = typeFacelLength;
+        
+>>>>>>> colorなどのリファクタリング
+>>>>>>> colorなどのリファクタリング
         logoTypoDepthRecct.update( globalCounter );
 
         //---------update background division------------
@@ -123,9 +137,17 @@ public:
                 ofSetLineWidth( 1.25f );
                 
                 //------------ draw logo type lines ----------
+<<<<<<< HEAD
                 if( drawLineType ){
                     logoTypoLine.draw();
                 }
+=======
+<<<<<<< HEAD
+                logoTypoLine.draw();
+=======
+                logoTypeLine.draw();
+>>>>>>> colorなどのリファクタリング
+>>>>>>> colorなどのリファクタリング
                 logoTypoDepthRecct.draw();
             
             ofPopMatrix();

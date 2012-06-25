@@ -20,7 +20,11 @@ private:
 
 public:
     void setup(){
+<<<<<<< HEAD
         ofxUnibaLogoTypo::setup();
+=======
+        typeFacelLength = 0;
+>>>>>>> colorなどのリファクタリング
         //--------- object vertex setting ------------
         for ( int j = 0; j < logoGeom.length; j++ ){
             ofVec3f startVec;
@@ -29,7 +33,15 @@ public:
                 nodeObject.mID = j - 1;
                 nodeObject.colorPatternIndex = currentColorIndex;
                 
+<<<<<<< HEAD
                 startVec = logoGeom.getStartPoint(j);
+=======
+<<<<<<< HEAD
+=======
+                endVec = logoGeom.endPoint(j);
+>>>>>>> colorなどのリファクタリング
+                startVec = logoGeom.startPoint(j);
+>>>>>>> colorなどのリファクタリング
                 
                 nodeObject.startPoint = startVec;
                 nodeObject.endPoint = endPoints[j];

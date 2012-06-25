@@ -14,6 +14,7 @@
 class ofxUnibaLogoTypo : public ofNode {
 
 public:
+<<<<<<< HEAD
     
     int currentColorIndex;
     float typeFacelLength;
@@ -28,6 +29,10 @@ public:
     }
     
     
+=======
+    int currentColorIndex;
+    float typeFacelLength;
+>>>>>>> colorなどのリファクタリング
 };
 
 #endif
