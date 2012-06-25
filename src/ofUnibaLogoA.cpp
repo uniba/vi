@@ -13,7 +13,6 @@ string syphoneServerName = "Uniba Motion Logo Screen Output";
 string uiSettingFilePath = "GUI/guiSettings.xml";
 
 bool debugMode = false;
-
 //--------------------------------------------------------------
 void ofUnibaLogoA::setup(){
     
@@ -39,11 +38,15 @@ void ofUnibaLogoA::setup(){
     gui->addWidgetDown( new ofxUIToggle( 20, 20, false, "ANIMATION AUTO") );
     gui->addWidgetDown( new ofxUIToggle( 20, 20, false, "FULL SCREEN") );
     gui->addWidgetDown( new ofxUIRotarySlider( 100, 0, 255, 0, "HUE" ) ); 
+    gui->addWidgetDown( new ofxUILabel( "press \'o\' to hide and show controller menu." ,OFX_UI_FONT_SMALL ) ); 
+    gui->addWidgetDown( new ofxUILabel( "press \'c\' to capture screen." ,OFX_UI_FONT_SMALL ) ); 
     ofAddListener( gui -> newGUIEvent, this, &ofUnibaLogoA::guiEvent ); 
     gui->loadSettings( uiSettingFilePath ); 
 
     //conce set color variation.
     changeColorVariation();
+    
+    grabbedImage.allocate( ofGetWidth(), ofGetHeight(), OF_IMAGE_COLOR_ALPHA );
 }
 
 //--------------------------------------------------------------
@@ -54,6 +57,7 @@ void ofUnibaLogoA::update(){
 
 //--------------------------------------------------------------
 void ofUnibaLogoA::draw(){
+    
     glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
@@ -70,11 +74,12 @@ void ofUnibaLogoA::draw(){
     }
     
 //----------ofxUnibaLogo object-------------
+    
     unibaLogo.draw();
 
 //------------ backgroundImage --------------
     gradientMask.draw( 0, 0, ofGetWidth(), ofGetHeight() );
-
+    
 //-------- distribute to Syphone server ------
     mainOutputSyphonServer.publishScreen();
 }
@@ -91,6 +96,11 @@ void ofUnibaLogoA::keyPressed  (int key){
         } else {
             debugMode = false;
         }
+    }
+    if( 'c' == key ){
+        grabbedImage.grabScreen( 0, 0, ofGetWidth(), ofGetHeight() );
+        
+        grabbedImage.saveImage("logo_cap_image_" + ofGetTimestampString("%m_%d_%H_%M_%S") + ".png" );
     }
 }
 

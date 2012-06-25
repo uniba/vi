@@ -36,4 +36,6 @@ private:
     ofImage gradientMask; //backgroundImage
     ofxUICanvas *gui; //UI object
     ofxSyphonServer mainOutputSyphonServer; //Syphone Server
+    
+    ofImage grabbedImage; //ofImage for screen capture
 };
