@@ -32,7 +32,7 @@ private:
     ofxUnibaLogoCamera camera;
     ofxUnibaLogoColor logoColor;
     ofxUnibaLogoBackgroundDivision lagoBackgroundDvision;
-    ofxUnibaLogoTypoLine logoTypeLine;
+    ofxUnibaLogoTypoLine logoTypoLine;
     ofxUnibaLogoTypoDepthRect logoTypoDepthRecct;
     
 public:
@@ -63,13 +63,13 @@ public:
         logoTypoDepthRecct.currentColorIndex = currentColorIndex;
         logoTypoDepthRecct.setup();
         
-        //---------setup logo TYPE--------------------
-        logoTypeLine.setup();
+        //---------setup logo TYPO--------------------
+        logoTypoLine.setup();
     };
     
     void update(){
         
-        logoTypeLine.typeFacelLength = typeFacelLength;
+        logoTypoLine.typeFacelLength = typeFacelLength;
         logoTypoDepthRecct.update( globalCounter );
 
         //---------update background division------------
@@ -109,7 +109,7 @@ public:
                 ofSetLineWidth( 1.25f );
                 
                 //------------ draw logo type lines ----------
-                logoTypeLine.draw();
+                logoTypoLine.draw();
                 logoTypoDepthRecct.draw();
             
             ofPopMatrix();
