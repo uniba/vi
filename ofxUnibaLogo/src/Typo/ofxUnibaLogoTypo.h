@@ -10,11 +10,24 @@
 #define UnibaMotionLogo_OFXUnibaLogoTypo_h
 #include "ofMain.h"
 #include "ofxUnibaLogoColor.h"
-
+#include "ofxUnibaLogoGeom.h"
 class ofxUnibaLogoTypo : public ofNode {
-    
-    
 
+public:
+    
+    int currentColorIndex;
+    float typeFacelLength;
+    vector<ofVec3f> endPoints;
+    ofxUnibaLogoGeom logoGeom;
+    
+    void setup(){
+        typeFacelLength = 0;
+        for ( int i = 0; i < logoGeom.length; i++ ){
+            endPoints.push_back( logoGeom.endPoint( i ) );
+        }
+    }
+    
+    
 };
 
 #endif

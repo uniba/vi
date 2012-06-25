@@ -35,18 +35,8 @@ public:
     ofVec3f lineStartPos;
     ofVec3f startPoint;
     ofVec3f endPoint;
-    float powX,powY,powZ;
-    float vel;
-    float alpha;
     float hue;
     int colorPatternIndex;
-    
-    ofVec3f getNormal(ofVec3f vec0, ofVec3f vec1, ofVec3f vec2){
-        ofVec3f firstVec = vec1 - vec0;
-        ofVec3f secondVec = vec2 - vec0;
-        ofVec3f crossedVec = firstVec.getCrossed(secondVec).getNormalized();
-        return crossedVec;
-    };
     
     ofxUnibaLogoTypoDepthRectFaceElement(){
         startSpring = false;
@@ -56,32 +46,23 @@ public:
         speed = 0.4f;
         friction = 0.55f;
         scale = 1.0f;
-        alpha = 255;
         rectWidth = 0.0f;
     };
     
     ~ofxUnibaLogoTypoDepthRectFaceElement(){
-        powX = ofRandom( -1, 1 );
-        powY = ofRandom( -1, 1 );
-        powZ = ofRandom( -1, 1 );
         
     };
     
     void setup() {
         for(int i = 0; i < 4; i++){
-            colors.push_back( logoColor.colorPristArray[ colorPatternIndex ][ i ] );
+            colors.push_back( logoColor.getColor( colorPatternIndex, i ) );
         }
-        ofVec3f normalForPoint = getNormal(startPoint,endPoint,endBoldNessPoint);
+        ofVec3f normalForPoint = ofxUnibaLogoGeom::getNormal( startPoint, endPoint, endBoldNessPoint );
         rectFace.setupIndicesAuto();
         rectFace.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
-        int colorMatter = colierRnadomMatter();
         
-        ofColor defuseCol = colors[ colorMatter ];
-        if( defuseCol.getBrightness() < 127 ){
-            defuseCol.setBrightness( defuseCol.getBrightness() + 25);
-        } else {
-            defuseCol.setBrightness( defuseCol.getBrightness() - 25);
-        }
+        int colorMatter = colierRnadomMatter();
+        ofColor defuseCol = logoColor.defuseCol(colorPatternIndex, colorMatter);
         
         rectFace.addVertex(startPoint);
         rectFace.addNormal(-normalForPoint);
@@ -103,10 +84,9 @@ public:
     };
     
     void update(){
-        vel = ofVec3f( powX ,powY ,powZ).length();
         if( count > 1 ){
-            ofVec3f startBoldNessPoint = ofVec3f( startPoint.x - rectWidth, startPoint.y + rectWidth*2, startPoint.z + sqrt(2)*rectWidth ); 
-            endBoldNessPoint = ofVec3f( endPoint.x - rectWidth, endPoint.y + rectWidth*2, endPoint.z + sqrt(2)*rectWidth); 
+            ofVec3f startBoldNessPoint = ofVec3f( startPoint.x - rectWidth, startPoint.y + rectWidth * 2, startPoint.z + sqrt( 2 ) * rectWidth ); 
+            endBoldNessPoint = ofVec3f( endPoint.x - rectWidth, endPoint.y + rectWidth * 2, endPoint.z + sqrt( 2 ) * rectWidth ); 
             rectFace.setVertex(2,startBoldNessPoint);
             rectFace.setVertex(3,endBoldNessPoint);
         }
@@ -140,20 +120,14 @@ public:
         }
     };
     
-    void resetColors(int colorIndex) {
+    void resetColors( int colorIndex ) {
         int colorMatter = colierRnadomMatter();
         ofColor newColor;
         for( int i = 0; i < 4; i++ ){
             if( i%2 == 0 ){
-                newColor = logoColor.colorPristArray[ colorIndex ][ colorMatter ];
+                newColor = logoColor.getColor( colorIndex, colorMatter );
             } else {
-                ofColor defuseCol = ( logoColor.colorPristArray[ colorIndex ][ colorMatter ] );
-                if( defuseCol.getBrightness() < 127 ){
-                    defuseCol.setBrightness( defuseCol.getBrightness() + 25);
-                } else {
-                    defuseCol.setBrightness( defuseCol.getBrightness() - 25);
-                }
-                newColor = defuseCol;
+                newColor = logoColor.defuseCol( colorIndex, colorMatter );
             }
             rectFace.setColor(i, newColor);
             colors[i] = newColor;
@@ -176,6 +150,7 @@ public:
             //}
         }
     };
+    
 };
 
 

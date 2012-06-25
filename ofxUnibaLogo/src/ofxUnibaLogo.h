@@ -31,8 +31,7 @@ class ofxUnibaLogo {
 private:
     ofxUnibaLogoCamera camera;
     ofxUnibaLogoColor logoColor;
-    ofxUnibaLogoGeom logoGeom;
-    ofxUnibaLogoBackgroundDivision lagoBackgrounddDvision;
+    ofxUnibaLogoBackgroundDivision lagoBackgroundDvision;
     ofxUnibaLogoTypoLine logoTypeLine;
     ofxUnibaLogoTypoDepthRect logoTypoDepthRecct;
     
@@ -55,23 +54,28 @@ public:
         currentColorIndex = floor( ofRandom(logoColor.length) - 1 );
         
         //---------set background division -----------
-        lagoBackgrounddDvision.setup( currentColorIndex );
+        lagoBackgroundDvision.currentColorIndex = currentColorIndex;
+        lagoBackgroundDvision.setup();
         
         int colorPatternIndexNum = floor( ofRandom( 7 ) - 1 );
         
         //---------setup logo depth rect --------------
-        logoTypoDepthRecct.setup( currentColorIndex );
+        logoTypoDepthRecct.currentColorIndex = currentColorIndex;
+        logoTypoDepthRecct.setup();
         
         //---------setup logo TYPE--------------------
         logoTypeLine.setup();
     };
     
     void update(){
+        
+        logoTypeLine.typeFacelLength = typeFacelLength;
         logoTypoDepthRecct.update( globalCounter );
-        
+
         //---------update background division------------
-        lagoBackgrounddDvision.update( camera.speed );
+        lagoBackgroundDvision.update( camera.speed );
         
+        //----------------update camera------------------
         camera.update( globalCounter );
         
         typeFacelLength += 0.15;
@@ -90,7 +94,7 @@ public:
     
     void draw(){
         //--------draw background division-----------
-        lagoBackgrounddDvision.draw();
+        lagoBackgroundDvision.draw();
         
         //------- begin camera & draw 3D space -------
         ofSetColor( 255, 255, 255, 255 );
@@ -105,7 +109,7 @@ public:
                 ofSetLineWidth( 1.25f );
                 
                 //------------ draw logo type lines ----------
-                logoTypeLine.draw( typeFacelLength );
+                logoTypeLine.draw();
                 logoTypoDepthRecct.draw();
             
             ofPopMatrix();
@@ -114,7 +118,7 @@ public:
     
     void setHue( float hue ){
         //-----set hue of background division---------
-        lagoBackgrounddDvision.setHue( hue );
+        lagoBackgroundDvision.setHue( hue );
         logoTypoDepthRecct.setHue( hue );
     };
     
@@ -124,7 +128,7 @@ public:
         currentColorIndex = floor(ofRandom( 6 )) ;
         
         //-----change colorvariation of background division----
-        lagoBackgrounddDvision.changeColorVariation( currentColorIndex );
+        lagoBackgroundDvision.changeColorVariation( currentColorIndex );
         logoTypoDepthRecct.changeColorVariation( currentColorIndex );
         
         typeFacelLength = 0;

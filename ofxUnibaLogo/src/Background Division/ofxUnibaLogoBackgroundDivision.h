@@ -23,7 +23,8 @@ private:
     ofxUnibaLogoColor logoColor;
 
 public:
-    void setup( int currentColorIndex ) {
+    int currentColorIndex;
+    void setup() {
         //caliculate background divider
         for ( int i = 0; i < 4; i++ ){
             float angle = ofRandom( 90 ) + ( 90 * i );
@@ -33,14 +34,14 @@ public:
             calVect += ofVec2f ( ofGetWidth() / 2, ofGetHeight() / 2 );
             dividePoint[i] = calVect;
             int colorMatter = ofRandom( 4 );
-            divideRectColors[i] = logoColor.colorPristArray[ currentColorIndex ][ colorMatter ];
-            divideRectColorHues[i] = logoColor.colorPristArray[ currentColorIndex ][ colorMatter ].getHue();
+            divideRectColors[i] = logoColor.getColor( currentColorIndex , colorMatter );
+            divideRectColorHues[i] = logoColor.getHueOfColor( currentColorIndex, colorMatter );
         }
         calcIntersectionPoint();
     };
     
     void update( ofVec3f speed ) {
-        for( int i = 0; i< 4; i++ ){
+        for( int i = 0; i < 4; i++ ){
             dividePoint[i].x += speed.x * 30;
             dividePoint[i].y += speed.y * 30;
         }
@@ -105,14 +106,15 @@ public:
         for ( int i = 0; i < 4; i++ ){
             
             float angle = ofRandom( 90 ) + ( 90 * i );
-            float radius = ofGetWidth() / sqrt(2.0) * 3;
-            ofVec2f calVect = ofVec2f( radius / sqrt(2.0), radius / sqrt(2.0) );
+            float radius = ofGetWidth() / sqrt( 2.0 ) * 3;
+            ofVec2f calVect = ofVec2f( radius / sqrt( 2.0 ), radius / sqrt( 2.0 ) );
             calVect.rotate( angle );
             calVect += ofVec2f ( width / 2, height / 2 );
             dividePoint[i] = calVect;
             int colorMatterFordivider = ofRandom( 4 ) ;
-            divideRectColors[i] = logoColor.colorPristArray[ colorIndex ][ colorMatterFordivider ];
-            divideRectColorHues[i] = logoColor.colorPristArray[ colorIndex ][ colorMatterFordivider ].getHue();
+            
+            divideRectColors[i] = logoColor.getColor( colorIndex , colorMatterFordivider );
+            divideRectColorHues[i] = logoColor.getHueOfColor( colorIndex, colorMatterFordivider );
             
         }
         calcIntersectionPoint();

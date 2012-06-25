@@ -10,7 +10,6 @@
 #define UnibaMotionLogo_ofxUnibaLogoTypoDepthRect_h
 #include "ofxUnibaLogoTypo.h"
 #include "ofxUnibaLogoGeom.h"
-#include "ofxUnibaLogoColor.h"
 #include "ofxUnibaLogoTypoDepthRectFaceElement.h"
 
 class ofxUnibaLogoTypoDepthRect : public virtual ofxUnibaLogoTypo {
@@ -20,28 +19,22 @@ private:
     vector<ofxUnibaLogoTypoDepthRectFaceElement> logoBillbordNode;
 
 public:
-    float typeFacelLength;
-    int currentColorIndex;
-    void setup( int currentColorIndex ){
-        typeFacelLength = 0;
+    void setup(){
+        ofxUnibaLogoTypo::setup();
         //--------- object vertex setting ------------
         for ( int j = 0; j < logoGeom.length; j++ ){
             ofVec3f startVec;
-            ofVec3f endVec;
             if( 1 <= j ){
                 ofxUnibaLogoTypoDepthRectFaceElement nodeObject;
                 nodeObject.mID = j - 1;
                 nodeObject.colorPatternIndex = currentColorIndex;
-                endVec.x = logoGeom.logoVertexArray[ j ][ 0 ] / 100;
-                endVec.y = logoGeom.logoVertexArray[ j ][ 1 ] / 100;
-                endVec.z = logoGeom.logoVertexArray[ j ][ 2 ] / 100;
-                startVec.x = logoGeom.logoVertexArray[ j - 1 ][ 0 ] / 100;
-                startVec.y = logoGeom.logoVertexArray[ j - 1 ][ 1 ] / 100;
-                startVec.z = logoGeom.logoVertexArray[ j - 1 ][ 2 ] / 100;
+                
+                startVec = logoGeom.startPoint(j);
+                
                 nodeObject.startPoint = startVec;
-                nodeObject.endPoint = endVec;
+                nodeObject.endPoint = endPoints[j];
                 logoBillbordNode.push_back( nodeObject );
-                logoBillbordNode[j-1].setup();
+                logoBillbordNode[ j - 1 ].setup();
             }
         }
     };
@@ -68,10 +61,10 @@ public:
         }
         
         typeFacelLength += 0.15;
-        if( typeFacelLength > 20){
+        if( typeFacelLength > 20 ){
             typeFacelLength = 20;
         }
-    }
+    };
     
     void draw() {
         //------ draw logo lines width rectangle -----
@@ -84,16 +77,17 @@ public:
             ofPopMatrix();
         }
         ofPopMatrix();
-    }
+    };
     
     void setHue( float hue ){
         for( int i = 0; i < logoGeom.length; i++ ){
             logoBillbordNode[i].hue = hue;
             logoBillbordNode[i].isChangeHue = true;
         }
-    }
+    };
     
     void changeColorVariation( int currentColorIndex ){
+        typeFacelLength = 0;
         for ( int i = 0; i< logoGeom.length; i++ ){
             logoBillbordNode[i].startSpring  = false;
             logoBillbordNode[i].count = 0;

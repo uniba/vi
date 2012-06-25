@@ -79,6 +79,24 @@ public:
         memcpy(colorPristArray, refColors, sizeof refColors);
         length = sizeof( refColors ) / sizeof( ofColor[ 4 ] );
     }
+    
+    ofColor defuseCol( int colorIndex, int colorMatter ){
+        ofColor color = colorPristArray[ colorIndex ][ colorMatter ] ;
+        if( color.getBrightness() < 127 ){
+            color.setBrightness( color.getBrightness() + 25);
+        } else {
+            color.setBrightness( color.getBrightness() - 25);
+        }
+        return color;
+    };
+    
+    ofColor getColor( int colorIndex, int colorMatterFordivider ){
+        return colorPristArray[ colorIndex ][ colorMatterFordivider ];
+    };
+    
+    float getHueOfColor( int colorIndex, int colorMatterFordivider ){
+        return colorPristArray[ colorIndex ][ colorMatterFordivider ].getHue();
+    };
 };
 
 #endif

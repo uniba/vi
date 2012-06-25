@@ -9,6 +9,8 @@
 #ifndef UnibaMotionLogo_OFXUnibaLogoGeom_h
 #define UnibaMotionLogo_OFXUnibaLogoGeom_h
 
+#define LOGO_NORMAL_SCALE 0.01
+
 class ofxUnibaLogoGeom {
 
 public:
@@ -25,6 +27,13 @@ public:
         dS = ( ( pointB.y - pointA.y ) * vectorAC.x - ( pointB.x - pointA.x ) * vectorAC.y ) / dBunbo;
         pointIntersection = pointA + dR * ( pointB - pointA );
         return true;
+    };
+    
+    static ofVec3f getNormal(ofVec3f vec0, ofVec3f vec1, ofVec3f vec2){
+        ofVec3f firstVec = vec1 - vec0;
+        ofVec3f secondVec = vec2 - vec0;
+        ofVec3f crossedVec = firstVec.getCrossed(secondVec).getNormalized();
+        return crossedVec;
     };
     
     // constructor
@@ -54,6 +63,24 @@ public:
         };
         memcpy(logoVertexArray, logoVertexRef, sizeof logoVertexRef);
         length = sizeof( logoVertexRef ) / sizeof( float[ 3 ] );
+    };
+    
+    ofVec3f endPoint( int index ) {
+        ofVec3f vec;
+        vec.x = logoVertexArray[ index ][ 0 ] * LOGO_NORMAL_SCALE;
+        vec.y = logoVertexArray[ index ][ 1 ] * LOGO_NORMAL_SCALE;
+        vec.z = logoVertexArray[ index ][ 2 ] * LOGO_NORMAL_SCALE;
+        return vec;
+    };
+    
+    ofVec3f startPoint( int index ) {
+        ofVec3f vec;
+        if( 0 < index ){
+            vec.x = logoVertexArray[ index - 1 ][ 0 ] * LOGO_NORMAL_SCALE;
+            vec.y = logoVertexArray[ index - 1 ][ 1 ] * LOGO_NORMAL_SCALE;
+            vec.z = logoVertexArray[ index - 1 ][ 2 ] * LOGO_NORMAL_SCALE;
+        }
+        return vec;
     };
 };
 #endif

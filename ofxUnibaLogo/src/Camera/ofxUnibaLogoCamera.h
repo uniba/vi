@@ -9,7 +9,6 @@
 #ifndef UnibaMotionLogo_ofxUnibaLogoCamera_h
 #define UnibaMotionLogo_ofxUnibaLogoCamera_h
 #include "ofMain.h"
-#include "ofxUnibaLogoGeom.h"
 #include "ofxUnibaLogoAnimation.h"
 
 class ofxUnibaLogoCamera : public virtual ofCamera {

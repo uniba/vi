@@ -17,28 +17,26 @@ private:
     vector<ofNode> logoLineNode;
 public:
     void setup() {
+        ofxUnibaLogoTypo::setup();
         //--------- object vertex setting ------------
         for ( int i = 0; i < logoGeom.length; i++ ){
             ofNode aNode;
-            ofVec3f vec;
-            vec.x = logoGeom.logoVertexArray[ i ][ 0 ] / 100;
-            vec.y = logoGeom.logoVertexArray[ i ][ 1 ] / 100;
-            vec.z = logoGeom.logoVertexArray[ i ][ 2 ] / 100;
-            aNode.setPosition( vec );
+            aNode.setPosition( endPoints[i] );
             logoLineNode.push_back( aNode );
         };
     };
     
-    void draw( float typeFacelLength ) {
+    void draw() {
         ofPushMatrix();
         ofRotateX( 180 );
         ofSetColor( 0, 0, 0 );
         for ( int i = 1; i < logoGeom.length; i++ ){
             ofPushMatrix();
-            float nextPosX =  logoLineNode[ i - 1 ].getPosition().x - (logoLineNode[ i - 1 ].getPosition().x- logoLineNode[i].getPosition().x) * (typeFacelLength * 0.05);
-            float nextPosY =  logoLineNode[ i - 1 ].getPosition().y - (logoLineNode[ i - 1 ].getPosition().y- logoLineNode[i].getPosition().y) * (typeFacelLength * 0.05);
-            ofLine( logoLineNode[ i - 1 ].getPosition().x, logoLineNode[ i - 1 ].getPosition().y, logoLineNode[ i - 1 ].getPosition().z,
-                   nextPosX, nextPosY , logoLineNode[i].getPosition().z );
+                ofVec3f currentPos = logoLineNode[i].getPosition();
+                ofVec3f nextPos = logoLineNode[ i - 1 ].getPosition();
+                float currentPosX =  nextPos.x - ( nextPos.x - currentPos.x ) * ( typeFacelLength * 0.05 );
+                float currentPosY =  nextPos.y - ( nextPos.y - currentPos.y ) * ( typeFacelLength * 0.05 );
+                ofLine( nextPos.x, nextPos.y, nextPos.z, currentPosX, currentPosY , currentPos.z );
             ofPopMatrix();
         }
         ofPopMatrix();
