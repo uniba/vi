@@ -115,8 +115,14 @@ public:
     void customDraw() {
         if( 5 == mID || 11 == mID || 13 == mID || 21 == mID ){
         } else {
-            glScalef(scale, scale, scale);
-            rectFace.drawFaces();
+#ifdef TARGET_OF_IPHONE
+            if( 20 < ofGetFrameNum() ){
+#endif
+                glScalef(scale, scale, scale);
+                rectFace.drawFaces();
+#ifdef TARGET_OF_IPHONE
+            }
+#endif
         }
     };
     

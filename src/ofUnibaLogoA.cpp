@@ -36,7 +36,7 @@ void ofUnibaLogoA::setup(){
     gui = new ofxUICanvas( 0, 0 , 300, 800 );
     gui->addWidgetDown( new ofxUILabel("UNIBA MOTION LOGO v0.0.1", OFX_UI_FONT_LARGE) ); 
     gui->addWidgetDown( new ofxUIButton( 20, 20, false, "CHANEGE COLOR VARIATION") );
-    gui->addWidgetDown( new ofxUIToggle( 20, 20, false, "ANIMATION AUTO") );
+    gui->addWidgetDown( new ofxUIToggle( 20, 20, true, "ANIMATION AUTO") );
     gui->addWidgetDown( new ofxUIToggle( 20, 20, false, "DRAW MASK GRADATION") );
     gui->addWidgetDown( new ofxUIToggle( 20, 20, false, "FULL SCREEN") );
     gui->addWidgetDown( new ofxUIRotarySlider( 100, 0, 255, 0, "HUE" ) ); 
@@ -83,8 +83,6 @@ void ofUnibaLogoA::draw(){
     if( drawGradation ){
         gradientMask.draw( 0, 0, ofGetWidth(), ofGetHeight() );
     }
-    
-    gui->draw();
     
 //-------- distribute to Syphone server ------
     mainOutputSyphonServer.publishScreen();
