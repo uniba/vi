@@ -84,6 +84,8 @@ void ofUnibaLogoA::draw(){
         gradientMask.draw( 0, 0, ofGetWidth(), ofGetHeight() );
     }
     
+    gui->draw();
+    
 //-------- distribute to Syphone server ------
     mainOutputSyphonServer.publishScreen();
 }
@@ -153,6 +155,8 @@ void ofUnibaLogoA::exit() {
     toggleAnimation -> setValue( true );
     ofxUIToggle *toggleFullscreen =  (ofxUIToggle *)( gui -> getWidget( "FULL SCREEN" ) );
     toggleFullscreen -> setValue( false );
+    ofxUIToggle *toggleMaskGradation =  (ofxUIToggle *)( gui -> getWidget( "DRAW MASK GRADATION" ) );
+    toggleMaskGradation -> setValue( true );
 	gui -> saveSettings( uiSettingFilePath );
     delete gui;
 }

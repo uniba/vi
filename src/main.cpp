@@ -15,4 +15,5 @@ int main( ){
     ofSetupOpenGL(&window, width,height, OF_WINDOW);
 	ofRunApp( new ofUnibaLogoA());
 
+
 }

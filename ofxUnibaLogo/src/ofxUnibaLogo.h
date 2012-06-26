@@ -101,8 +101,15 @@ public:
         camera.begin();
             camera.lookAt( ofVec3f( 0, 0, 0 ) );
             if ( isAnimationAuto ){
-                ofRotate(ofGetElapsedTimef() * 20, 0, 1, 0 );
+#ifdef TARGET_OF_IPHONE
+                ofRotate( -ofGetElapsedTimef() * 20, 1, 0, 0 );
+#else
+                ofRotate( ofGetElapsedTimef() * 20, 0, 1, 0 );
+#endif
             }
+#ifdef TARGET_OF_IPHONE
+        ofRotateZ( 90 );
+#endif
             ofPushMatrix();
                 ofTranslate( -4.0f, 2.0f, 0.0f ); // translate objects to center
                 ofSetColor( 0, 0, 0,255 );
@@ -123,8 +130,6 @@ public:
     };
     
     void changeColorVariation(){
-        int width = ofGetWidth();
-        int height = ofGetHeight();
         currentColorIndex = floor(ofRandom( 6 )) ;
         
         //-----change colorvariation of background division----

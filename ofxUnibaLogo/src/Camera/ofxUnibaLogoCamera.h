@@ -59,16 +59,29 @@ public:
         if( 0 == globalCounter % 50 ){
             if( 0 == floor( ofRandom( 4 ) ) ){
                 if( 0 == floor( ofRandom( 3 ) ) ){
+#ifdef TARGET_OF_IPHONE
+                    nextCamPos.x = ( ofRandom( 1 ) - 2 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
+                    nextCamPos.y = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
+                    nextCamPos.z = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
+#else
                     nextCamPos.x = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
                     nextCamPos.y = ( ofRandom( 1 ) - 0.5 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
                     nextCamPos.z = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
+#endif
+                    
                     friction = ofRandom( 0.3 ) + 0.14;
                     spring = 0.85 + ofRandom( 0.24 );
                 }
             } else {
+#ifdef TARGET_OF_IPHONE
+                nextCamPos.x = ( ofRandom( 1 ) - 2 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
+                nextCamPos.y = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
+                nextCamPos.z = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
+#else
                 nextCamPos.x = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
                 nextCamPos.y = ( ofRandom( 1 ) - 0.5 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
                 nextCamPos.z = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
+#endif
                 friction = ofRandom( 0.125 );
                 spring = 0.75 + ofRandom( 0.0125 );
                 

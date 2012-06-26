@@ -137,7 +137,11 @@ public:
     void changeHue( float hueVal ) {
         for( int i = 0; i < 4; i++ ){
             ofColor currentColor = colors[i];
-            if( ofxUnibaLogoColor::isBlack(currentColor) ){
+#ifdef TARGET_OF_IPHONE
+            if( ofxUnibaLogoColor::isBlack(currentColor) && 50 < currentColor.getBrightness() ){
+#else
+                if( ofxUnibaLogoColor::isBlack(currentColor) ){                
+#endif
                 currentColor = ofColor( 255, 255, 255 );
             } else {
                 float currentHue = currentColor.getHue();
