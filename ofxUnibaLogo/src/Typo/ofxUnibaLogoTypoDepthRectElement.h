@@ -1,16 +1,16 @@
 //
-//  ofxUnibaLogoTypoDepthRectFaceElement.h
+//  ofxUnibaLogoTypoDepthRectElement.h
 //  UnibaMotionLogo
 //
 //  Created by mori koichiro on 12/06/22.
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
 
-#ifndef UnibaMotionLogo_ofxUnibaLogoTypoDepthRectFaceElement_h
-#define UnibaMotionLogo_ofxUnibaLogoTypoDepthRectFaceElement_h
+#ifndef UnibaMotionLogo_ofxUnibaLogoTypoDepthRectElement_h
+#define UnibaMotionLogo_ofxUnibaLogoTypoDepthRectElement_h
 #include "ofMain.h"
 
-class ofxUnibaLogoTypoDepthRectFaceElement : public virtual ofNode  {
+class ofxUnibaLogoTypoDepthRectElement : public virtual ofNode  {
 
 protected:    
     float scale;
@@ -29,8 +29,8 @@ public:
     int mID;
     float count;
     bool startSpring;
-    bool isChangeColors;
-    bool isChangeHue;
+    bool didChangedColors;
+    bool didChangedHue;
     float rectWidth;
     ofVec3f lineStartPos;
     ofVec3f startPoint;
@@ -38,9 +38,9 @@ public:
     float hue;
     int colorPatternIndex;
     
-    ofxUnibaLogoTypoDepthRectFaceElement(){
+    ofxUnibaLogoTypoDepthRectElement(){
         startSpring = false;
-        isChangeColors = false;
+        didChangedColors = false;
         hue = 0;
         spring = 0.85f;
         speed = 0.4f;
@@ -49,7 +49,7 @@ public:
         rectWidth = 0.0f;
     };
     
-    ~ofxUnibaLogoTypoDepthRectFaceElement(){
+    ~ofxUnibaLogoTypoDepthRectElement(){
         
     };
     
@@ -99,14 +99,14 @@ public:
             rectWidth += speed;
         }
         
-        if( isChangeColors ){
+        if( didChangedColors ){
             resetColors( colorPatternIndex );
-            isChangeColors = false;
+            didChangedColors = false;
         }
         
-        if( isChangeHue ){
+        if( didChangedHue ){
             changeHue( hue );
-            isChangeHue = false;
+            didChangedHue = false;
         }
         
         count++;

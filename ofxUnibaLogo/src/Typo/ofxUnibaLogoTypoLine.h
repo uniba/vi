@@ -50,7 +50,7 @@ public:
                 float currentPosX =  nextPos.x - ( nextPos.x - currentPos.x ) * ( logoLineNode[i].typeFacelLength * 0.1 );
                 float currentPosY =  nextPos.y - ( nextPos.y - currentPos.y ) * ( logoLineNode[i].typeFacelLength * 0.1 );                
                 ofLine( nextPos.x, nextPos.y, nextPos.z, currentPosX, currentPosY , currentPos.z );
-            if( logoLineNode[i - 1].isFinishMoving ){
+            if( logoLineNode[i - 1].didFinishedAnimation ){
                 logoLineNode[i].bang = true;
             }
             

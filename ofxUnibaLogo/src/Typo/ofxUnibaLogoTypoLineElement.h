@@ -15,26 +15,26 @@ public:
     int id;
     float typeFacelLength;
     bool bang;
-    bool isFinishMoving;
+    bool didFinishedAnimation;
     void draw() {
         if( bang ){
             typeFacelLength++;
         }
         if( 10 < typeFacelLength ){
             typeFacelLength = 10;
-            isFinishMoving = true;
+            didFinishedAnimation = true;
         }
     };
     
     ofxUnibaLogoTypoLineElement() {
         bang = false;
-        isFinishMoving = false;
+        didFinishedAnimation = false;
         typeFacelLength = 0;
     };
     
     void resetCounter() {
         typeFacelLength = 0;
-        isFinishMoving = false;
+        didFinishedAnimation = false;
         bang = false;
     };
     

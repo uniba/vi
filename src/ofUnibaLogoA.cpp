@@ -5,6 +5,12 @@
 //  Created by mori koichiro on 12/05/31.
 //  Copyright (c) 2012年 __Uniba Inc.__. All rights reserved.
 //
+#define WINDOW_WIDTH_DISPLAY 1280
+#define WINDOW_HEIGHT_DISPLAY 800
+#define WINDOW_WIDTH_CARD 910
+#define WINDOW_HEIGHT_CARD 550
+#define WINDOW_WIDTH_RECTANGLE 900
+#define WINDOW_HEIGHT_RECTANGLE 900
 
 #include "ofUnibaLogoA.h"
 
@@ -33,23 +39,30 @@ void ofUnibaLogoA::setup(){
     mainOutputSyphonServer.setName( syphoneServerName );
     
 //------------ UI Settings--- ---------------
+    vector<string> screenSizeRadioNames; 
+	screenSizeRadioNames.push_back("Display");
+	screenSizeRadioNames.push_back("Card");
+	screenSizeRadioNames.push_back("Rectangle");	
+    
     gui = new ofxUICanvas( 0, 0 , 300, 800 );
     gui->addWidgetDown( new ofxUILabel("UNIBA MOTION LOGO v0.0.1", OFX_UI_FONT_LARGE) ); 
     gui->addWidgetDown( new ofxUIButton( 20, 20, false, "CHANEGE COLOR VARIATION") );
     gui->addWidgetDown( new ofxUIToggle( 20, 20, true, "DRAW LINE") );
     gui->addWidgetDown( new ofxUIToggle( 20, 20, true, "ANIMATION AUTO") );
     gui->addWidgetDown( new ofxUIToggle( 20, 20, true, "DRAW MASK GRADATION") );
+    gui->addWidgetDown( new ofxUIRadio( 20, 20, "WINDOW SIZE", screenSizeRadioNames, OFX_UI_ORIENTATION_HORIZONTAL) );
     gui->addWidgetDown( new ofxUIToggle( 20, 20, false, "FULL SCREEN") );
     gui->addWidgetDown( new ofxUIRotarySlider( 100, 0, 255, 0, "HUE" ) ); 
     gui->addWidgetDown( new ofxUILabel( "press \'o\' to hide and show controller menu." ,OFX_UI_FONT_SMALL ) ); 
     gui->addWidgetDown( new ofxUILabel( "press \'c\' to capture screen." ,OFX_UI_FONT_SMALL ) ); 
     ofAddListener( gui -> newGUIEvent, this, &ofUnibaLogoA::guiEvent ); 
     gui->loadSettings( uiSettingFilePath ); 
-
+    
     //conce set color variation.
     changeColorVariation();
     
     grabbedImage.allocate( ofGetWidth(), ofGetHeight(), OF_IMAGE_COLOR_ALPHA );
+    
 }
 
 //--------------------------------------------------------------
@@ -165,24 +178,40 @@ void ofUnibaLogoA::exit() {
 //--------------------------------------------------------------
 void ofUnibaLogoA::guiEvent( ofxUIEventArgs &e ) {
 //------------ UI Events-------------------
-    if( e.widget -> getName() == "HUE" ) {
+    string widgetName = e.widget -> getName();
+    if( widgetName == "HUE" ) {
         ofxUIRotarySlider *slider = (ofxUIRotarySlider *) e.widget;    
         float hue =  slider -> getScaledValue();
         unibaLogo.setHue( hue );
-    } else if ( e.widget -> getName() == "CHANEGE COLOR VARIATION" ) {
+    } else if ( widgetName == "CHANEGE COLOR VARIATION" ) {
         ofxUIButton *button = (ofxUIButton *) e.widget;
         if( button -> getValue() ){
             changeColorVariation();
         }
-    } else if ( e.widget -> getName() == "DRAW LINE" ) {
+    } else if ( widgetName == "DRAW LINE" ) {
         ofxUIToggle *toggle = (ofxUIToggle *) e.widget;    
         unibaLogo.drawLineType =  toggle -> getValue();
-    } else if ( e.widget -> getName() == "ANIMATION AUTO" ) {
+    } else if ( widgetName == "ANIMATION AUTO" ) {
         ofxUIToggle *toggle = (ofxUIToggle *) e.widget;    
         unibaLogo.isAnimationAuto =  toggle -> getValue();
-    } else if ( e.widget -> getName() == "DRAW MASK GRADATION" ) {
+    } else if ( widgetName == "DRAW MASK GRADATION" ) {
         ofxUIToggle *toggle = (ofxUIToggle *) e.widget;    
         drawGradation =  toggle -> getValue();
+    } else if ( widgetName == "Display" ) {
+        ofxUIToggle *toggle = (ofxUIToggle *) e.widget;    
+        if( toggle -> getValue() ){
+            ofSetWindowShape( WINDOW_WIDTH_DISPLAY, WINDOW_HEIGHT_DISPLAY );
+        }
+    } else if( "Card" == widgetName ){
+        ofxUIToggle *toggle = (ofxUIToggle *) e.widget;    
+        if( toggle -> getValue() ){
+            ofSetWindowShape( WINDOW_WIDTH_CARD, WINDOW_HEIGHT_CARD );
+        }
+    } else if( "Rectangle" == widgetName ){
+        ofxUIToggle *toggle = (ofxUIToggle *) e.widget;    
+        if( toggle -> getValue() ){
+            ofSetWindowShape( WINDOW_WIDTH_RECTANGLE, WINDOW_HEIGHT_RECTANGLE );
+        }
     } else if ( e.widget -> getName() == "FULL SCREEN" ) {
         ofxUIToggle *toggle = (ofxUIToggle *) e.widget;    
         ofSetFullscreen( toggle -> getValue() );

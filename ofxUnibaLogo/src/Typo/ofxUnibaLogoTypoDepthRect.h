@@ -10,13 +10,13 @@
 #define UnibaMotionLogo_ofxUnibaLogoTypoDepthRect_h
 #include "ofxUnibaLogoTypo.h"
 #include "ofxUnibaLogoGeom.h"
-#include "ofxUnibaLogoTypoDepthRectFaceElement.h"
+#include "ofxUnibaLogoTypoDepthRectElement.h"
 
 class ofxUnibaLogoTypoDepthRect : public virtual ofxUnibaLogoTypo {
 
 private:
     ofxUnibaLogoGeom logoGeom;
-    vector<ofxUnibaLogoTypoDepthRectFaceElement> logoBillbordNode;
+    vector<ofxUnibaLogoTypoDepthRectElement> logoBillbordNode;
 
 public:
     void setup(){
@@ -25,7 +25,7 @@ public:
         for ( int j = 0; j < logoGeom.length; j++ ){
             ofVec3f startVec;
             if( 1 <= j ){
-                ofxUnibaLogoTypoDepthRectFaceElement nodeObject;
+                ofxUnibaLogoTypoDepthRectElement nodeObject;
                 nodeObject.mID = j - 1;
                 nodeObject.colorPatternIndex = currentColorIndex;
                 
@@ -82,7 +82,7 @@ public:
     void setHue( float hue ){
         for( int i = 0; i < logoGeom.length; i++ ){
             logoBillbordNode[i].hue = hue;
-            logoBillbordNode[i].isChangeHue = true;
+            logoBillbordNode[i].didChangedHue = true;
         }
     };
     
@@ -93,7 +93,7 @@ public:
             logoBillbordNode[i].count = 0;
             logoBillbordNode[i].rectWidth = 0;
             logoBillbordNode[i].colorPatternIndex = currentColorIndex;
-            logoBillbordNode[i].isChangeColors = true;
+            logoBillbordNode[i].didChangedColors = true;
         }
     }
 };

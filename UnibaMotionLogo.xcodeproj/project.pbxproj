@@ -204,7 +204,7 @@
 		B2D5D5D2159464FD002084C1 /* ofxUnibaLogoTypoLine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoTypoLine.h; sourceTree = "<group>"; };
 		B2D5D5D3159465B4002084C1 /* ofxUnibaLogoTypoDepthRect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoTypoDepthRect.h; sourceTree = "<group>"; };
 		B2D5D5D515946828002084C1 /* ofxUnibaLogoBackgroundDivision.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoBackgroundDivision.h; sourceTree = "<group>"; };
-		B2D5D5D6159476A8002084C1 /* ofxUnibaLogoTypoDepthRectFaceElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoTypoDepthRectFaceElement.h; sourceTree = "<group>"; };
+		B2D5D5D6159476A8002084C1 /* ofxUnibaLogoTypoDepthRectElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoTypoDepthRectElement.h; sourceTree = "<group>"; };
 		B2D6FE8A15527CA6008EB9F1 /* glew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glew.h; sourceTree = "<group>"; };
 		B2D6FE8B15527CA6008EB9F1 /* glxew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glxew.h; sourceTree = "<group>"; };
 		B2D6FE8C15527CA6008EB9F1 /* wglew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wglew.h; sourceTree = "<group>"; };
@@ -778,7 +778,7 @@
 				B2B492C01577853D003BE022 /* ofxUnibaLogoTypo.h */,
 				B2D5D5D2159464FD002084C1 /* ofxUnibaLogoTypoLine.h */,
 				B2D5D5D3159465B4002084C1 /* ofxUnibaLogoTypoDepthRect.h */,
-				B2D5D5D6159476A8002084C1 /* ofxUnibaLogoTypoDepthRectFaceElement.h */,
+				B2D5D5D6159476A8002084C1 /* ofxUnibaLogoTypoDepthRectElement.h */,
 				B2B59448159D463500C445A9 /* ofxUnibaLogoTypoLineElement.h */,
 			);
 			path = Typo;

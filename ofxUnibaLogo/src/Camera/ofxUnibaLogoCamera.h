@@ -41,7 +41,7 @@ public:
         curCamPos.x,curCamPos.y,curCamPos.z = 0;
         friction = 0.03;
         spring = 0.05;
-        panRythm = 10;
+        panRythm = 20;
     };
     
     void update( int globalCounter ){
@@ -51,7 +51,7 @@ public:
                 panRythm = 50;
                 break;
             case CametraPanningModeFast:
-                panRythm = 10;
+                panRythm = 20;
                 break;
             default:
                 break;
