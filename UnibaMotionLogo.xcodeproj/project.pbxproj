@@ -200,6 +200,7 @@
 		B2B492BD157780C4003BE022 /* ofUnibaLogoA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofUnibaLogoA.cpp; sourceTree = "<group>"; };
 		B2B492BF1577820B003BE022 /* ofUnibaLogoA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofUnibaLogoA.h; sourceTree = "<group>"; };
 		B2B492C01577853D003BE022 /* ofxUnibaLogoTypo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoTypo.h; sourceTree = "<group>"; };
+		B2B59448159D463500C445A9 /* ofxUnibaLogoTypoLineElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoTypoLineElement.h; sourceTree = "<group>"; };
 		B2D5D5D2159464FD002084C1 /* ofxUnibaLogoTypoLine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoTypoLine.h; sourceTree = "<group>"; };
 		B2D5D5D3159465B4002084C1 /* ofxUnibaLogoTypoDepthRect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoTypoDepthRect.h; sourceTree = "<group>"; };
 		B2D5D5D515946828002084C1 /* ofxUnibaLogoBackgroundDivision.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxUnibaLogoBackgroundDivision.h; sourceTree = "<group>"; };
@@ -778,6 +779,7 @@
 				B2D5D5D2159464FD002084C1 /* ofxUnibaLogoTypoLine.h */,
 				B2D5D5D3159465B4002084C1 /* ofxUnibaLogoTypoDepthRect.h */,
 				B2D5D5D6159476A8002084C1 /* ofxUnibaLogoTypoDepthRectFaceElement.h */,
+				B2B59448159D463500C445A9 /* ofxUnibaLogoTypoLineElement.h */,
 			);
 			path = Typo;
 			sourceTree = "<group>";

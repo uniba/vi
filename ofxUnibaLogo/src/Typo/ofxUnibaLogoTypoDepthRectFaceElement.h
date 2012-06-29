@@ -10,7 +10,7 @@
 #define UnibaMotionLogo_ofxUnibaLogoTypoDepthRectFaceElement_h
 #include "ofMain.h"
 
-class ofxUnibaLogoTypoDepthRectFaceElement : public ofNode  {
+class ofxUnibaLogoTypoDepthRectFaceElement : public virtual ofNode  {
 
 protected:    
     float scale;

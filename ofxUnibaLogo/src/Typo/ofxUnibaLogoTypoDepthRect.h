@@ -29,7 +29,7 @@ public:
                 nodeObject.mID = j - 1;
                 nodeObject.colorPatternIndex = currentColorIndex;
                 
-                startVec = logoGeom.startPoint(j);
+                startVec = logoGeom.getStartPoint(j);
                 
                 nodeObject.startPoint = startVec;
                 nodeObject.endPoint = endPoints[j];

@@ -10,6 +10,12 @@
 #define UnibaMotionLogo_ofxUnibaLogoCamera_h
 #include "ofMain.h"
 #include "ofxUnibaLogoAnimation.h"
+#include "ofxUnibaLogoGeom.h"
+
+typedef enum{
+    CametraPanningModeSlow = 0,
+    CametraPanningModeFast = 1
+} CametraPanningMode;
 
 class ofxUnibaLogoCamera : public virtual ofCamera {
 
@@ -18,8 +24,11 @@ private:
     float spring;
     ofVec3f curCamPos;
     ofVec3f nextCamPos;
+    int panRythm;
+    ofxUnibaLogoGeom logoGeom;
 
 public:
+    CametraPanningMode mode;
     ofVec3f speed;
     void setup(){
         //--------- camera setting -------------------
@@ -32,9 +41,22 @@ public:
         curCamPos.x,curCamPos.y,curCamPos.z = 0;
         friction = 0.03;
         spring = 0.05;
+        panRythm = 10;
     };
     
     void update( int globalCounter ){
+        
+        switch ( mode ) {
+            case CametraPanningModeSlow:
+                panRythm = 50;
+                break;
+            case CametraPanningModeFast:
+                panRythm = 10;
+                break;
+            default:
+                break;
+        }
+        
         //cmamera animation
         float ax;
         ax = (nextCamPos.x - curCamPos.x) * spring;
@@ -56,8 +78,8 @@ public:
         
         //cmamera animation
         
-        if( 0 == globalCounter % 50 ){
-            if( 0 == floor( ofRandom( 4 ) ) ){
+        if( 0 == globalCounter % panRythm ){
+            if( 0 == floor( ofRandom( 2 ) ) ){
                 if( 0 == floor( ofRandom( 3 ) ) ){
 #ifdef TARGET_OF_IPHONE
                     nextCamPos.x = ( ofRandom( 1 ) - 2 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
@@ -68,9 +90,18 @@ public:
                     nextCamPos.y = ( ofRandom( 1 ) - 0.5 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
                     nextCamPos.z = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
 #endif
-                    
-                    friction = ofRandom( 0.3 ) + 0.14;
-                    spring = 0.85 + ofRandom( 0.24 );
+                    switch ( mode ) {
+                        case CametraPanningModeSlow:
+                            friction = ofRandom( 0.3 ) + 0.14;
+                            spring = 0.85 + ofRandom( 0.24 );
+                            break;
+                        case CametraPanningModeFast:
+                            friction = ofRandom( 0.3 ) + 0.2;
+                            spring = 0.5 + ofRandom( 0.4 );
+                            break;
+                        default:
+                            break;
+                    }
                 }
             } else {
 #ifdef TARGET_OF_IPHONE
@@ -82,14 +113,27 @@ public:
                 nextCamPos.y = ( ofRandom( 1 ) - 0.5 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
                 nextCamPos.z = ( ofRandom( 2 ) - 1 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
 #endif
-                friction = ofRandom( 0.125 );
-                spring = 0.75 + ofRandom( 0.0125 );
+                
+                switch ( mode ) {
+                    case CametraPanningModeSlow:
+                        friction = ofRandom( 0.125 );
+                        spring = 0.75 + ofRandom( 0.0125 );
+                        break;
+                    case CametraPanningModeFast:
+                        friction = ofRandom( 0.25 );
+                        spring = 0.75 + ofRandom( 0.05 );
+                        break;
+                    default:
+                        break;
+                }
+                
                 
             }
         }
         
-        setGlobalPosition(curCamPos.x,curCamPos.y,curCamPos.z);
+        setGlobalPosition( curCamPos.x,curCamPos.y,curCamPos.z );
         lookAt( ofVec3f( 0, 0, 0 ) );
+
     };
     
 };

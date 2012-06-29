@@ -1,5 +1,10 @@
 <Widget>
     <Kind>2</Kind>
+    <Name>DRAW LINE</Name>
+    <Value>1</Value>
+</Widget>
+<Widget>
+    <Kind>2</Kind>
     <Name>ANIMATION AUTO</Name>
     <Value>1</Value>
 </Widget>

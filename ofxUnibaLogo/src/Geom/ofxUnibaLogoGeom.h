@@ -65,7 +65,7 @@ public:
         length = sizeof( logoVertexRef ) / sizeof( float[ 3 ] );
     };
     
-    ofVec3f endPoint( int index ) {
+    ofVec3f getEndPoint( int index ) {
         ofVec3f vec;
         vec.x = logoVertexArray[ index ][ 0 ] * LOGO_NORMAL_SCALE;
         vec.y = logoVertexArray[ index ][ 1 ] * LOGO_NORMAL_SCALE;
@@ -73,7 +73,7 @@ public:
         return vec;
     };
     
-    ofVec3f startPoint( int index ) {
+    ofVec3f getStartPoint( int index ) {
         ofVec3f vec;
         if( 0 < index ){
             vec.x = logoVertexArray[ index - 1 ][ 0 ] * LOGO_NORMAL_SCALE;

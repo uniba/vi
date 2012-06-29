@@ -40,11 +40,13 @@ public:
     float hue;
 
     bool isAnimationAuto;
-
+    bool drawLineType;
+    
     float typeFacelLength;
     int globalCounter;
 
     void setup(){
+        drawLineType = true;
         globalCounter = 0;
         typeFacelLength = 0;
         isAnimationAuto = true;
@@ -68,8 +70,7 @@ public:
     };
     
     void update(){
-        
-        logoTypoLine.typeFacelLength = typeFacelLength;
+        logoTypoLine.animationCounter = globalCounter;
         logoTypoDepthRecct.update( globalCounter );
 
         //---------update background division------------
@@ -77,6 +78,12 @@ public:
         
         //----------------update camera------------------
         camera.update( globalCounter );
+        
+        if( typeFacelLength < 20 ){
+            camera.mode = CametraPanningModeFast;
+        } else {
+            camera.mode = CametraPanningModeSlow;
+        }
         
         typeFacelLength += 0.15;
         if( typeFacelLength > 20){
@@ -116,7 +123,9 @@ public:
                 ofSetLineWidth( 1.25f );
                 
                 //------------ draw logo type lines ----------
-                logoTypoLine.draw();
+                if( drawLineType ){
+                    logoTypoLine.draw();
+                }
                 logoTypoDepthRecct.draw();
             
             ofPopMatrix();
@@ -137,6 +146,7 @@ public:
         logoTypoDepthRecct.changeColorVariation( currentColorIndex );
         
         typeFacelLength = 0;
+        logoTypoLine.resetAnimation();
         logoTypoDepthRecct.typeFacelLength = 0;
     };
 };

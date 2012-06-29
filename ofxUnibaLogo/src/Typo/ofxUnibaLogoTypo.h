@@ -23,7 +23,7 @@ public:
     void setup(){
         typeFacelLength = 0;
         for ( int i = 0; i < logoGeom.length; i++ ){
-            endPoints.push_back( logoGeom.endPoint( i ) );
+            endPoints.push_back( logoGeom.getEndPoint( i ) );
         }
     }
     

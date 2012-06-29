@@ -36,8 +36,9 @@ void ofUnibaLogoA::setup(){
     gui = new ofxUICanvas( 0, 0 , 300, 800 );
     gui->addWidgetDown( new ofxUILabel("UNIBA MOTION LOGO v0.0.1", OFX_UI_FONT_LARGE) ); 
     gui->addWidgetDown( new ofxUIButton( 20, 20, false, "CHANEGE COLOR VARIATION") );
+    gui->addWidgetDown( new ofxUIToggle( 20, 20, true, "DRAW LINE") );
     gui->addWidgetDown( new ofxUIToggle( 20, 20, true, "ANIMATION AUTO") );
-    gui->addWidgetDown( new ofxUIToggle( 20, 20, false, "DRAW MASK GRADATION") );
+    gui->addWidgetDown( new ofxUIToggle( 20, 20, true, "DRAW MASK GRADATION") );
     gui->addWidgetDown( new ofxUIToggle( 20, 20, false, "FULL SCREEN") );
     gui->addWidgetDown( new ofxUIRotarySlider( 100, 0, 255, 0, "HUE" ) ); 
     gui->addWidgetDown( new ofxUILabel( "press \'o\' to hide and show controller menu." ,OFX_UI_FONT_SMALL ) ); 
@@ -149,6 +150,8 @@ void ofUnibaLogoA::exit() {
 //---------- UI events when colled application exit------
     ofxUIRotarySlider *hueSlider =  (ofxUIRotarySlider *)( gui -> getWidget( "HUE" ) );
     hueSlider -> setValue( 0 );
+    ofxUIToggle *toggleDrawLine =  (ofxUIToggle *)( gui -> getWidget( "DRAW LINE" ) );
+    toggleDrawLine -> setValue( true );
     ofxUIToggle *toggleAnimation =  (ofxUIToggle *)( gui -> getWidget( "ANIMATION AUTO" ) );
     toggleAnimation -> setValue( true );
     ofxUIToggle *toggleFullscreen =  (ofxUIToggle *)( gui -> getWidget( "FULL SCREEN" ) );
@@ -171,6 +174,9 @@ void ofUnibaLogoA::guiEvent( ofxUIEventArgs &e ) {
         if( button -> getValue() ){
             changeColorVariation();
         }
+    } else if ( e.widget -> getName() == "DRAW LINE" ) {
+        ofxUIToggle *toggle = (ofxUIToggle *) e.widget;    
+        unibaLogo.drawLineType =  toggle -> getValue();
     } else if ( e.widget -> getName() == "ANIMATION AUTO" ) {
         ofxUIToggle *toggle = (ofxUIToggle *) e.widget;    
         unibaLogo.isAnimationAuto =  toggle -> getValue();
