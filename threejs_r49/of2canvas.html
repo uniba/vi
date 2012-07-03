@@ -22,7 +22,7 @@
       	
     var lengthOfArray;
       	
-	var camera, scene, renderer, line, face, pointLight;
+	var camera, scene, renderer, line, face, pointLight1, pointLight2, pointLight3, pointLight4;
 	
 	//color preset
 	var colorPristArray = [
@@ -95,40 +95,82 @@
 	    scene.add( camera );
 	   	
 	   	
-	   	scene.add( new THREE.AmbientLight( 0x444444 ) );
+	   	// scene.add( new THREE.AmbientLight( 0x999999 ) );
 	   	
-		pointLight = new THREE.PointLight( 0xffffff );
-		pointLight.position.x = 10;
-		pointLight.position.y = 10;
-		pointLight.position.z = 10;
-		scene.add( pointLight );
+		pointLight1 = new THREE.PointLight( 0xffffff );
+		pointLight1.position.x = 10;
+		pointLight1.position.y = 0;
+		pointLight1.position.z = -10;
+
+		pointLight2 = new THREE.PointLight( 0xffffff );
+		pointLight2.position.x = -10;
+		pointLight2.position.y = 0;
+		pointLight2.position.z = -10;
+
+		pointLight3 = new THREE.PointLight( 0xffffff );
+		pointLight3.position.x = 0;
+		pointLight3.position.y = 10;
+		pointLight3.position.z = 10;
+
+		pointLight4 = new THREE.PointLight( 0xffffff );
+		pointLight4.position.x = 0;
+		pointLight4.position.y = -10;
+		pointLight4.position.z = 10;
 		
+		scene.add( pointLight1 );
+		scene.add( pointLight2 );
+		scene.add( pointLight3 );
+		scene.add( pointLight4 );
 			      
-	  	var geometry = new THREE.Geometry();
-	  	geometry.vertices.push(        	
+	  	var gl1 = new THREE.Geometry();
+	  	gl1.vertices.push(        	
 			// U
 			v(  0,  0,  0), v(  0,200,  0),
 			v(  0,200,  0), v(100,200,  0),
-			v(100,200,  0), v(100,  0,  0),
+			v(100,200,  0), v(100,  0,  0)
+		);
+		var gl2 = new THREE.Geometry();
+	  	gl2.vertices.push(        	
 			// U-N
-			v(100,  0,  0), v(200,200,  0),
+			v(100,  0,  0), v(200,200,  0)
+		);
+		var gl3 = new THREE.Geometry();
+	  	gl3.vertices.push(
 			// N
 			v(200,200,  0), v(200,  0,  0),
 			v(200,  0,  0), v(300,  0,  0),
-			v(300,  0,  0), v(300,200,  0),
+			v(300,  0,  0), v(300,200,  0)
+		);
+		var gl4 = new THREE.Geometry();
+	  	gl4.vertices.push(        		
 			// N-I
-			v(300,200,  0), v(400,  0,  0),
+			v(300,200,  0), v(400,  0,  0)
+		);
+		var gl5 = new THREE.Geometry();
+	  	gl5.vertices.push(
 			// I
-			v(400,  0,  0), v(400,200,  0),
+			v(400,  0,  0), v(400,200,  0)
+		);
+		var gl6 = new THREE.Geometry();
+	  	gl6.vertices.push(        	
 			// I-B
-			v(400,200,  0), v(500,  0,  0),
+			v(400,200,  0), v(500,  0,  0)
+		);
+		var gl7 = new THREE.Geometry();
+	  	gl7.vertices.push(
 			// B
 			v(500,  0,  0), v(500,300,  0),
 			v(500,300,  0), v(600,200,  0),
 			v(600,200,  0), v(600,100,  0),
-			v(600,100,  0), v(500,100,  0),
+			v(600,100,  0), v(500,100,  0)
+		);
+		var gl8 = new THREE.Geometry();
+	  	gl8.vertices.push( 
 			// B-A
-			v(500,100,  0), v(700,  0,  0),
+			v(500,100,  0), v(700,  0,  0)
+		);		
+		var gl9 = new THREE.Geometry();
+	  	gl9.vertices.push(        	
 			// A
 			v(700,  0,  0), v(800,  0,  0),
 			v(800,  0,  0), v(800,200,  0),
@@ -136,104 +178,167 @@
 			v(700,200,  0), v(700,100,  0),
 			v(700,100,  0), v(800,100,  0)
 	  	);
-	
+
+
 	  	var material = new THREE.LineBasicMaterial( {
 	    	color: 0x000000,
 	    	lineWidth: 1.25
 	    } );
 	
-	  	line = new THREE.Line(geometry, material);
-	  	line.type = THREE.Lines;
-	  	scene.add( line );
+	  	l1 = new THREE.Line(gl1, material);
+	  	l1.type = THREE.Lines;
+	    l2 = new THREE.Line(gl2, material);
+	  	l2.type = THREE.Lines;
+	    l3 = new THREE.Line(gl3, material);
+	  	l3.type = THREE.Lines;
+	  	l4 = new THREE.Line(gl4, material);
+	  	l4.type = THREE.Lines;
+	  	l5 = new THREE.Line(gl5, material);
+	  	l5.type = THREE.Lines;
+	  	l6 = new THREE.Line(gl6, material);
+	  	l6.type = THREE.Lines;
+	  	l7 = new THREE.Line(gl7, material);
+	  	l7.type = THREE.Lines;
+	  	l8 = new THREE.Line(gl8, material);
+	  	l8.type = THREE.Lines;
+	  	l9 = new THREE.Line(gl9, material);
+	  	l9.type = THREE.Lines;
+	  	
+	  	scene.add( l1 );
+	  	scene.add( l2 );
+	  	scene.add( l3 );
+	  	scene.add( l4 );
+	  	scene.add( l5 );
+	  	scene.add( l6 );
+	  	scene.add( l7 );
+	  	scene.add( l8 );
+	  	scene.add( l9 );
+	  	
+		l1.rotation.x = Math.PI;
+		l2.rotation.x = Math.PI;
+		l3.rotation.x = Math.PI;
+		l4.rotation.x = Math.PI;
+		l5.rotation.x = Math.PI;
+		l6.rotation.x = Math.PI;
+		l7.rotation.x = Math.PI;
+		l8.rotation.x = Math.PI;
+		l9.rotation.x = Math.PI;
 	    
-	    //
-	    
-	    var geometry2 = new THREE.Geometry();
-	    geometry2.vertices.push(
+	    var g1 = new THREE.Geometry();
+	    g1.vertices.push(
 			// U
 			v(  0,  0,  0), v(  0,200,  0),
-			v(-80, 80, 80), v(-80,280, 80),
+			v(-80, 80, 80), v(-80,280, 80)
+		);
+		var g2 = new THREE.Geometry();
+	    g2.vertices.push(
+			// U
 			v(  0,200,  0), v(100,200,  0),
-			v(-80,280, 80), v( 20,280, 80),
+			v(-80,280, 80), v( 20,280, 80)
+		);
+		var g3 = new THREE.Geometry();
+	    g3.vertices.push(
+			// U
 			v(100,200,  0), v(100,  0,  0),
-			v( 20,280, 80), v( 20, 80, 80),
+			v( 20,280, 80), v( 20, 80, 80)
+		);
+		var g4 = new THREE.Geometry();
+	    g4.vertices.push(
 			// N
 			v(200,200,  0), v(200,  0,  0),
-			v(120,280, 80), v(120, 80, 80),
+			v(120,280, 80), v(120, 80, 80)
+		);
+		var g5 = new THREE.Geometry();
+	    g5.vertices.push(
+			// N
 			v(200,  0,  0), v(300,  0,  0),
-			v(120, 80, 80), v(220, 80, 80),
+			v(120, 80, 80), v(220, 80, 80)
+		);
+		var g6 = new THREE.Geometry();
+	    g6.vertices.push(
+			// N
 			v(300,  0,  0), v(300,200,  0),
-			v(220, 80, 80), v(220,280, 80),
+			v(220, 80, 80), v(220,280, 80)
+		);
+		var g7 = new THREE.Geometry();
+	    g7.vertices.push(
 			// I
 			v(400,  0,  0), v(400,200,  0),
-			v(320, 80, 80), v(320,280, 80),
+			v(320, 80, 80), v(320,280, 80)
+		);
+		var g8 = new THREE.Geometry();
+	    g8.vertices.push(
 			// B
 			v(500,  0,  0), v(500,300,  0),
-			v(420, 80, 80), v(420,380, 80),
+			v(420, 80, 80), v(420,380, 80)
+		);
+		var g9 = new THREE.Geometry();
+	    g9.vertices.push(
+			// B
 			v(500,300,  0), v(600,200,  0),
-			v(420,380, 80), v(520,280, 80),
+			v(420,380, 80), v(520,280, 80)
+		);
+		var g10 = new THREE.Geometry();
+	    g10.vertices.push(
+			// B
 			v(600,200,  0), v(600,100,  0),
-			v(520,280, 80), v(520,180, 80),
+			v(520,280, 80), v(520,180, 80)
+		);
+		var g11 = new THREE.Geometry();
+	    g11.vertices.push(
+			// B
 			v(600,100,  0), v(500,100,  0),
-			v(520,180, 80), v(420,180, 80),
+			v(520,180, 80), v(420,180, 80)
+		);
+		var g12 = new THREE.Geometry();
+	    g12.vertices.push(
 			// A
 			v(700,  0,  0), v(800,  0,  0),
-			v(620, 80, 80), v(720, 80, 80),
+			v(620, 80, 80), v(720, 80, 80)
+		);
+		var g13 = new THREE.Geometry();
+	    g13.vertices.push(
+			// A
 			v(800,  0,  0), v(800,200,  0),
-			v(720, 80, 80), v(720,280, 80),
+			v(720, 80, 80), v(720,280, 80)
+		);
+		var g14 = new THREE.Geometry();
+	    g14.vertices.push(
+			// A
 			v(800,200,  0), v(700,200,  0),
-			v(720,280, 80), v(620,280, 80),
+			v(720,280, 80), v(620,280, 80)
+		);
+		var g15 = new THREE.Geometry();
+	    g15.vertices.push(
+			// A
 			v(700,200,  0), v(700,100,  0),
-			v(620,280, 80), v(620,180, 80),
+			v(620,280, 80), v(620,180, 80)
+		);
+		var g16 = new THREE.Geometry();
+	    g16.vertices.push(
+			// A
 			v(700,100,  0), v(800,100,  0),
 			v(620,180, 80), v(720,180, 80)
 	  	);
-	  	geometry2.faces.push(
-	  		// U
-	  		f4( 0, 2, 3, 1),
-	  		f4( 4, 6, 7, 5),
-	  		f4( 8,10,11, 9),
-	  		// N
-	  		f4(12,14,15,13),
-	  		f4(16,18,19,17),
-	  		f4(20,22,23,21),
-	  		// I
-	  		f4(24,26,27,25),
-	  		// B
-	  		f4(28,30,31,29),
-	  		f4(32,34,35,33),
-	  		f4(36,38,39,37),
-	  		f4(40,42,43,41),
-	  		// A
-	  		f4(44,46,47,45),
-	  		f4(48,50,51,49),
-	  		f4(52,54,55,53),
-	  		f4(56,58,59,57),
-	  		f4(60,62,63,61)
-	  	);
-	  	geometry2.computeCentroids();
-		geometry2.computeFaceNormals();
-		geometry2.verticesNeedUpdate = true;
-		geometry2.elementsNeedUpdate = true;
-		geometry2.morphTargetsNeedUpdate = true;
-		geometry2.uvsNeedUpdate = true;
-		geometry2.normalsNeedUpdate = true;
-		geometry2.colorsNeedUpdate = true;
-		geometry2.tangentsNeedUpdate = true;
-	  	geometry2.faceUvs = [[]];
-	  	geometry2.faceVertexUvs = [[]];
-	  	geometry2.dynamic = true;
-	  	for (var i in geometry2.faces) {
-	  		var faceuv = [
-	  			new THREE.UV( 0, 1),
-	  			new THREE.UV( 1, 1),
-	  			new THREE.UV( 1, 0),
-	  			new THREE.UV( 0, 0)
-	  		]
-	  		geometry2.faceVertexUvs[0].push( faceuv );
-	  	}
-	  	
-        /*
+
+	  	g1 = setFParams( g1 );
+	  	g2 = setFParams( g2 );
+	  	g3 = setFParams( g3 );
+	  	g4 = setFParams( g4 );
+	  	g5 = setFParams( g5 );
+	  	g6 = setFParams( g6 );
+	  	g7 = setFParams( g7 );
+	  	g8 = setFParams( g8 );
+	  	g9 = setFParams( g9 );
+	  	g10 = setFParams( g10 );
+	  	g11 = setFParams( g11 );
+	  	g12 = setFParams( g12 );
+	  	g13 = setFParams( g13 );
+	  	g14 = setFParams( g14 );
+	  	g15 = setFParams( g15 );
+	  	g16 = setFParams( g16 );
+
+	  	/*
         var mats = [];
         for (var i in geometry2.faces) {
         	mats.push(new THREE.MeshLambertMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )] } ));
@@ -253,26 +358,83 @@
 	  		color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )],
 	  		overdraw: true
 	  	} );
-	    */
 
 	    var material2 = new THREE.MeshBasicMaterial( {
 	  		vertexColors: THREE.FaceColors,
 	  		overdraw: true
 	  	} );
-
-	    face = new THREE.Mesh( geometry2, material2 );
-	    face.doubleSided = true;
-	    scene.add( face );
-
-		line.position.x = -4;
-		line.position.y = 2;
-		line.rotation.x = Math.PI;
+	    */
+	    
+	    f1 = new THREE.Mesh( g1, new THREE.MeshBasicMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
+	    f2 = new THREE.Mesh( g2, new THREE.MeshBasicMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
+	    f3 = new THREE.Mesh( g3, new THREE.MeshBasicMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
+	    f4 = new THREE.Mesh( g4, new THREE.MeshBasicMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
+	    f5 = new THREE.Mesh( g5, new THREE.MeshBasicMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
+	    f6 = new THREE.Mesh( g6, new THREE.MeshBasicMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
+	    f7 = new THREE.Mesh( g7, new THREE.MeshBasicMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
+	    f8 = new THREE.Mesh( g8, new THREE.MeshBasicMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
+	    f9 = new THREE.Mesh( g9, new THREE.MeshBasicMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
+	    f10 = new THREE.Mesh( g10, new THREE.MeshBasicMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
+	    f11 = new THREE.Mesh( g11, new THREE.MeshBasicMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
+	    f12 = new THREE.Mesh( g12, new THREE.MeshBasicMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
+	    f13 = new THREE.Mesh( g13, new THREE.MeshBasicMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
+	    f14 = new THREE.Mesh( g14, new THREE.MeshBasicMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
+	    f15 = new THREE.Mesh( g15, new THREE.MeshBasicMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
+	    f16 = new THREE.Mesh( g16, new THREE.MeshBasicMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
+	    	    
+	    f1.doubleSided = true;
+	    f2.doubleSided = true;
+	    f3.doubleSided = true;
+	    f4.doubleSided = true;
+	    f5.doubleSided = true;
+	    f6.doubleSided = true;
+	    f7.doubleSided = true;
+	    f8.doubleSided = true;
+	    f9.doubleSided = true;
+	    f10.doubleSided = true;
+	    f11.doubleSided = true;
+	    f12.doubleSided = true;
+	    f13.doubleSided = true;
+	    f14.doubleSided = true;
+	    f15.doubleSided = true;
+	    f16.doubleSided = true;
+	    	    	    
+	    scene.add( f1 );
+	    scene.add( f2 );
+	    scene.add( f3 );
+	    scene.add( f4 );
+	    scene.add( f5 );
+	    scene.add( f6 );
+	    scene.add( f7 );
+	    scene.add( f8 );
+	    scene.add( f9 );
+	    scene.add( f10 );
+	    scene.add( f11 );
+	    scene.add( f12 );
+	    scene.add( f13 );
+	    scene.add( f14 );
+	    scene.add( f15 );
+	    scene.add( f16 );
 		
-		face.position.x = -4;
-		face.position.y = 2;
-		face.rotation.x = Math.PI;
-	
-	    renderer = new THREE.CanvasRenderer( { //WebGLRenderer( {
+		f1.rotation.x = Math.PI;
+		f2.rotation.x = Math.PI;
+		f3.rotation.x = Math.PI;
+		f4.rotation.x = Math.PI;
+		f5.rotation.x = Math.PI;
+		f6.rotation.x = Math.PI;
+		f7.rotation.x = Math.PI;
+		f8.rotation.x = Math.PI;
+		f9.rotation.x = Math.PI;
+		f10.rotation.x = Math.PI;
+		f11.rotation.x = Math.PI;
+		f12.rotation.x = Math.PI;
+		f13.rotation.x = Math.PI;
+		f14.rotation.x = Math.PI;
+		f15.rotation.x = Math.PI;
+		f16.rotation.x = Math.PI;
+
+
+	    renderer = new THREE.CanvasRenderer( {
 	    	antialias: true
 	    } );
 	    renderer.setSize( ww, wh );
@@ -281,19 +443,42 @@
 	    document.body.appendChild( renderer.domElement );
 	}
 	
-	function v(x,y,z) {
-	    var v = new THREE.Vector3( x/100, y/100, z/100 );
+	function v( x, y, z ) {
+	    var v = new THREE.Vector3( x/100 - 4, y/100 - 2, z/100 );
 	    return v;
 	}
 	  
-	function f4(a,b,c,d) {
+	function f4( a, b, c, d ) {
 		var f = new THREE.Face4( a, b, c, d );
-	    f.color.setHex( colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 ) ] );
-	    //mesh.faces[ 0 ].material = 0;
-	    //f.material = new THREE.MeshLambertMaterial({ color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )] });
 	    return f;
 	}
-		
+	
+	function setFParams( g ) {
+		g.faces.push( f4( 0, 2, 3, 1) );	
+		g.computeCentroids();
+		g.computeFaceNormals();
+		g.verticesNeedUpdate = true;
+		g.elementsNeedUpdate = true;
+		g.morphTargetsNeedUpdate = true;
+		g.uvsNeedUpdate = true;
+		g.normalsNeedUpdate = true;
+		g.colorsNeedUpdate = true;
+		g.tangentsNeedUpdate = true;
+	  	g.faceUvs = [[]];
+	  	g.faceVertexUvs = [[]];
+	  	g.dynamic = true;
+	  	for (var i in g.faces) {
+	  		var faceuv = [
+	  			new THREE.UV( 0, 1),
+	  			new THREE.UV( 1, 1),
+	  			new THREE.UV( 1, 0),
+	  			new THREE.UV( 0, 0)
+	  		]
+	  		g.faceVertexUvs[0].push( faceuv );
+	  	}
+	  	return g;
+	}
+	
 	function animate() {
 	    // note: three.js includes requestAnimationFrame shim
 	    requestAnimationFrame( animate );
@@ -301,7 +486,6 @@
 	}
 	
 	function render() {
-
 		//cmamera animation
 	    var ax, ay, az;
 	    ax = (nextCamPos.x - curCamPos.x) * spring;
@@ -378,11 +562,12 @@
 	        typeFacelLength = 20;
 	    }
 	    */
-	    
+	    /*
 	    for (var i in face.geometry.vertices.length-1) {
 		    face.geometry.vertices[ i ] = v(Math.random(), Math.random(), Math.random());
 		    face.updateMatrix();
 	    }
+	    */
 	    
 	    if( globalCounter > 1000 ){
 	        globalCounter = 0;
