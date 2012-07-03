@@ -186,43 +186,31 @@
 	    } );
 	
 	  	l1 = new THREE.Line(gl1, material);
-	  	l1.type = THREE.Lines;
 	    l2 = new THREE.Line(gl2, material);
-	  	l2.type = THREE.Lines;
 	    l3 = new THREE.Line(gl3, material);
-	  	l3.type = THREE.Lines;
 	  	l4 = new THREE.Line(gl4, material);
-	  	l4.type = THREE.Lines;
 	  	l5 = new THREE.Line(gl5, material);
-	  	l5.type = THREE.Lines;
 	  	l6 = new THREE.Line(gl6, material);
-	  	l6.type = THREE.Lines;
 	  	l7 = new THREE.Line(gl7, material);
-	  	l7.type = THREE.Lines;
 	  	l8 = new THREE.Line(gl8, material);
-	  	l8.type = THREE.Lines;
 	  	l9 = new THREE.Line(gl9, material);
-	  	l9.type = THREE.Lines;
 	  	
-	  	scene.add( l1 );
-	  	scene.add( l2 );
-	  	scene.add( l3 );
-	  	scene.add( l4 );
-	  	scene.add( l5 );
-	  	scene.add( l6 );
-	  	scene.add( l7 );
-	  	scene.add( l8 );
-	  	scene.add( l9 );
+	  	var lines = [];
+	  	lines.push( l1 );
+	  	lines.push( l2 );
+	  	lines.push( l3 );
+	  	lines.push( l4 );
+	  	lines.push( l5 );
+	  	lines.push( l6 );
+	  	lines.push( l7 );
+	  	lines.push( l8 );
+	  	lines.push( l9 );
 	  	
-		l1.rotation.x = Math.PI;
-		l2.rotation.x = Math.PI;
-		l3.rotation.x = Math.PI;
-		l4.rotation.x = Math.PI;
-		l5.rotation.x = Math.PI;
-		l6.rotation.x = Math.PI;
-		l7.rotation.x = Math.PI;
-		l8.rotation.x = Math.PI;
-		l9.rotation.x = Math.PI;
+	  	for (i in lines) {
+	  		lines[i].type = THREE.Lines;
+		  	scene.add( lines[i] );  	
+		  	lines[i].rotation.x = Math.PI;
+	  	}
 	    
 	    var g1 = new THREE.Geometry();
 	    g1.vertices.push(
@@ -355,56 +343,29 @@
 	    f15 = new THREE.Mesh( g15, new THREE.MeshLambertMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
 	    f16 = new THREE.Mesh( g16, new THREE.MeshLambertMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
 	    	    
-	    f1.doubleSided = true;
-	    f2.doubleSided = true;
-	    f3.doubleSided = true;
-	    f4.doubleSided = true;
-	    f5.doubleSided = true;
-	    f6.doubleSided = true;
-	    f7.doubleSided = true;
-	    f8.doubleSided = true;
-	    f9.doubleSided = true;
-	    f10.doubleSided = true;
-	    f11.doubleSided = true;
-	    f12.doubleSided = true;
-	    f13.doubleSided = true;
-	    f14.doubleSided = true;
-	    f15.doubleSided = true;
-	    f16.doubleSided = true;
-	    	    	    
-	    scene.add( f1 );
-	    scene.add( f2 );
-	    scene.add( f3 );
-	    scene.add( f4 );
-	    scene.add( f5 );
-	    scene.add( f6 );
-	    scene.add( f7 );
-	    scene.add( f8 );
-	    scene.add( f9 );
-	    scene.add( f10 );
-	    scene.add( f11 );
-	    scene.add( f12 );
-	    scene.add( f13 );
-	    scene.add( f14 );
-	    scene.add( f15 );
-	    scene.add( f16 );
-		
-		f1.rotation.x = Math.PI;		
-		f2.rotation.x = Math.PI;
-		f3.rotation.x = Math.PI;
-		f4.rotation.x = Math.PI;
-		f5.rotation.x = Math.PI;
-		f6.rotation.x = Math.PI;
-		f7.rotation.x = Math.PI;
-		f8.rotation.x = Math.PI;
-		f9.rotation.x = Math.PI;
-		f10.rotation.x = Math.PI;
-		f11.rotation.x = Math.PI;
-		f12.rotation.x = Math.PI;
-		f13.rotation.x = Math.PI;
-		f14.rotation.x = Math.PI;
-		f15.rotation.x = Math.PI;
-		f16.rotation.x = Math.PI;
+	    var faces = [];
+	    faces.push( f1 );
+	    faces.push( f2 );
+	    faces.push( f3 );
+	    faces.push( f4 );
+	    faces.push( f5 );
+	    faces.push( f6 );
+	    faces.push( f7 );
+	    faces.push( f8 );
+	    faces.push( f9 );
+	    faces.push( f10 );
+	    faces.push( f11 );
+	    faces.push( f12 );
+	    faces.push( f13 );
+	    faces.push( f14 );
+	    faces.push( f15 );
+	    faces.push( f16 );
+	    	    
+	    for (i in faces) {
+	    	faces[i].doubleSided = true;
+		    scene.add( faces[i] );
+		    faces[i].rotation.x = Math.PI;
+	    }
 
 	    renderer = new THREE.WebGLRenderer( {
 	    	antialias: true
