@@ -321,7 +321,7 @@
 			v(620,180, 80), v(720,180, 80)
 	  	);
 
-	  	g1 = setFParams( g1 );
+	  	g1 = setFParams( g1 );	  	
 	  	g2 = setFParams( g2 );
 	  	g3 = setFParams( g3 );
 	  	g4 = setFParams( g4 );
@@ -337,33 +337,6 @@
 	  	g14 = setFParams( g14 );
 	  	g15 = setFParams( g15 );
 	  	g16 = setFParams( g16 );
-
-	  	/*
-        var mats = [];
-        for (var i in geometry2.faces) {
-        	mats.push(new THREE.MeshLambertMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )] } ));
-        }
-                
-		
-		var geometry = new THREE.CubeGeometry( 1, 1, 1, 1, 1, 1, mats);
-		face = new THREE.Mesh( geometry, new THREE.MeshFaceMaterial());
-		
-      	var material = new THREE.MeshLambertMaterial( {
-        	color: 0xffffff
-        } );
-	  		  		
-	    var geometry3 = new THREE.Geometry( geometry2, mats );
-
- 	    var material2 = new THREE.MeshLambertMaterial( {
-	  		color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )],
-	  		overdraw: true
-	  	} );
-
-	    var material2 = new THREE.MeshBasicMaterial( {
-	  		vertexColors: THREE.FaceColors,
-	  		overdraw: true
-	  	} );
-	    */
 	    
 	    f1 = new THREE.Mesh( g1, new THREE.MeshLambertMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
 	    f2 = new THREE.Mesh( g2, new THREE.MeshLambertMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
@@ -416,7 +389,7 @@
 	    scene.add( f15 );
 	    scene.add( f16 );
 		
-		f1.rotation.x = Math.PI;
+		f1.rotation.x = Math.PI;		
 		f2.rotation.x = Math.PI;
 		f3.rotation.x = Math.PI;
 		f4.rotation.x = Math.PI;
@@ -432,7 +405,6 @@
 		f14.rotation.x = Math.PI;
 		f15.rotation.x = Math.PI;
 		f16.rotation.x = Math.PI;
-
 
 	    renderer = new THREE.WebGLRenderer( {
 	    	antialias: true
@@ -506,9 +478,6 @@
 	    camera.position.x = curCamPos.x;
 	    camera.position.y = curCamPos.y;
 	    camera.position.z = curCamPos.z;
-	    //camera.up.x = 0;
-	    //camera.up.y = 0;
-	    //camera.up.z = 1;
 	    camera.lookAt( {x:0, y:0, z:0 } );
 	    
 	    /*
@@ -562,16 +531,17 @@
 	        typeFacelLength = 20;
 	    }
 	    */
-	    /*
-	    for (var i in face.geometry.vertices.length-1) {
-		    face.geometry.vertices[ i ] = v(Math.random(), Math.random(), Math.random());
-		    face.updateMatrix();
-	    }
-	    */
 	    
 	    if( globalCounter > 1000 ){
 	        globalCounter = 0;
 	    }
+	    
+	    /*
+	    l1.geometry.verticesNeedUpdate = true;
+	    l1.geometry.vertices[0].x = globalCounter/1000;
+	    l1.geometry.vertices[0].y = globalCounter/1000;
+	    l1.geometry.vertices[0].z = 0;
+	    */	    
 	}
 //})();
 </script>
