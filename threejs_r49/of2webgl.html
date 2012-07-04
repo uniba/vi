@@ -3,10 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <script src="ref/js/Three.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="ref/js/processing.js"></script>
+  <script src="ref/js/initp5.js"></script>
+  <style type="text/css">
+    body {
+      margin:0;
+    }
+    #webglcontainer { 
+      position:absolute;
+      left:0px;
+      top:0px;
+      z-index:100;
+    }
+    #p5container { 
+      position:absolute;
+      left:0px;
+      top:0px;
+      z-index:0;
+    }
+  </style>
 </head>
 <body>
+<div id="webglcontainer"></div>
+<canvas id="p5container" data-processing-sources="ref/js/bg.pde"></canvas>
 <script type="text/javascript">
-(function() {
+//(function() {
   // Global
   var ww = window.innerWidth,
       wh = window.innerHeight,
@@ -19,20 +41,22 @@
       strokeDuration     = 240,
       globalCounter      =   0,
       globalRoopDuration = 360;
+  // Processing.js
+  var p5init             = true;
   // Three.js Scene Members  
   var scene, renderer,
       camera, 
       pointLight1, pointLight2, pointLight3, pointLight4,
       stroke,
-      depth = [];
+      depth              = [];
   // Value Holders
-  var strokeDefaultPos = [],
-      depthDefaultPos  = [],      
-      cameraFriction   = 0.03,
-      cameraSpring     = 0.05,
-      curCamPos  = { x:0, y:0, z:0 },
-      nextCamPos = { x:0, y:0, z:0 },
-      speed      = { x:0, y:0, z:0 };
+  var strokeDefaultPos   = [],
+      depthDefaultPos    = [],      
+      cameraFriction     = 0.03,
+      cameraSpring       = 0.05,
+      curCamPos          = { x:0, y:0, z:0 },
+      nextCamPos         = { x:0, y:0, z:0 },
+      speed              = { x:0, y:0, z:0 };
   // Color Preset Array
   var colorPatternIndexNum = Math.floor( Math.random() * 7 ),
       colorPristArray = [
@@ -305,8 +329,7 @@
     // Three.js Renderer
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(ww, wh);
-    renderer.setClearColorHex(colorPristArray[colorPatternIndexNum][Math.floor(Math.random() * 4) ], 0.9);
-    document.body.appendChild(renderer.domElement);
+    document.getElementById('webglcontainer').appendChild(renderer.domElement);
     
     function setFParams(g) {
       g.faces.push(f4(0, 2, 3, 1));    
@@ -478,15 +501,24 @@
     }
     
     function dividedBackgroundUpdate() {      
-      // Divided Background
+      // Call Processing.js Canvas
+      if (p5 && p5init) {
+        var bgcolor = colorPristArray[colorPatternIndexNum][Math.floor(Math.random() * 4)];
+        var r = parseInt(bgcolor.slice(2, 4), 16);
+        var g = parseInt(bgcolor.slice(4, 6), 16);
+        var b = parseInt(bgcolor.slice(6, 8), 16);
+        p5.setBgColor(r, g, b);
+        p5.setSize(ww, wh);
+        p5init = false;
+        console.log("p5 initialized, r = " + r + ", g = " + g + ", b = " + b);
+      }
     }
   }
   
   function rgb2hex(r, g, b) {
-    var c = r + 256 * g + 65536 * b;
-    return "0x" + c.toString(16);
+    return '0x' + (((256 + r << 8) + g << 8) + b).toString(16).slice(1);
   }
-  
+
   function v(x, y, z) {
     var v = new THREE.Vector3( x/100 - 4, y/100 - 2, z/100 );
     return v;
@@ -496,7 +528,7 @@
     var f = new THREE.Face4(a, b, c, d);
     return f;
   }
-})();
+//})();
 </script>
 </body>
 </html>
