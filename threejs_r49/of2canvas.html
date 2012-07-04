@@ -178,7 +178,7 @@
     }
     stroke.rotation.x = Math.PI;
     scene.add(stroke); 
-    // Depth Rhonbus
+    // Depth Rhombus
     var g1 = new THREE.Geometry();
     g1.vertices.push(
       // U
@@ -359,7 +359,7 @@
   function render() { 
     cameraUpdate();
     strokeUpdate();
-    depthRhonbusUpdate();
+    depthRhombusUpdate();
     dividedBackgroundUpdate();
     counterUpdate();
     renderer.render(scene, camera);
@@ -431,7 +431,7 @@
       }
     }
     
-    function depthRhonbusUpdate() {
+    function depthRhombusUpdate() {
       if (0 == globalCounter % 50) {
         var flag = true,
             count = 0;
@@ -511,6 +511,11 @@
         p5.setSize(ww, wh);
         p5init = false;
         console.log("p5 initialized, r = " + r + ", g = " + g + ", b = " + b);
+        // this code have to replace in future        
+        for (i in depth) {
+          depth[i].bang = false;
+        }
+        // this code have to replace in future
       }
     }
   }
