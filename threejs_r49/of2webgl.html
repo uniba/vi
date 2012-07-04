@@ -15,6 +15,9 @@
     	spring = 0.05;
     	
     var globalCounter = 0,
+    	strokeCounter = 0,
+    	strokeDuration = 240,
+    	globalRoopDuration = 360,
       	isAnimationAuto = true,
       	curCamPos  = { x:0, y:0, z:0 },
       	nextCamPos = { x:0, y:0, z:0 },
@@ -22,7 +25,11 @@
       	
     var lengthOfArray;
       	
-	var camera, scene, renderer, line, face, pointLight1, pointLight2, pointLight3, pointLight4;
+	var camera, scene, renderer, pointLight1, pointLight2, pointLight3, pointLight4;
+	var lines;
+	var linesDefaultPos = [];
+	var faces = []; 
+	var facesDefaultPos = [];
 	
 	//color preset
 	var colorPristArray = [
@@ -122,55 +129,31 @@
 		scene.add( pointLight3 );
 		scene.add( pointLight4 );
 			      
-	  	var gl1 = new THREE.Geometry();
-	  	gl1.vertices.push(        	
+	  	var lineGeom = new THREE.Geometry();
+	  	lineGeom.vertices.push(        	
 			// U
 			v(  0,  0,  0), v(  0,200,  0),
 			v(  0,200,  0), v(100,200,  0),
-			v(100,200,  0), v(100,  0,  0)
-		);
-		var gl2 = new THREE.Geometry();
-	  	gl2.vertices.push(        	
+			v(100,200,  0), v(100,  0,  0),     	
 			// U-N
-			v(100,  0,  0), v(200,200,  0)
-		);
-		var gl3 = new THREE.Geometry();
-	  	gl3.vertices.push(
+			v(100,  0,  0), v(200,200,  0),
 			// N
 			v(200,200,  0), v(200,  0,  0),
 			v(200,  0,  0), v(300,  0,  0),
-			v(300,  0,  0), v(300,200,  0)
-		);
-		var gl4 = new THREE.Geometry();
-	  	gl4.vertices.push(        		
+			v(300,  0,  0), v(300,200,  0),    		
 			// N-I
-			v(300,200,  0), v(400,  0,  0)
-		);
-		var gl5 = new THREE.Geometry();
-	  	gl5.vertices.push(
+			v(300,200,  0), v(400,  0,  0),
 			// I
-			v(400,  0,  0), v(400,200,  0)
-		);
-		var gl6 = new THREE.Geometry();
-	  	gl6.vertices.push(        	
+			v(400,  0,  0), v(400,200,  0),  	
 			// I-B
-			v(400,200,  0), v(500,  0,  0)
-		);
-		var gl7 = new THREE.Geometry();
-	  	gl7.vertices.push(
+			v(400,200,  0), v(500,  0,  0),
 			// B
 			v(500,  0,  0), v(500,300,  0),
 			v(500,300,  0), v(600,200,  0),
 			v(600,200,  0), v(600,100,  0),
-			v(600,100,  0), v(500,100,  0)
-		);
-		var gl8 = new THREE.Geometry();
-	  	gl8.vertices.push( 
+			v(600,100,  0), v(500,100,  0),
 			// B-A
-			v(500,100,  0), v(700,  0,  0)
-		);		
-		var gl9 = new THREE.Geometry();
-	  	gl9.vertices.push(        	
+			v(500,100,  0), v(700,  0,  0),    	
 			// A
 			v(700,  0,  0), v(800,  0,  0),
 			v(800,  0,  0), v(800,200,  0),
@@ -179,38 +162,24 @@
 			v(700,100,  0), v(800,100,  0)
 	  	);
 
-
 	  	var material = new THREE.LineBasicMaterial( {
 	    	color: 0x000000,
 	    	lineWidth: 1.25
 	    } );
 	
-	  	l1 = new THREE.Line(gl1, material);
-	    l2 = new THREE.Line(gl2, material);
-	    l3 = new THREE.Line(gl3, material);
-	  	l4 = new THREE.Line(gl4, material);
-	  	l5 = new THREE.Line(gl5, material);
-	  	l6 = new THREE.Line(gl6, material);
-	  	l7 = new THREE.Line(gl7, material);
-	  	l8 = new THREE.Line(gl8, material);
-	  	l9 = new THREE.Line(gl9, material);
-	  	
-	  	var lines = [];
-	  	lines.push( l1 );
-	  	lines.push( l2 );
-	  	lines.push( l3 );
-	  	lines.push( l4 );
-	  	lines.push( l5 );
-	  	lines.push( l6 );
-	  	lines.push( l7 );
-	  	lines.push( l8 );
-	  	lines.push( l9 );
-	  	
-	  	for (i in lines) {
-	  		lines[i].type = THREE.Lines;
-		  	scene.add( lines[i] );  	
-		  	lines[i].rotation.x = Math.PI;
+	  	lines = new THREE.Line(lineGeom, material);
+	    lines.type = THREE.Lines;
+	  			  	
+	  	for (i in lines.geometry.vertices) {
+	  		var lv = {};
+	  		lv.x = lines.geometry.vertices[i].x;
+	  		lv.y = lines.geometry.vertices[i].y;
+	  		lv.z = lines.geometry.vertices[i].z;
+	  		linesDefaultPos[i] = lv;
 	  	}
+	  	
+	  	scene.add( lines );  	
+		lines.rotation.x = Math.PI;
 	    
 	    var g1 = new THREE.Geometry();
 	    g1.vertices.push(
@@ -342,8 +311,7 @@
 	    f14 = new THREE.Mesh( g14, new THREE.MeshLambertMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
 	    f15 = new THREE.Mesh( g15, new THREE.MeshLambertMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
 	    f16 = new THREE.Mesh( g16, new THREE.MeshLambertMaterial( { color: colorPristArray[colorPatternIndexNum][Math.floor( Math.random() * 4 )], overdraw: true } ) );
-	    	    
-	    var faces = [];
+	    
 	    faces.push( f1 );
 	    faces.push( f2 );
 	    faces.push( f3 );
@@ -363,6 +331,7 @@
 	    	    
 	    for (i in faces) {
 	    	faces[i].doubleSided = true;
+	    	//facesDefaultPosX[i] = faces[i].geometry;
 		    scene.add( faces[i] );
 		    faces[i].rotation.x = Math.PI;
 	    }
@@ -441,13 +410,6 @@
 	    camera.position.z = curCamPos.z;
 	    camera.lookAt( {x:0, y:0, z:0 } );
 	    
-	    /*
-	    for( var i = 0; i< 4; i++ ){
-	        dividePoint[i].x += speed.x * 30;
-	        dividePoint[i].y += speed.y * 30;
-	    }
-	    */
-	    
 	    if( 0 == globalCounter % 50 ){
 	        if( 0 == Math.floor( Math.random() * 4 ) ){
 	            if( 0 == Math.floor( Math.random() * 3 ) ){
@@ -478,31 +440,66 @@
 	        }
 	    }
 		
+		// Typo Animation
+		if (strokeCounter != strokeDuration) {
+			var maxLength = linesDefaultPos.length / 2;
+			var currentLength = maxLength * strokeCounter / strokeDuration;
+			var currentVertice = Math.floor(currentLength) * 2;
+			var targetPosX = linesDefaultPos[currentVertice].x + (linesDefaultPos[currentVertice + 1].x - linesDefaultPos[currentVertice].x) * ((currentLength * 2 - currentVertice) / 2);
+			var targetPosY = linesDefaultPos[currentVertice].y + (linesDefaultPos[currentVertice + 1].y - linesDefaultPos[currentVertice].y) * ((currentLength * 2 - currentVertice) / 2);
+			var targetPosZ = linesDefaultPos[currentVertice].z + (linesDefaultPos[currentVertice + 1].z - linesDefaultPos[currentVertice].z) * ((currentLength * 2 - currentVertice) / 2);
+			
+			lines.geometry.verticesNeedUpdate = true;
+			
+			for(i=0; i<lines.geometry.vertices.length; i++) {
+				if ( i <= currentVertice ) {
+					lines.geometry.vertices[i].x = linesDefaultPos[i].x;
+				    lines.geometry.vertices[i].y = linesDefaultPos[i].y;
+				    lines.geometry.vertices[i].z = linesDefaultPos[i].z;
+				} else {
+				    lines.geometry.vertices[i].x = targetPosX;
+				    lines.geometry.vertices[i].y = targetPosY;
+				    lines.geometry.vertices[i].z = targetPosZ;
+				}
+			}
+        } else if (strokeCounter == strokeDuration) {
+	        lines.geometry.verticesNeedUpdate = true;
+	        for(i in lines.geometry.vertices) {
+			    lines.geometry.vertices[i].x = linesDefaultPos[i].x;
+			    lines.geometry.vertices[i].y = linesDefaultPos[i].y;
+			    lines.geometry.vertices[i].z = linesDefaultPos[i].z;	
+			}
+        }
+		
 		// Three.js renderer	
 	    renderer.render( scene, camera );
 	    
-	    // 
-        //isParallel = calcIntersectionPoint( dividePoint[0], dividePoint[2], dividePoint[1], dividePoint[3], divideCrossPoint );
-	    if ( isAnimationAuto ){
-	        globalCounter++;
-	    }
-	    /*
-	    typeFacelLength += 0.15;
-	    if( typeFacelLength > 20){
-	        typeFacelLength = 20;
+	    // Divided Background 
+        /*
+        isParallel = calcIntersectionPoint( dividePoint[0], dividePoint[2], dividePoint[1], dividePoint[3], divideCrossPoint );
+	    
+	    for( var i = 0; i< 4; i++ ){
+	        dividePoint[i].x += speed.x * 30;
+	        dividePoint[i].y += speed.y * 30;
 	    }
 	    */
 	    
-	    if( globalCounter > 1000 ){
-	        globalCounter = 0;
+	    // Counters
+	    
+	    
+	    if ( isAnimationAuto ) {
+	        globalCounter++;
+	        strokeCounter++;
 	    }
 	    
-	    /*
-	    l1.geometry.verticesNeedUpdate = true;
-	    l1.geometry.vertices[0].x = globalCounter/1000;
-	    l1.geometry.vertices[0].y = globalCounter/1000;
-	    l1.geometry.vertices[0].z = 0;
-	    */	    
+	    if ( strokeCounter > strokeDuration ) {
+		    strokeCounter = strokeDuration;
+	    }
+	    
+	    if ( globalCounter > globalRoopDuration ) {
+	        globalCounter = 0;
+	        strokeCounter = 0;
+	    }   
 	}
 //})();
 </script>
