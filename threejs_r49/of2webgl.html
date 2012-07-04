@@ -6,32 +6,41 @@
 </head>
 <body>
 <script type="text/javascript">
-//(function() {   
+//(function() {
+	// Global
     var ww = window.innerWidth,
-	    wh = window.innerHeight;
-    
-    var MAX_WORLD_CLIP = 7;
+	    wh = window.innerHeight,
+      	isAnimationAuto = true,
+      	MAX_WORLD_CLIP = 7,
     	friction = 0.03,
     	spring = 0.05;
-    	
-    var globalCounter = 0,
-    	strokeCounter = 0,
+    
+    // Counters
+    var strokeCounter = 0,
     	strokeDuration = 240,
-    	globalRoopDuration = 360,
-      	isAnimationAuto = true,
-      	curCamPos  = { x:0, y:0, z:0 },
+    	globalCounter = 0,
+	    globalRoopDuration = 360;
+        
+    // Depth Rhombus
+    var depthRhombusAnim = true,
+    	rhombusDepthMax = 10;
+    	rhombusDepthCurrent = 0;
+
+	// Three.js Scene Members	
+	var scene, renderer,
+		camera, 
+		pointLight1, pointLight2, pointLight3, pointLight4,
+		lines,
+		faces = [];
+	
+	// Value Holders
+	var linesDefaultPos = [],
+		facesDefaultPos = [],
+	    curCamPos  = { x:0, y:0, z:0 },
       	nextCamPos = { x:0, y:0, z:0 },
       	speed      = { x:0, y:0, z:0 };
-      	
-    var lengthOfArray;
-      	
-	var camera, scene, renderer, pointLight1, pointLight2, pointLight3, pointLight4;
-	var lines;
-	var linesDefaultPos = [];
-	var faces = []; 
-	var facesDefaultPos = [];
 	
-	//color preset
+	// Color Preset Array
 	var colorPristArray = [
 	    [
 	        rgb2hex(217, 217, 217),
@@ -331,9 +340,20 @@
 	    	    
 	    for (i in faces) {
 	    	faces[i].doubleSided = true;
-	    	//facesDefaultPosX[i] = faces[i].geometry;
 		    scene.add( faces[i] );
 		    faces[i].rotation.x = Math.PI;
+		    faces[i].bang = false;
+		    
+		    // making array will be called like this 'facesDefaultPos[i][j].x' ...
+		    var fv = [];
+    	  	for (j in faces[i].geometry.vertices) {
+	    	  	var fgv = {};
+		  		fgv.x = faces[i].geometry.vertices[j].x;
+		  		fgv.y = faces[i].geometry.vertices[j].y;
+		  		fgv.z = faces[i].geometry.vertices[j].z;
+		  		fv.push( fgv );
+		  	}
+		  	facesDefaultPos[i] = fv;
 	    }
 
 	    renderer = new THREE.WebGLRenderer( {
@@ -388,7 +408,8 @@
 	}
 	
 	function render() {
-		//cmamera animation
+	
+		//Cmamera
 	    var ax, ay, az;
 	    ax = (nextCamPos.x - curCamPos.x) * spring;
 	    speed.x += ax;
@@ -410,9 +431,9 @@
 	    camera.position.z = curCamPos.z;
 	    camera.lookAt( {x:0, y:0, z:0 } );
 	    
-	    if( 0 == globalCounter % 50 ){
-	        if( 0 == Math.floor( Math.random() * 4 ) ){
-	            if( 0 == Math.floor( Math.random() * 3 ) ){
+	    if ( 0 == globalCounter % 50 ) {
+	        if ( 0 == Math.floor( Math.random() * 4 ) ) {
+	            if ( 0 == Math.floor( Math.random() * 3 ) ) {
 	                nextCamPos.x = ( Math.random() * 2 - 1.0 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
 	                nextCamPos.y = ( Math.random() * 1 - 0.5 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
 	                nextCamPos.z = ( Math.random() * 2 - 1.0 ) * MAX_WORLD_CLIP/2 + MAX_WORLD_CLIP/2;
@@ -440,7 +461,7 @@
 	        }
 	    }
 		
-		// Typo Animation
+		// Stroke
 		if (strokeCounter != strokeDuration) {
 			var maxLength = linesDefaultPos.length / 2;
 			var currentLength = maxLength * strokeCounter / strokeDuration;
@@ -451,7 +472,7 @@
 			
 			lines.geometry.verticesNeedUpdate = true;
 			
-			for(i=0; i<lines.geometry.vertices.length; i++) {
+			for (i=0; i<lines.geometry.vertices.length; i++) {
 				if ( i <= currentVertice ) {
 					lines.geometry.vertices[i].x = linesDefaultPos[i].x;
 				    lines.geometry.vertices[i].y = linesDefaultPos[i].y;
@@ -471,10 +492,44 @@
 			}
         }
 		
-		// Three.js renderer	
-	    renderer.render( scene, camera );
-	    
-	    // Divided Background 
+		// Depth Rhonbus
+		if ( 0 == globalCounter % 50 ) {
+			var flag = true,
+				count = 0;
+			while (flag) {
+				var rnd = Math.floor(Math.random()*faces.length);
+				console.log(rnd);
+				if ( faces[rnd].bang == false ) {
+					faces[rnd].bang = true;
+					flag = false;
+				}
+				count++;
+				if (count > faces.length) {
+					flag = false;
+				}
+			}
+		}
+		
+		for (i in faces) {			
+			faces[i].geometry.verticesNeedUpdate = true;
+			if ( faces[i].bang ) {
+				faces[i].geometry.vertices[2].x = faces[i].geometry.vertices[2].x + ( facesDefaultPos[i][2].x - faces[i].geometry.vertices[2].x ) * spring;
+				faces[i].geometry.vertices[2].y = faces[i].geometry.vertices[2].y + ( facesDefaultPos[i][2].y - faces[i].geometry.vertices[2].y ) * spring;
+				faces[i].geometry.vertices[2].z = faces[i].geometry.vertices[2].z + ( facesDefaultPos[i][2].z - faces[i].geometry.vertices[2].z ) * spring;
+				faces[i].geometry.vertices[3].x = faces[i].geometry.vertices[3].x + ( facesDefaultPos[i][3].x - faces[i].geometry.vertices[3].x ) * spring;
+				faces[i].geometry.vertices[3].y = faces[i].geometry.vertices[3].y + ( facesDefaultPos[i][3].y - faces[i].geometry.vertices[3].y ) * spring;
+				faces[i].geometry.vertices[3].z = faces[i].geometry.vertices[3].z + ( facesDefaultPos[i][3].z - faces[i].geometry.vertices[3].z ) * spring;
+			} else {
+				faces[i].geometry.vertices[2].x = facesDefaultPos[i][0].x;
+				faces[i].geometry.vertices[2].y = facesDefaultPos[i][0].y;
+				faces[i].geometry.vertices[2].z = facesDefaultPos[i][0].z;
+				faces[i].geometry.vertices[3].x = facesDefaultPos[i][1].x;
+				faces[i].geometry.vertices[3].y = facesDefaultPos[i][1].y;
+				faces[i].geometry.vertices[3].z = facesDefaultPos[i][1].z;
+			}
+		}
+		
+        // Divided Background 
         /*
         isParallel = calcIntersectionPoint( dividePoint[0], dividePoint[2], dividePoint[1], dividePoint[3], divideCrossPoint );
 	    
@@ -483,10 +538,11 @@
 	        dividePoint[i].y += speed.y * 30;
 	    }
 	    */
+		
+		// Three.js Renderer	
+	    renderer.render( scene, camera );
 	    
-	    // Counters
-	    
-	    
+	    // Counters for Global & Stroke
 	    if ( isAnimationAuto ) {
 	        globalCounter++;
 	        strokeCounter++;
@@ -499,7 +555,30 @@
 	    if ( globalCounter > globalRoopDuration ) {
 	        globalCounter = 0;
 	        strokeCounter = 0;
-	    }   
+	    }
+
+	    // Counters for Depth Rhombus
+        if( depthRhombusAnim ){
+            rhombusDepthCurrent++;
+        }
+        if( rhombusDepthMax < rhombusDepthCurrent ){
+            rhombusDepthCurrent = 10;
+            depthRhombusAnim = false;
+        }
+	    
+	    /*
+	    ofxUnibaLogoTypoLineElement() {
+	        bang = false;
+	        didFinishedAnimation = false;
+	        typeFacelLength = 0;
+	    };
+	    
+	    void resetCounter() {
+	        typeFacelLength = 0;
+	        didFinishedAnimation = false;
+	        bang = false;
+	    };
+	    */
 	}
 //})();
 </script>
