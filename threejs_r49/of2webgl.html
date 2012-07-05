@@ -503,14 +503,16 @@
     function dividedBackgroundUpdate() {      
       // Call Processing.js Canvas
       if (p5 && p5init) {
-        var bgcolor = colorPristArray[colorPatternIndexNum][Math.floor(Math.random() * 4)];
-        var r = parseInt(bgcolor.slice(2, 4), 16);
-        var g = parseInt(bgcolor.slice(4, 6), 16);
-        var b = parseInt(bgcolor.slice(6, 8), 16);
-        p5.setBgColor(r, g, b);
+        for (i = 0; i < 4; i++) {
+          var bgcolor = colorPristArray[colorPatternIndexNum][i];
+          var r = parseInt(bgcolor.slice(2, 4), 16);
+          var g = parseInt(bgcolor.slice(4, 6), 16);
+          var b = parseInt(bgcolor.slice(6, 8), 16);
+          p5.setBgColor(r, g, b, i);
+        }
         p5.setSize(ww, wh);
         p5init = false;
-        console.log("p5 initialized, r = " + r + ", g = " + g + ", b = " + b);
+        console.log("p5 initialized");
         // this code have to replace in future        
         for (i in depth) {
           depth[i].bang = false;
