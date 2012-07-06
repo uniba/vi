@@ -1,28 +1,29 @@
-PVector[] dividePoint = new PVector[4];
-PVector divideCrossPoint = new PVector;
-color[] divideRectColors = new color[4];
+// Window Size
+int ww;
+int wh;
 
+// Color
+color[] divideRectColors = new color[4];
+// Default Value
 divideRectColors[0] = color(217, 217, 217);
 divideRectColors[1] = color(199,  95,  91);
 divideRectColors[2] = color(242, 156, 159);
 divideRectColors[3] = color(255, 246,  26);
 
+// Inner Circle
+float divideAngleInner = TWO_PI * random();
+float radiusInnerCircle = 100;
+// Outer Circle
+float divideAngleOuterA = TWO_PI * random();
+float divideAngleOuterB = TWO_PI * random();
+float radiusOuterCircle = 200;
+float outerCircleCenterX;
+float outerCircleCenterY;
+
 void setup() {
   processingInitComplete();
   frameRate(30);
-  for (int i = 0; i < 4; i++) {
-    //float angle = HALF_PI * i;
-    //float radius = ww / sqrt(2.0);
-    //PVector calVect = PVector(radius / sqrt(2.0), radius / sqrt(2.0));
-    //calVect = rotate(calVect, 0, 0, angle);
-    //calVect += PVector(ww / 2, wh / 2);
-    PVector v = new PVector;
-    v.x = round(random(ww));
-    v.y = round(random(wh));
-    dividePoint[i] = v;
-  }
-  divideCrossPoint.x = round(random(ww));
-  divideCrossPoint.y = round(random(wh));
+  noStroke();
 }
 
 void setStageSize(int windowWidth, int windowHeight, float windowScaleS) {
@@ -34,42 +35,39 @@ void setBgColor(int r, int g, int b, int s) {
   divideRectColors[s] = color(r, g, b);
 }
 
-void setSize(int ww, int wh) {
+void setSize(int w, int h) {
+  ww = w;
+  wh = h;
   size(ww, wh);
+  radiusInnerCircle = wh / 2.5;
+}
+
+void updateBgAngle(float x, float y, float z) {
+  divideAngleInner = abs(z);
+  divideAngleOuterA = abs(x);
+  divideAngleOuterB = abs(y);
 }
 
 void draw() {
   background(divideRectColors[0]);
   
-  for (int i = 0; i < 4; i++){
-    noStroke();
-    colorMode(RGB);
-    stroke(divideRectColors[i]);
-    fill(divideRectColors[i]);
-    beginShape();
-    if (i == 3) {
-      vertex(dividePoint[i].x, dividePoint[i].y);
-      vertex(divideCrossPoint.x, divideCrossPoint.y);
-      vertex(dividePoint[0].x, dividePoint[0].y);
-    } else {
-      vertex(dividePoint[i].x, dividePoint[i].y);
-      vertex(divideCrossPoint.x, divideCrossPoint.y);
-      vertex(dividePoint[i + 1].x, dividePoint[i + 1].y);
-    }
-    switch (i) {
-      case 0:
-        vertex(0, wh);
-        break;
-      case 1:
-        vertex(0, 0);
-        break;
-      case 2:
-        vertex(ww, 0);
-        break;
-      case 3:
-        vertex(ww, wh);
-        break;
-    }
-    endShape(CLOSE);
-  }
+  divideAngleOuterB = divideAngleOuterB % PI;
+  outerCircleCenterX = cos(divideAngleInner) * radiusInnerCircle + ww / 2;
+  outerCircleCenterY = sin(divideAngleInner) * radiusInnerCircle + wh / 2;
+  radiusOuterCircle = ww * 2;
+
+  translate(outerCircleCenterX, outerCircleCenterY);
+  rotate(divideAngleOuterA);
+
+  fill(divideRectColors[0]);
+  arc(0, 0, radiusOuterCircle, radiusOuterCircle, 0, divideAngleOuterB);
+  
+  fill(divideRectColors[1]);
+  arc(0, 0, radiusOuterCircle, radiusOuterCircle, divideAngleOuterB, PI);
+  
+  fill(divideRectColors[2]);
+  arc(0, 0, radiusOuterCircle, radiusOuterCircle, PI, divideAngleOuterB + PI);
+    
+  fill(divideRectColors[3]);  
+  arc(0, 0, radiusOuterCircle, radiusOuterCircle, divideAngleOuterB + PI, TWO_PI);
 }
