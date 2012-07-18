@@ -6,7 +6,7 @@
   <script src="ref/js/Three.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script src="ref/js/processing.js"></script>
-  <script src="ref/js/initp5.js"></script>
+  <script src="ref/js/initp5.js"></script> 
   <style type="text/css">
     body {
       margin:0;
@@ -29,7 +29,7 @@
 <div id="webglcontainer"></div>
 <canvas id="p5container" data-processing-sources="ref/js/bg.pde"></canvas>
 <script type="text/javascript">
-//(function() {
+
   // Global
   var ww = window.innerWidth,
       wh = window.innerHeight,
@@ -65,50 +65,30 @@
       nextCamPos         = { x:0, y:0, z:0 },
       speed              = { x:0, y:0, z:0 };
   // Color Preset Array
-  var colorPatternIndexNum = Math.floor( Math.random() * 7 ),
+  var colorPatternIndexNum = Math.floor( Math.random() * 4 ),
       colorPristArray = [
+      [
+        rgb2hex( 77,  77,  77),
+        rgb2hex(204, 204, 204),
+        rgb2hex(  0, 104, 183),
+        rgb2hex(245, 151,   0)], 
       [
         rgb2hex(217, 217, 217),
         rgb2hex(199,  95,  91),
         rgb2hex(242, 156, 159),
         rgb2hex(255, 246,  26)],
       [
-        rgb2hex( 77,  77,  77),
-        rgb2hex(  0, 158, 150),
-        rgb2hex(207, 159,  93),
-        rgb2hex(206, 100,  95)], 
-      [
-        rgb2hex(247, 247,   0),
-        rgb2hex(179, 179, 179),
-        rgb2hex(255,   0,   0),
-        rgb2hex(218, 100,  95)],
-      [
-        rgb2hex(  0,   0,   0),
-        rgb2hex(204, 204, 204),
-        rgb2hex(  0, 104, 183),
-        rgb2hex(245, 151,   0)],
-      [
-        rgb2hex(164,   0,   0),
-        rgb2hex(228, 246, 254),
-        rgb2hex( 76, 137, 164),
-        rgb2hex(  3,   0,  76)],
-      [
-        rgb2hex(137, 201, 151),
-        rgb2hex(253, 251, 222),
-        rgb2hex(131, 106,  74),
-        rgb2hex(209, 163,  87)],
-      [
         rgb2hex(255, 234, 240),
         rgb2hex(  0, 187, 236),
         rgb2hex( 44, 110, 213),
         rgb2hex(255, 252, 190)],
       [
-        rgb2hex( 30,  50,   0),
-        rgb2hex(193, 231,  50),
-        rgb2hex( 14,   3, 107),
-        rgb2hex(255, 151, 168)]
+        rgb2hex(137, 201, 151),
+        rgb2hex(253, 251, 222),
+        rgb2hex(131, 106,  74),
+        rgb2hex(209, 163,  87)]
       ];
-  
+
   setup();
   animate();
   
@@ -584,7 +564,7 @@
     var f = new THREE.Face4(a, b, c, d);
     return f;
   }
-//})();
+  
 </script>
 </body>
 </html>
