@@ -48,6 +48,10 @@ void updateBgAngle(float x, float y, float z) {
   divideAngleOuterB = abs(y);
 }
 
+void captureScreen() {
+  save("background.png");
+}
+
 void draw() {
   background(divideRectColors[0]);
   
