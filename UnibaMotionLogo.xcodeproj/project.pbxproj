@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -1925,6 +1925,7 @@
 					ppc,
 					i386,
 				);
+				CODE_SIGN_IDENTITY = "";
 				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/bin/";
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
@@ -2084,6 +2085,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH)";
+				CODE_SIGN_IDENTITY = "";
 				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/bin/";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
@@ -2121,6 +2123,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH)";
+				CODE_SIGN_IDENTITY = "";
 				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/bin/";
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;

@@ -53,13 +53,13 @@ public:
         
         camera.setup();
         //--------- set color array ------------------
-        currentColorIndex = floor( ofRandom(logoColor.length) - 1 );
+        currentColorIndex = floor( ofRandom(logoColor.length) );
         
         //---------set background division -----------
         lagoBackgroundDvision.currentColorIndex = currentColorIndex;
         lagoBackgroundDvision.setup();
         
-        int colorPatternIndexNum = floor( ofRandom( 7 ) - 1 );
+        int colorPatternIndexNum = floor( ofRandom(logoColor.length) );
         
         //---------setup logo depth rect --------------
         logoTypoDepthRecct.currentColorIndex = currentColorIndex;
@@ -139,7 +139,7 @@ public:
     };
     
     void changeColorVariation(){
-        currentColorIndex = floor(ofRandom( 6 )) ;
+        currentColorIndex = floor(ofRandom( logoColor.length )) ;
         
         //-----change colorvariation of background division----
         lagoBackgroundDvision.changeColorVariation( currentColorIndex );

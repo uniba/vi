@@ -20,6 +20,8 @@ string uiSettingFilePath = "GUI/guiSettings.xml";
 
 bool debugMode = false;
 bool drawGradation = true;
+bool capStreram = false;
+int capCount = 0;
 //--------------------------------------------------------------
 void ofUnibaLogoA::setup(){
     
@@ -54,7 +56,8 @@ void ofUnibaLogoA::setup(){
     gui->addWidgetDown( new ofxUIToggle( 20, 20, false, "FULL SCREEN") );
     gui->addWidgetDown( new ofxUIRotarySlider( 100, 0, 255, 0, "HUE" ) ); 
     gui->addWidgetDown( new ofxUILabel( "press \'o\' to hide and show controller menu." ,OFX_UI_FONT_SMALL ) ); 
-    gui->addWidgetDown( new ofxUILabel( "press \'c\' to capture screen." ,OFX_UI_FONT_SMALL ) ); 
+    gui->addWidgetDown( new ofxUILabel( "press \'c\' to capture a screen shot." ,OFX_UI_FONT_SMALL ) ); 
+    gui->addWidgetDown( new ofxUILabel( "press \'v\' to capture 10 screen shots." ,OFX_UI_FONT_SMALL ) ); 
     ofAddListener( gui -> newGUIEvent, this, &ofUnibaLogoA::guiEvent ); 
     gui->loadSettings( uiSettingFilePath ); 
     
@@ -69,6 +72,16 @@ void ofUnibaLogoA::setup(){
 void ofUnibaLogoA::update(){
 //----------ofxUnibaLogo object--------------
     unibaLogo.update();
+    
+    if( capStreram ){
+        grabbedImage.grabScreen( 0, 0, ofGetWidth(), ofGetHeight() );
+        grabbedImage.saveImage("logo_cap_image_" + ofGetTimestampString("%m_%d_%H_%M_%S_") + ofToString( capCount ) + ".png" );
+        capCount++;
+        if( capCount > 10 ){
+            capCount = 0;
+            capStreram = false;
+        }
+    }
 }
 
 //--------------------------------------------------------------
@@ -119,6 +132,9 @@ void ofUnibaLogoA::keyPressed  (int key){
         grabbedImage.grabScreen( 0, 0, ofGetWidth(), ofGetHeight() );
         
         grabbedImage.saveImage("logo_cap_image_" + ofGetTimestampString("%m_%d_%H_%M_%S") + ".png" );
+    }
+    if( 'v' == key ){
+        capStreram = true;
     }
 }
 
