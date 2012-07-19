@@ -41,34 +41,37 @@
 <canvas id="p5container" data-processing-sources="js/bg.pde"></canvas>
 <script type="text/javascript">
   // Global
-  var ww = window.innerWidth,
-      wh = window.innerHeight,
-      autoAnimation      = true,
-      cameraSphereRadius = 10,
-      friction           = 0.55,
-      spring             = 0.85;
+  var ww = window.innerWidth
+    , wh = window.innerHeight
+    , autoAnimation      = true
+    , cameraSphereRadius = 10
+    , friction           = 0.55
+    , spring             = 0.85;
       
   // Option
-  var mouseControl       = false,
-      forceUseCanvas     = false;
+  var mouseControl       = true
+    , forceUseCanvas     = false;
       
   // Counters
-  var strokeCounter      =   0,
-      strokeDuration     = 240,
-      globalCounter      =   0,
-      globalRoopDuration = 360;
+  var strokeCounter      =   0
+    , strokeDuration     = 240
+    , globalCounter      =   0
+    , globalRoopDuration = 360;
       
   // Processing.js
   var p5init             = true;
   
   // Three.js Scene Members  
-  var scene, renderer,
-      camera, controls,
-      pointLight1, pointLight2, pointLight3, pointLight4,
-      stroke,
-      depth              = [],
-      Renderer           = Modernizr.webgl && !forceUseCanvas ? THREE.WebGLRenderer : THREE.CanvasRenderer,
-      MeshMaterial       = Modernizr.webgl && !forceUseCanvas ? THREE.MeshLambertMaterial : THREE.MeshBasicMaterial;
+  var scene
+    , renderer
+    , camera
+    , controls
+    , pointLights
+    , stroke
+    , strokeVertex
+    , depth              = []
+    , Renderer           = Modernizr.webgl && !forceUseCanvas ? THREE.WebGLRenderer : THREE.CanvasRenderer
+    , MeshMaterial       = Modernizr.webgl && !forceUseCanvas ? THREE.MeshLambertMaterial : THREE.MeshBasicMaterial;
   
   if (Detector.webgl) {
     document.getElementById('console').innerHTML	+= "WebGL Rendrer<br />";
@@ -77,18 +80,18 @@
   }
       
   // Value Holders
-  var strokeDefaultPos   = [],
-      depthDefaultPos    = [],      
-      cameraFriction     = 0.03,
-      cameraSpring       = 0.05,
-      cameraScale        = 0;
-      curCamPos          = { x:0, y:0, z:0 },
-      nextCamPos         = { x:0, y:0, z:0 },
-      speed              = { x:0, y:0, z:0 };
+  var strokeDefaultPos   = []
+    , depthDefaultPos    = []      
+    , cameraFriction     = 0.03
+    , cameraSpring       = 0.05
+    , cameraScale        = 0
+    , curCamPos          = { x:0, y:0, z:0 }
+    , nextCamPos         = { x:0, y:0, z:0 }
+    , speed              = { x:0, y:0, z:0 };
       
   // Color Preset Array
-  var colorPatternIndexNum = Math.floor( Math.random() * 4 ),
-      colorPristArray = [
+  var colorPatternIndexNum = Math.floor( Math.random() * 4 )
+    , colorPristArray = [
       [
         rgb2hex( 77,  77,  77),
         rgb2hex(204, 204, 204),
@@ -125,31 +128,35 @@
     scene.add( camera );
     
     // Lights
-    pointLight1 = new THREE.PointLight( 0xffffff );
+    var pointLight1 = new THREE.PointLight(0xffffff)
+      , pointLight2 = new THREE.PointLight(0xffffff)
+      , pointLight3 = new THREE.PointLight(0xffffff)
+      , pointLight4 = new THREE.PointLight(0xffffff);
+      
+    pointLights = new THREE.Object3D();
+
     pointLight1.position.x = 10;
     pointLight1.position.y = 0;
-    pointLight1.position.z = -10;
+    pointLight1.position.z = 0;
     
-    pointLight2 = new THREE.PointLight( 0xffffff );
     pointLight2.position.x = -10;
     pointLight2.position.y = 0;
-    pointLight2.position.z = -10;
+    pointLight2.position.z = 0;
     
-    pointLight3 = new THREE.PointLight( 0xffffff );
     pointLight3.position.x = 0;
-    pointLight3.position.y = 10;
+    pointLight3.position.y = 0;
     pointLight3.position.z = 10;
     
-    pointLight4 = new THREE.PointLight( 0xffffff );
     pointLight4.position.x = 0;
-    pointLight4.position.y = -10;
-    pointLight4.position.z = 10;
+    pointLight4.position.y = 0;
+    pointLight4.position.z = -10;
     
-    scene.add( pointLight1 );
-    scene.add( pointLight2 );
-    scene.add( pointLight3 );
-    scene.add( pointLight4 );
-    //setLightPosition();
+    pointLights.add(pointLight1);
+    pointLights.add(pointLight2);
+    pointLights.add(pointLight3);
+    pointLights.add(pointLight4);
+    
+    scene.add(pointLights);
     
     // Stroke
     var strokeGeom = new THREE.Geometry();
@@ -185,7 +192,7 @@
       v(700,100,  0), v(800,100,  0)
     );
     
-    var material = new THREE.LineBasicMaterial({ color: 0x000000, lineWidth: 1.25 });
+    var material = new THREE.LineBasicMaterial({color: 0x000000, lineWidth: 1.25});
     
     stroke = new THREE.Line(strokeGeom, material);
     stroke.type = THREE.Lines;                
@@ -200,6 +207,23 @@
     
     scene.add(stroke);
     
+    // Stroke Vertex
+    var strokeVertex = new THREE.Object3D()
+      , strokeVertexGeometry = new THREE.SphereGeometry(0.01, 4, 4)
+      , strokeVertexMaterial = new THREE.MeshBasicMaterial({color: 0x000000});
+      
+    for (var i=0, il=stroke.geometry.vertices.length; i<il; i++) {
+      var lv = {}
+        , mesh = new THREE.Mesh(strokeVertexGeometry, strokeVertexMaterial);
+
+      mesh.x = stroke.geometry.vertices[i].x;
+      mesh.y = stroke.geometry.vertices[i].y;
+      mesh.z = stroke.geometry.vertices[i].z;
+      
+      strokeVertex.add(mesh);
+      scene.add(mesh);
+    }
+   
     // Depth Rhombus
     var g1 = new THREE.Geometry();
     g1.vertices.push(
@@ -444,11 +468,17 @@
     } else {
       cameraUpdate();
     }
+    
+    pointLights.rotation.x = camera.rotation.x;
+    pointLights.rotation.y = camera.rotation.y;
+    pointLights.rotation.z = camera.rotation.z;
 
     renderer.render(scene, camera);
 
     function cameraUpdate() {
-      var ax, ay, az;
+      var ax
+        , ay
+        , az;
       
       ax = (nextCamPos.x - curCamPos.x) * cameraSpring;
       speed.x += ax;
@@ -468,7 +498,7 @@
       camera.position.x = curCamPos.x;
       camera.position.y = curCamPos.y;
       camera.position.z = curCamPos.z;
-      camera.lookAt({ x:0, y:0, z:0 });
+      camera.lookAt({x:0, y:0, z:0});
       
       if (0 == globalCounter % 300) {      
           var vector = new THREE.Vector3(Math.random()*0.4-0.2, Math.random()*0.2-0.1, Math.random());
@@ -634,32 +664,6 @@
       }
       
     }
-  }
-  
-  function setLightPosition() {
-    // this code does not work now. need to fix texture update issue
-    var vector1 = new THREE.Vector3(Math.random()*2-1, Math.random()*2-1, Math.random()*2-1);
-    var vector2 = new THREE.Vector3(Math.random()*2-1, Math.random()*2-1, Math.random()*2-1);
-    var vector3 = new THREE.Vector3(Math.random()*2-1, Math.random()*2-1, Math.random()*2-1);
-    var vector4 = new THREE.Vector3(Math.random()*2-1, Math.random()*2-1, Math.random()*2-1);
-    
-    vector1.setLength(cameraSphereRadius);
-    vector2.setLength(cameraSphereRadius);
-    vector3.setLength(cameraSphereRadius);
-    vector4.setLength(cameraSphereRadius);
-    
-    pointLight1.x = vector1.x;
-    pointLight1.y = vector1.y;
-    pointLight1.z = vector1.z;
-    pointLight2.x = vector2.x;
-    pointLight2.y = vector2.y;
-    pointLight2.z = vector2.z;
-    pointLight3.x = vector3.x;
-    pointLight3.y = vector3.y;
-    pointLight3.z = vector3.z;
-    pointLight4.x = vector4.x;
-    pointLight4.y = vector4.y;
-    pointLight4.z = vector4.z;
   }
   
   function rgb2hex(r, g, b) {
