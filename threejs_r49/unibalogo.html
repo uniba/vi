@@ -49,12 +49,13 @@
     , spring             = 0.85;
       
   // Option
-  var mouseControl       = true
+  var mouseControl       = false
     , forceUseCanvas     = false;
       
   // Counters
-  var strokeCounter      =   0
-    , strokeDuration     = 240
+  var firstTime          = true
+    , strokeCounter      =   0
+    , strokeDuration     = 180
     , globalCounter      =   0
     , globalRoopDuration = 360;
       
@@ -85,9 +86,10 @@
     , cameraFriction     = 0.03
     , cameraSpring       = 0.05
     , cameraScale        = 0
-    , curCamPos          = { x:0, y:0, z:0 }
-    , nextCamPos         = { x:0, y:0, z:0 }
-    , speed              = { x:0, y:0, z:0 };
+    , strokeVertexTarget = []
+    , curCamPos          = {x:0, y:0, z:12}
+    , nextCamPos         = {x:0, y:0, z:10}
+    , speed              = {x:0, y:0, z:0};
       
   // Color Preset Array
   var colorPatternIndexNum = Math.floor( Math.random() * 4 )
@@ -208,21 +210,24 @@
     scene.add(stroke);
     
     // Stroke Vertex
-    var strokeVertex = new THREE.Object3D()
-      , strokeVertexGeometry = new THREE.SphereGeometry(0.01, 4, 4)
+    var strokeVertexGeometry = new THREE.SphereGeometry(0.02, 6, 6)
       , strokeVertexMaterial = new THREE.MeshBasicMaterial({color: 0x000000});
-      
+    
+    strokeVertex = new THREE.Object3D();
+    strokeVertex.rotation.x = Math.PI;
+    
     for (var i=0, il=stroke.geometry.vertices.length; i<il; i++) {
       var lv = {}
         , mesh = new THREE.Mesh(strokeVertexGeometry, strokeVertexMaterial);
 
-      mesh.x = stroke.geometry.vertices[i].x;
-      mesh.y = stroke.geometry.vertices[i].y;
-      mesh.z = stroke.geometry.vertices[i].z;
+      mesh.position.x = stroke.geometry.vertices[i].x;
+      mesh.position.y = stroke.geometry.vertices[i].y;
+      mesh.position.z = stroke.geometry.vertices[i].z;
       
       strokeVertex.add(mesh);
-      scene.add(mesh);
     }
+    
+    scene.add(strokeVertex);
    
     // Depth Rhombus
     var g1 = new THREE.Geometry();
@@ -380,7 +385,7 @@
       depthDefaultPos[i] = fv;
     }
     
-    renderer = new Renderer({ antialias: true });
+    renderer = new Renderer({antialias: true});
     renderer.setSize(ww, wh);
     document.getElementById('webglcontainer').appendChild(renderer.domElement);
     
@@ -388,7 +393,7 @@
     stats = new Stats();
 		stats.domElement.style.position	= 'absolute';
 		stats.domElement.style.bottom	= '0px';
-		document.body.appendChild( stats.domElement );
+		document.body.appendChild(stats.domElement);
 		
 		// allow 'p' to make screenshot
 		THREEx.Screenshot.bindKey(renderer);
@@ -427,7 +432,7 @@
   	}
     
     // Three.js TrackballControls
-    controls = new THREE.TrackballControls( camera, renderer.domElement );
+    controls = new THREE.TrackballControls(camera, renderer.domElement);
     
     function setFParams(g) {
       g.faces.push(f4(0, 2, 3, 1));    
@@ -461,6 +466,7 @@
     strokeUpdate();
     depthRhombusUpdate();
     dividedBackgroundUpdate();
+    lightsUpdte();
     counterUpdate();
 
     if (mouseControl) {
@@ -469,10 +475,6 @@
       cameraUpdate();
     }
     
-    pointLights.rotation.x = camera.rotation.x;
-    pointLights.rotation.y = camera.rotation.y;
-    pointLights.rotation.z = camera.rotation.z;
-
     renderer.render(scene, camera);
 
     function cameraUpdate() {
@@ -500,27 +502,29 @@
       camera.position.z = curCamPos.z;
       camera.lookAt({x:0, y:0, z:0});
       
-      if (0 == globalCounter % 300) {      
-          var vector = new THREE.Vector3(Math.random()*0.4-0.2, Math.random()*0.2-0.1, Math.random());
-          
-          cameraScale = Math.random() * 0.3 - 0.1;
-          vector.setLength(cameraSphereRadius + cameraSphereRadius * cameraScale);
-          nextCamPos.x = vector.x;
-          nextCamPos.y = vector.y;
-          nextCamPos.z = vector.z;
-          cameraFriction = Math.random() * 0.3 + 0.14;
-          cameraSpring = 0.85 + Math.random() * 0.24;
-          
-          // Reset Position of Lights
-          setLightPosition();        
+      if (firstTime) {
+        // nanimosinai
+      } else if (0 == globalCounter % 300) {
+           
+        var vector = new THREE.Vector3(Math.random()*0.4-0.2, Math.random()*0.2-0.1, Math.random());
+        
+        cameraScale = Math.random() * 0.3 - 0.1;
+        vector.setLength(cameraSphereRadius + cameraSphereRadius * cameraScale);
+        nextCamPos.x = vector.x;
+        nextCamPos.y = vector.y;
+        nextCamPos.z = vector.z;
+        cameraFriction = Math.random() * 0.3 + 0.14;
+        cameraSpring = 0.85 + Math.random() * 0.24;
+        
       } else if (0 == globalCounter % 50) {     
-          var vector = new THREE.Vector3(Math.random()*2-1, Math.random()*2-1, Math.random()*2-1);
-          vector.setLength(cameraSphereRadius * 0.2 - 0.1);
-          nextCamPos.x += vector.x;
-          nextCamPos.y += vector.y;
-          nextCamPos.z += vector.z;
-          cameraFriction = Math.random() * 0.125;
-          cameraSpring = 0.75 + Math.random() * 0.0125;
+        
+        var vector = new THREE.Vector3(Math.random()*2-1, Math.random()*2-1, Math.random()*2-1);
+        vector.setLength(cameraSphereRadius * 0.2 - 0.1);
+        nextCamPos.x += vector.x;
+        nextCamPos.y += vector.y;
+        nextCamPos.z += vector.z;
+        cameraFriction = Math.random() * 0.125;
+        cameraSpring = 0.75 + Math.random() * 0.0125;
       }
     }
     
@@ -536,7 +540,7 @@
         stroke.geometry.verticesNeedUpdate = true;
         
         for (i=0; i<stroke.geometry.vertices.length; i++) {
-          if ( i <= currentVertice ) {
+          if (i <= currentVertice) {
             stroke.geometry.vertices[i].x = strokeDefaultPos[i].x;
             stroke.geometry.vertices[i].y = strokeDefaultPos[i].y;
             stroke.geometry.vertices[i].z = strokeDefaultPos[i].z;
@@ -546,7 +550,22 @@
             stroke.geometry.vertices[i].z = targetPosZ;
           }
         }
+        
+        // Stroke Vertex
+        for (i=0; i<strokeVertex.children.length; i++) {
+          if (i <= currentVertice) {
+            strokeVertex.children[i].scale.x = 2.0;
+            strokeVertex.children[i].scale.y = 2.0;
+            strokeVertex.children[i].scale.z = 2.0;
+          } else {
+            strokeVertex.children[i].scale.x = 0.001;
+            strokeVertex.children[i].scale.y = 0.001;
+            strokeVertex.children[i].scale.z = 0.001;
+          }
+        }
+        
       } else if (strokeCounter == strokeDuration) {
+      
         stroke.geometry.verticesNeedUpdate = true;
       
         for(i in stroke.geometry.vertices) {
@@ -554,11 +573,44 @@
           stroke.geometry.vertices[i].y = strokeDefaultPos[i].y;
           stroke.geometry.vertices[i].z = strokeDefaultPos[i].z;    
         }
+        
+        // Stroke Vertex
+        for (i=0; i<strokeVertex.children.length; i++) {
+          strokeVertexTarget[i] = 0.001;
+        }
+        for (i=0; i<strokeVertex.children.length; i++) {
+          strokeVertex.children[i].scale.x += (strokeVertexTarget[i] - strokeVertex.children[i].scale.x) * 0.05;
+          strokeVertex.children[i].scale.y += (strokeVertexTarget[i] - strokeVertex.children[i].scale.y) * 0.05;
+          strokeVertex.children[i].scale.z += (strokeVertexTarget[i] - strokeVertex.children[i].scale.z) * 0.05;
+        }
+        
       }
     }
     
     function depthRhombusUpdate() {
-      if (0 == globalCounter % 50) {
+      if (!firstTime && globalCounter % 50 === 0) {
+        var flag = true
+          , count = 0;
+            
+        while (flag) {
+          var rnd = Math.floor(Math.random() * depth.length);
+          
+          if (depth[rnd].bang == false) {
+            depth[rnd].bang = true;
+            flag = false;
+          }
+          
+          count++;
+          
+          if (count > depth.length) {
+            flag = false;
+          }
+        }
+      } else if (!firstTime && globalCounter % strokeDuration === 0 && Math.random() < 0.1) {  
+        for (var i=0; i < depth.length; i++) {
+            depth[i].bang = false;
+        }
+      } else if (globalCounter > strokeDuration && globalCounter % 5 === 0) {
         var flag = true
           , count = 0;
             
@@ -623,6 +675,12 @@
       }
     }
     
+    function lightsUpdte() {
+      pointLights.rotation.x = camera.rotation.x;
+      pointLights.rotation.y = camera.rotation.y;
+      pointLights.rotation.z = camera.rotation.z;
+    }
+    
     function counterUpdate() {
       if (autoAnimation) {
         globalCounter++;
@@ -631,9 +689,13 @@
       if (strokeCounter > strokeDuration) {
         strokeCounter = strokeDuration;
       }
-      if (globalCounter > globalRoopDuration) {
+      if (!firstTime && globalCounter > globalRoopDuration) {
         globalCounter = 0;
         strokeCounter = 0;
+      } else if (globalCounter > 400) {
+        globalCounter = 0;
+        strokeCounter = 0;
+        firstTime = false;
       }
     }
     
