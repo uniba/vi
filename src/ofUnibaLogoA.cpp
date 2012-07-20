@@ -15,6 +15,7 @@
 #include "ofUnibaLogoA.h"
 
 string gradientBackgoundImage = "bg_mask.png";
+//string gradientBackgoundImage = "bg_mask(original).png";
 string syphoneServerName = "Uniba Motion Logo Screen Output";
 string uiSettingFilePath = "GUI/guiSettings.xml";
 
@@ -47,7 +48,7 @@ void ofUnibaLogoA::setup(){
 	screenSizeRadioNames.push_back("Rectangle");	
     
     gui = new ofxUICanvas( 0, 0 , 300, 800 );
-    gui->addWidgetDown( new ofxUILabel("UNIBA MOTION LOGO v0.0.1", OFX_UI_FONT_LARGE) ); 
+    gui->addWidgetDown( new ofxUILabel("UNIBA MOTION LOGO v0.1", OFX_UI_FONT_LARGE) ); 
     gui->addWidgetDown( new ofxUIButton( 20, 20, false, "CHANEGE COLOR VARIATION") );
     gui->addWidgetDown( new ofxUIToggle( 20, 20, true, "DRAW LINE") );
     gui->addWidgetDown( new ofxUIToggle( 20, 20, true, "ANIMATION AUTO") );
@@ -57,7 +58,7 @@ void ofUnibaLogoA::setup(){
     gui->addWidgetDown( new ofxUIRotarySlider( 100, 0, 255, 0, "HUE" ) ); 
     gui->addWidgetDown( new ofxUILabel( "press \'o\' to hide and show controller menu." ,OFX_UI_FONT_SMALL ) ); 
     gui->addWidgetDown( new ofxUILabel( "press \'c\' to capture a screen shot." ,OFX_UI_FONT_SMALL ) ); 
-    gui->addWidgetDown( new ofxUILabel( "press \'v\' to capture 10 screen shots." ,OFX_UI_FONT_SMALL ) ); 
+    gui->addWidgetDown( new ofxUILabel( "press \'v\' to capture 20 screen shots." ,OFX_UI_FONT_SMALL ) ); 
     ofAddListener( gui -> newGUIEvent, this, &ofUnibaLogoA::guiEvent ); 
     gui->loadSettings( uiSettingFilePath ); 
     
@@ -74,10 +75,12 @@ void ofUnibaLogoA::update(){
     unibaLogo.update();
     
     if( capStreram ){
-        grabbedImage.grabScreen( 0, 0, ofGetWidth(), ofGetHeight() );
-        grabbedImage.saveImage("logo_cap_image_" + ofGetTimestampString("%m_%d_%H_%M_%S_") + ofToString( capCount ) + ".png" );
+        if(0 == capCount%10){
+            grabbedImage.grabScreen( 0, 0, ofGetWidth(), ofGetHeight() );
+            grabbedImage.saveImage("logo_cap_image_" + ofGetTimestampString("%m_%d_%H_%M_%S_") + ofToString( capCount/10 ) + ".png" );
+        }
         capCount++;
-        if( capCount > 10 ){
+        if( capCount > 200 ){
             capCount = 0;
             capStreram = false;
         }
