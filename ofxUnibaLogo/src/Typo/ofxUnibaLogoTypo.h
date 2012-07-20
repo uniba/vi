@@ -14,8 +14,6 @@
 class ofxUnibaLogoTypo : public ofNode {
 
 public:
-<<<<<<< HEAD
-    
     int currentColorIndex;
     float typeFacelLength;
     vector<ofVec3f> endPoints;
@@ -27,12 +25,6 @@ public:
             endPoints.push_back( logoGeom.getEndPoint( i ) );
         }
     }
-    
-    
-=======
-    int currentColorIndex;
-    float typeFacelLength;
->>>>>>> colorなどのリファクタリング
 };
 
 #endif

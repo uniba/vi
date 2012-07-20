@@ -22,22 +22,10 @@ public:
     void setup() {
         ofxUnibaLogoTypo::setup();
         //--------- object vertex setting ------------
-<<<<<<< HEAD
         for( int i = 0; i < logoGeom.length; i++ ){
             ofxUnibaLogoTypoLineElement aNode;
             aNode.setPosition( endPoints[i] );
             aNode.id = i;
-=======
-        for ( int i = 0; i < logoGeom.length; i++ ){
-            ofNode aNode;
-<<<<<<< HEAD
-            aNode.setPosition( endPoints[i] );
-=======
-            ofVec3f vec;
-            vec = logoGeom.endPoint( i );
-            aNode.setPosition( vec );
->>>>>>> colorなどのリファクタリング
->>>>>>> colorなどのリファクタリング
             logoLineNode.push_back( aNode );
         };
         
@@ -59,18 +47,8 @@ public:
                 logoLineNode[i].draw();
                 ofVec3f currentPos = logoLineNode[i].getPosition();
                 ofVec3f nextPos = logoLineNode[ i - 1 ].getPosition();
-<<<<<<< HEAD
                 float currentPosX =  nextPos.x - ( nextPos.x - currentPos.x ) * ( logoLineNode[i].typeFacelLength * 0.1 );
                 float currentPosY =  nextPos.y - ( nextPos.y - currentPos.y ) * ( logoLineNode[i].typeFacelLength * 0.1 );                
-=======
-<<<<<<< HEAD
-                float currentPosX =  nextPos.x - ( nextPos.x - currentPos.x ) * ( typeFacelLength * 0.05 );
-                float currentPosY =  nextPos.y - ( nextPos.y - currentPos.y ) * ( typeFacelLength * 0.05 );
-=======
-                float currentPosX =  nextPos.x - (nextPos.x - currentPos.x) * ( typeFacelLength * 0.05 );
-                float currentPosY =  nextPos.y - (nextPos.y - currentPos.y) * ( typeFacelLength * 0.05 );
->>>>>>> colorなどのリファクタリング
->>>>>>> colorなどのリファクタリング
                 ofLine( nextPos.x, nextPos.y, nextPos.z, currentPosX, currentPosY , currentPos.z );
             if( logoLineNode[i - 1].didFinishedAnimation ){
                 logoLineNode[i].bang = true;

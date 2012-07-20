@@ -16,12 +16,12 @@
 <Widget>
     <Kind>2</Kind>
     <Name>Display</Name>
-    <Value>1</Value>
+    <Value>0</Value>
 </Widget>
 <Widget>
     <Kind>2</Kind>
     <Name>Card</Name>
-    <Value>0</Value>
+    <Value>1</Value>
 </Widget>
 <Widget>
     <Kind>2</Kind>
