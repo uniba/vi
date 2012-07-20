@@ -67,18 +67,30 @@ public:
     
     ofVec3f getEndPoint( int index ) {
         ofVec3f vec;
+<<<<<<< HEAD
         vec.x = logoVertexArray[ index ][ 0 ] * LOGO_NORMAL_SCALE;
         vec.y = logoVertexArray[ index ][ 1 ] * LOGO_NORMAL_SCALE;
         vec.z = logoVertexArray[ index ][ 2 ] * LOGO_NORMAL_SCALE;
+=======
+        vec.x = logoVertexArray[ index ][ 0 ] / 100;
+        vec.y = logoVertexArray[ index ][ 1 ] / 100;
+        vec.z = logoVertexArray[ index ][ 2 ] / 100;
+>>>>>>> colorなどのリファクタリング
         return vec;
     };
     
     ofVec3f getStartPoint( int index ) {
         ofVec3f vec;
         if( 0 < index ){
+<<<<<<< HEAD
             vec.x = logoVertexArray[ index - 1 ][ 0 ] * LOGO_NORMAL_SCALE;
             vec.y = logoVertexArray[ index - 1 ][ 1 ] * LOGO_NORMAL_SCALE;
             vec.z = logoVertexArray[ index - 1 ][ 2 ] * LOGO_NORMAL_SCALE;
+=======
+            vec.x = logoVertexArray[ index - 1 ][ 0 ] / 100;
+            vec.y = logoVertexArray[ index - 1 ][ 1 ] / 100;
+            vec.z = logoVertexArray[ index - 1 ][ 2 ] / 100;
+>>>>>>> colorなどのリファクタリング
         }
         return vec;
     };
