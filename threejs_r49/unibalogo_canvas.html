@@ -38,7 +38,7 @@
 <body>
 <div id="console"></div>
 <div id="webglcontainer"></div>
-<canvas id="p5container" data-processing-sources="js/bg.pde"></canvas>
+<canvas id="p5container" data-processing-sources="js/uniba_p5renderer.pde"></canvas>
 <script type="text/javascript">
   // Global
   var ww = window.innerWidth
@@ -50,7 +50,8 @@
     , mouseControl       = false;
       
   // Option
-  var forceUseCanvas     = false;
+  var forceUseCanvas     = false
+    , useP5Renderer      = true;
       
   // Counters
   var firstTime          = true
@@ -74,10 +75,12 @@
     , Renderer           = Modernizr.webgl && !forceUseCanvas ? THREE.WebGLRenderer : THREE.CanvasRenderer
     , MeshMaterial       = Modernizr.webgl && !forceUseCanvas ? THREE.MeshLambertMaterial : THREE.MeshBasicMaterial;
   
-  if (Detector.webgl) {
+  if (useP5Renderer) {
+    document.getElementById('console').innerHTML	+= "Canvas Rendrer (Processing.js)<br />";
+  } else if (Detector.webgl) {
     document.getElementById('console').innerHTML	+= "WebGL Rendrer<br />";
   } else {
-    document.getElementById('console').innerHTML	+= "Canvas Renderer<br />";
+    document.getElementById('console').innerHTML	+= "Canvas Renderer (Three.js)<br />";
   }
       
   // Value Holders
@@ -128,7 +131,7 @@
     camera.position.z = 10;
     
     scene.add(camera);
-    
+
     // Lights
     var pointLight1 = new THREE.PointLight(0xffffff)
       , pointLight2 = new THREE.PointLight(0xffffff)
@@ -387,7 +390,9 @@
     
     renderer = new Renderer({antialias: true});
     renderer.setSize(ww, wh);
-    document.getElementById('webglcontainer').appendChild(renderer.domElement);
+    if (!useP5Renderer) {
+      document.getElementById('webglcontainer').appendChild(renderer.domElement);
+    }
     
     // add Stats.js
     stats = new Stats();
@@ -490,7 +495,11 @@
       cameraUpdate();
     }
     
-    renderer.render(scene, camera);
+    if (!useP5Renderer) {
+      renderer.render(scene, camera);
+    } else if (p5) {
+      p5Renderer();
+    }
 
     function cameraUpdate() {
       var ax
@@ -765,6 +774,34 @@
   function f4(a, b, c, d) {
     var f = new THREE.Face4(a, b, c, d);
     return f;
+  }
+  
+  function p5Renderer() {
+    // Stroke
+    var projector = new THREE.Projector()
+      , x = []
+      , y = [];
+    
+    for (var i = 0; i < 40; i += 1) {
+      var v3d = new THREE.Vector3(stroke.geometry.vertices[i].x, stroke.geometry.vertices[i].y, stroke.geometry.vertices[i].z + 100)
+        , v2d;
+      
+      v2d = toScreenXY(v3d, camera);
+      
+      x[i] = Math.round(v2d.x);
+      y[i] = Math.round(v2d.y);
+    }
+    
+    p5.updateStrokeVertex(x, y);
+  }
+  
+  function toScreenXY(position, cam) {
+    var pos = position.clone();
+    projScreenMat = new THREE.Matrix4();
+    projScreenMat.multiply(cam.projectionMatrix, cam.matrixWorldInverse);
+    projScreenMat.multiplyVector3(pos);
+
+    return {x: (pos.x + 1) * ww / 2, y: (- pos.y + 1) * wh / 2};
   }
 </script>
 </body>

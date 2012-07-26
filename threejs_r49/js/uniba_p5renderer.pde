@@ -20,6 +20,12 @@ float radiusOuterCircle = 200;
 float outerCircleCenterX;
 float outerCircleCenterY;
 
+// Vertex Receiver : Stroke
+PVector[] strokeVertex = new PVector[40];
+for (int i = 0; i < 40; i += 1) {
+  strokeVertex[i] = new PVector();
+}
+
 void setup() {
   processingInitComplete();
   frameRate(30);
@@ -42,6 +48,12 @@ void setSize(int w, int h) {
   radiusInnerCircle = wh / 2.5;
 }
 
+void updateStrokeVertex(int[] x, int[] y) {
+  for (int i = 0; i < 40; i += 1) {
+    strokeVertex[i].set(x[i], y[i]);
+  }
+}
+
 void updateBgAngle(float x, float y, float z) {
   divideAngleInner = abs(z);
   divideAngleOuterA = abs(x);
@@ -54,7 +66,8 @@ void captureScreen() {
 
 void draw() {
   background(divideRectColors[0]);
-  
+
+  // Background  
   divideAngleOuterB = divideAngleOuterB % PI;
   outerCircleCenterX = cos(divideAngleInner) * radiusInnerCircle + ww / 2;
   outerCircleCenterY = sin(divideAngleInner) * radiusInnerCircle + wh / 2;
@@ -74,4 +87,14 @@ void draw() {
     
   fill(divideRectColors[3]);  
   arc(0, 0, radiusOuterCircle, radiusOuterCircle, divideAngleOuterB + PI, TWO_PI);
+  
+  // Stroke
+  translate(- outerCircleCenterX, - outerCircleCenterY);
+  rotate(- divideAngleOuterA);
+  fill(0, 0, 0);
+  noStroke();
+  
+  for (int i = 0; i < 40; i += 1) {
+    ellipse(strokeVertex[i].x, strokeVertex[i].y, 10, 10)
+  }
 }
