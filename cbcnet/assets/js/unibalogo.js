@@ -346,10 +346,8 @@ window.onload = function() {
       depthDefaultPos[i] = fv;
     }
     
-    renderer = new Renderer({antialias: true});
+    renderer = new Renderer({antialias: true, canvas: document.getElementById('threejscanvas')});
     renderer.setSize(ww, wh);
-    renderer.domElement.id = "threejscanvas";
-    document.getElementById('unibalogo').replaceChild(renderer.domElement, document.getElementById('threejscanvas'));
         
     // Three.js TrackballControls
     controls = new THREE.TrackballControls(camera, renderer.domElement);
