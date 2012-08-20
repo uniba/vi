@@ -75,12 +75,6 @@ window.onload = function() {
 
     setup();
     animate();
-
-  } else {
-
-    var element = document.createElement('img');
-    element.src = "assets/image/uniba_large.gif";
-    document.getElementById('webglcontainer').appendChild(element);
     
   }
   
@@ -354,7 +348,8 @@ window.onload = function() {
     
     renderer = new Renderer({antialias: true});
     renderer.setSize(ww, wh);
-    document.getElementById('webglcontainer').appendChild(renderer.domElement);
+    renderer.domElement.id = "threejscanvas";
+    document.getElementById('unibalogo').replaceChild(renderer.domElement, document.getElementById('threejscanvas'));
         
     // Three.js TrackballControls
     controls = new THREE.TrackballControls(camera, renderer.domElement);

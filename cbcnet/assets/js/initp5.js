@@ -18,7 +18,7 @@
      */
     
     window.processingInitComplete = function() {
-      window.p5 = Processing.getInstanceById('p5container');
+      window.p5 = Processing.getInstanceById('p5canvas');
       $(window).resize();
     };
     

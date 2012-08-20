@@ -5,13 +5,13 @@
   height: 260px;
 }
 
-#webglcontainer canvas { 
+#threejscanvas { 
   display: block;
   position: relative;
   z-index: 50;
 }
 
-#p5container { 
+#p5canvas { 
   display: block;
   position: relative;
   z-index: 0;
