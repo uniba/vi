@@ -18,9 +18,6 @@ window.onload = function() {
     , strokeDuration     = 180
     , globalCounter      =   0
     , globalRoopDuration = 360;
-      
-  // Processing.js
-  var p5init             = true; // false;
   
   // Three.js Scene Members  
   var scene
@@ -70,12 +67,30 @@ window.onload = function() {
         rgb2hex(209, 163,  87)]
       ];
 
+  // wait for p5 init
+  jQuery(function($) {
+      $('#p5canvas').processing({ onSetup: startWorld });
+  });
 
-  if (Modernizr.canvas) {  
+  function startWorld() {
+    // Initializing Processing.js Canvas
+    for (i = 0; i < 4; i++) {
+      var bgcolor = colorPristArray[colorPatternIndexNum][i];
+      var r = parseInt(bgcolor.slice(2, 4), 16);
+      var g = parseInt(bgcolor.slice(4, 6), 16);
+      var b = parseInt(bgcolor.slice(6, 8), 16);
+      p5.setBgColor(r, g, b, i);
+    }
+    
+    p5.setSize(ww, wh);
+    // this code have to replace in future from
+    for (i in depth) {
+      depth[i].bang = false;
+    }
+    // this code have to replace in future to
 
     setup();
     animate();
-    
   }
   
   function setup() {
@@ -304,8 +319,6 @@ window.onload = function() {
     f15 = new THREE.Mesh(g15, new MeshMaterial({ color: parseInt(colorPristArray[colorPatternIndexNum][Math.floor(Math.random() * 4)], 16), overdraw: true, side: 2 }));
     f16 = new THREE.Mesh(g16, new MeshMaterial({ color: parseInt(colorPristArray[colorPatternIndexNum][Math.floor(Math.random() * 4)], 16), overdraw: true, side: 2 }));
     
-    console.log(f1);
-    
     depth.push(f1);
     depth.push(f2);
     depth.push(f3);
@@ -387,12 +400,6 @@ window.onload = function() {
       
       return g;
     }
-
-    /*
-    jQuery(function($) {
-      $('#p5canvas').processing({onSetup: function() { p5init = true; }});
-    });
-    */
   }
 
   function animate() {
@@ -648,27 +655,7 @@ window.onload = function() {
     }
   }
   
-  function dividedBackgroundUpdate() {      
-    // Initializing Processing.js Canvas
-    if (p5 && p5init) {
-      for (i = 0; i < 4; i++) {
-        var bgcolor = colorPristArray[colorPatternIndexNum][i];
-        var r = parseInt(bgcolor.slice(2, 4), 16);
-        var g = parseInt(bgcolor.slice(4, 6), 16);
-        var b = parseInt(bgcolor.slice(6, 8), 16);
-        p5.setBgColor(r, g, b, i);
-      }
-      
-      p5.setSize(ww, wh);
-      p5init = false;
-      console.log("p5 initialized");
-      // this code have to replace in future from
-      for (i in depth) {
-        depth[i].bang = false;
-      }
-      // this code have to replace in future to
-    }
-    
+  function dividedBackgroundUpdate() { 
     // Update Processing.js Canvas
     if (p5) {
       p5.updateBgAngle(camera.rotation.x, camera.rotation.y, camera.rotation.z);
