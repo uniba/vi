@@ -20,7 +20,7 @@ window.onload = function() {
     , globalRoopDuration = 360;
       
   // Processing.js
-  var p5init             = true;
+  var p5init             = true; // false;
   
   // Three.js Scene Members  
   var scene
@@ -387,6 +387,12 @@ window.onload = function() {
       
       return g;
     }
+
+    /*
+    jQuery(function($) {
+      $('#p5canvas').processing({onSetup: function() { p5init = true; }});
+    });
+    */
   }
 
   function animate() {
