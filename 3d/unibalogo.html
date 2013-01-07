@@ -491,6 +491,16 @@
     } else {
       cameraUpdate();
     }
+
+    camera2.position.x = camera.position.x;
+    camera2.position.y = camera.position.y;
+    camera2.position.z = camera.position.z;
+    camera2.rotation.x = camera.rotation.x;
+    camera2.rotation.y = camera.rotation.y;
+    camera2.rotation.z = camera.rotation.z;
+    //camera2.lookAt({x:0, y:0, z:0});
+
+    camera2.position.x += 1.5;
     
     //camera.aspect = 0.5 * ww / wh;
     //camera2.aspect = 0.5 * ww / wh;
@@ -538,11 +548,6 @@
       camera.position.y = curCamPos.y;
       camera.position.z = curCamPos.z;
       camera.lookAt({x:0, y:0, z:0});
-
-      camera2.position.x = curCamPos.x;
-      camera2.position.y = curCamPos.y + 1;
-      camera2.position.z = curCamPos.z;
-      camera2.lookAt({x:0, y:0, z:0});
       
       if (firstTime) {
         // nanimosinai
